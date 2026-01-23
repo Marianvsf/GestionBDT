@@ -6,7 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
-    <nav class="bg-blue-900 text-white p-4 shadow-md">
+    <nav class="bg-[#010b50] text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold">Banco Digital de los Trabajadores</h1>
             <?php if(isset($_SESSION['user_id'])): ?>
