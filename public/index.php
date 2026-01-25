@@ -13,12 +13,15 @@ use App\Controllers\AuthController;
 use App\Controllers\TicketController;
 
 // Enrutamiento simple
-$route = $_GET['route'] ?? 'login';
+$route = $_GET['route'] ?? 'home';
 
 $auth = new AuthController();
 $ticket = new TicketController();
 
 switch ($route) {
+    case 'home':
+        require __DIR__ . '/../app/Views/home/index.php';
+        break;
     case 'login':
         $auth->login();
         break;
