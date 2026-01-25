@@ -87,5 +87,21 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">¿Necesitas ayuda?</span>
     </button>
+    
+    <div class="fixed bottom-0 left-0 w-full bg-slate-900 text-gray-400 text-[10px] py-1 px-4 z-50 flex justify-between items-center border-t border-slate-700 font-mono">
+        <div class="flex gap-4">
+            <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                DB_CONNECTION: OK
+            </span>
+            <span class="hidden sm:inline">LATENCY: 24ms</span>
+            <span class="hidden sm:inline">VERSION: v4.2.0-beta</span>
+        </div>
+        <div class="flex gap-4">
+            <span>PHP: 8.2</span>
+            <span>SERVER: Apache/Linux</span>
+            <span class="text-yellow-500">MODE: DEBUG</span>
+        </div>
+    </div>
 
     <div class="<?= $contentWrapperClasses ?>">
