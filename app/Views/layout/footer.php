@@ -1,12 +1,12 @@
+    </main>
+
     <footer class="w-full bg-white border-t border-slate-200 transition-colors duration-300 mt-auto font-sans">
         <div class="max-w-[1440px] mx-auto px-6 py-5">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded border border-slate-100">
-                        <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.7 9L12 4.5 20.3 9 12 13.5 3.7 9zM12 21l-9-5v-2l9 5 9-5v2l-9 5z"/>
-                        </svg>
+                        <img src="/assets/images/unexca-logo.png" alt="UNEXCA Logo" class="w-5 h-5 object-contain"/>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-slate-800 tracking-wider uppercase leading-none">UNEXCA</span>
@@ -73,3 +73,6 @@
             });
         }
     </script>
+
+</body>
+</html>
