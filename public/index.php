@@ -20,7 +20,7 @@ $ticket = new TicketController();
 
 switch ($route) {
     case 'home':
-        require __DIR__ . '/../app/Views/layout/header.php';
+        $auth->login();
         break;
     case 'login':
         $auth->login();
