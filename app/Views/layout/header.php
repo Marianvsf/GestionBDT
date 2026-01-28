@@ -23,7 +23,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen overflow-x-hidden">
+<body class="bg-black text-slate-800 antialiased font-sans flex flex-col min-h-screen overflow-x-hidden">
 
     <nav id="main-nav" class="fixed z-50 nav-top">
         <div class="container mx-auto px-6 flex justify-between items-center h-full">
@@ -37,8 +37,8 @@
         </div>
     </nav>
 
-    <main class="flex-grow flex w-full pt-16 min-h-screen overflow-hidden">
-        <div class="w-full grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+    <main class="flex-grow flex w-full min-h-[calc(100vh-4rem)] overflow-hidden">
+        <div class="w-full grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-4rem)]">
             
             <div class="hidden lg:flex flex-col justify-center px-12 relative overflow-hidden animated-bg text-white">
                 <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
@@ -148,8 +148,8 @@
             </div>
         </div>
     </main>
-    
     <?php require __DIR__ . '/../layout/footer.php'; ?>
+    
     
     <script>
         // Lógica del Navbar Scroll
