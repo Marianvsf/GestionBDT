@@ -33,6 +33,24 @@
             </div>
             <?php if(!isset($_SESSION['user_id'])): ?>
                 <a href="#" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
+            <?php else: ?>
+                <div class="flex items-center gap-3">
+                    <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 5v14"/>
+                            <path d="M5 12h14"/>
+                        </svg>
+                        Incidencia
+                    </a>
+                    <a href="?route=logout" class="inline-flex items-center gap-2 rounded-full bg-[#010b50] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b1f7a] focus:outline-none focus:ring-2 focus:ring-[#010b50]/40">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Salir
+                    </a>
+                </div>
             <?php endif; ?>
         </div>
     </nav>
