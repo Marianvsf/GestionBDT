@@ -1,4 +1,5 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
+<div class="container mx-auto px-12 py-8 mt-[70px]">
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Reportar Incidencia</h2>
     <form method="POST">
@@ -13,5 +14,6 @@
         </div>
         <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded">Enviar Reporte</button>
     </form>
+</div>
 </div>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
