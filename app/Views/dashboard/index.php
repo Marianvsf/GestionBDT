@@ -1,5 +1,6 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="flex justify-between items-center mb-6">
+<div class="container mx-auto px-12 py-8">
+<div class="flex jfiustify-between m-[70px] mx-auto items-center mb-6">
     <h2 class="text-2xl font-bold text-gray-800">Tablero de Control</h2>
     <a href="?route=create_ticket" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">+ Nueva Incidencia</a>
 </div>
@@ -31,5 +32,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+</div>
 </div>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
