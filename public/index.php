@@ -28,6 +28,9 @@ switch ($route) {
     case 'logout':
         $auth->logout();
         break;
+    case 'create_user':
+        $auth->createUser();
+        break;
     case 'dashboard':
         $ticket->index();
         break;
