@@ -10,6 +10,15 @@ class Ticket {
         return $stmt->execute([$userId, $title, $description, $category, $priority]);
     }
 
+    public static function updateStatus($ticketId, $status) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("UPDATE tickets SET status = :status WHERE id = :id");
+        return $stmt->execute([
+            ':status' => $status,
+            ':id' => $ticketId
+        ]);
+    }
+
     public static function getAll() {
         $pdo = Database::connect();
         $stmt = $pdo->query("SELECT * FROM tickets ORDER BY created_at DESC");
