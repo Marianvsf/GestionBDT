@@ -15,4 +15,15 @@ class User {
         }
         return false;
     }
+
+    public static function create($username, $password, $role) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (:username, :password, :role)");
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        return $stmt->execute([
+            ':username' => $username,
+            ':password' => $hashed,
+            ':role' => $role
+        ]);
+    }
 }
