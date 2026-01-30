@@ -5,6 +5,21 @@ use App\Models\Ticket;
 class TicketController {
     public function index() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $role = $_SESSION['role'] ?? '';
+            if ($role !== 'Gerente' && $role !== 'Soporte') { header('Location: index.php?route=dashboard'); exit; }
+
+            $ticketId = intval($_POST['ticket_id'] ?? 0);
+            $status = $_POST['status'] ?? '';
+            $allowed = ['Pendiente', 'En proceso', 'Ejecutada'];
+
+            if ($ticketId > 0 && in_array($status, $allowed, true)) {
+                Ticket::updateStatus($ticketId, $status);
+            }
+            header('Location: index.php?route=dashboard');
+            exit;
+        }
         
         $tickets = Ticket::getAll();
         require __DIR__ . '/../Views/dashboard/index.php';
