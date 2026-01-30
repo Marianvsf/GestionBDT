@@ -43,6 +43,17 @@
                 <a href="#" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
             <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                 <div class="flex items-center gap-3">
+                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                        <a href="?route=create_user" class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600/40">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                <line x1="17" y1="11" x2="23" y2="11"/>
+                            </svg>
+                            Crear usuario
+                        </a>
+                    <?php endif; ?>
                     <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M12 5v14"/>
