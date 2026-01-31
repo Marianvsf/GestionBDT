@@ -37,6 +37,9 @@ switch ($route) {
     case 'create_ticket':
         $ticket->create();
         break;
+    case 'ticket_detail':
+        $ticket->show();
+        break;
     default:
         $auth->login();
         break;
