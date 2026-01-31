@@ -50,4 +50,22 @@ class TicketController {
             require __DIR__ . '/../Views/dashboard/create.php';
         }
     }
+
+    public function show() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+
+        $ticketId = intval($_GET['id'] ?? 0);
+        if ($ticketId <= 0) {
+            header('Location: index.php?route=dashboard');
+            exit;
+        }
+
+        $ticket = Ticket::getById($ticketId);
+        if (!$ticket) {
+            header('Location: index.php?route=dashboard');
+            exit;
+        }
+
+        require __DIR__ . '/../Views/dashboard/show.php';
+    }
 }
