@@ -24,4 +24,11 @@ class Ticket {
         $stmt = $pdo->query("SELECT * FROM tickets ORDER BY created_at DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getById($ticketId) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = :id");
+        $stmt->execute([':id' => $ticketId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
