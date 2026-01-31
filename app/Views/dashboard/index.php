@@ -20,7 +20,11 @@
             <?php foreach ($tickets as $ticket): ?>
             <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6"><?= $ticket['id'] ?></td>
-                <td class="py-3 px-6 font-bold"><?= htmlspecialchars($ticket['title']) ?></td>
+                <td class="py-3 px-6 font-bold">
+                    <a class="text-blue-700 hover:underline" href="?route=ticket_detail&id=<?= $ticket['id'] ?>">
+                        <?= htmlspecialchars($ticket['title']) ?>
+                    </a>
+                </td>
                 <td class="py-3 px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
                 <td class="py-3 px-6"><?= $ticket['priority'] ?></td>
                 <td class="py-3 px-6">
