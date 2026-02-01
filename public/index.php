@@ -37,6 +37,12 @@ switch ($route) {
     case 'create_ticket':
         $ticket->create();
         break;
+    case 'users':
+        $auth->users();
+        break;
+    case 'delete_user':
+        $auth->deleteUser();
+        break;
     case 'ticket_detail':
         $ticket->show();
         break;
