@@ -12,6 +12,7 @@
                 <th class="py-3 px-6">Título</th>
                 <th class="py-3 px-6">Categoría (IA)</th>
                 <th class="py-3 px-6">Prioridad</th>
+                <th class="py-3 px-6">Asignado</th>
                 <th class="py-3 px-6">Estado</th>
                 <th class="py-3 px-6">Acción</th>
             </tr>
@@ -28,6 +29,18 @@
                 <td class="py-3 px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
                 <td class="py-3 px-6"><?= $ticket['priority'] ?></td>
                 <td class="py-3 px-6">
+                    <?php if (!empty($ticket['assigned_username'])): ?>
+                        <span class="bg-slate-100 text-slate-700 py-1 px-3 rounded-full text-xs">
+                            <?= htmlspecialchars($ticket['assigned_username']) ?>
+                            <?php if (isset($_SESSION['user_id']) && isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($_SESSION['user_id'])): ?>
+                                (Tú)
+                            <?php endif; ?>
+                        </span>
+                    <?php else: ?>
+                        <span class="text-xs text-gray-400">Sin asignar</span>
+                    <?php endif; ?>
+                </td>
+                <td class="py-3 px-6">
                     <?php
                         $statusClass = 'bg-yellow-200 text-yellow-800';
                         if ($ticket['status'] === 'En proceso') { $statusClass = 'bg-blue-200 text-blue-800'; }
@@ -39,13 +52,23 @@
                 </td>
                 <td class="py-3 px-6">
                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                        <form method="POST" action="?route=dashboard" class="flex items-center gap-2">
+                        <form method="POST" action="?route=dashboard" class="flex items-center gap-2 flex-wrap">
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                             <select name="status" class="border rounded px-2 py-1 text-xs">
                                 <option value="Pendiente" <?= $ticket['status'] === 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
                                 <option value="En proceso" <?= $ticket['status'] === 'En proceso' ? 'selected' : '' ?>>En proceso</option>
                                 <option value="Ejecutada" <?= $ticket['status'] === 'Ejecutada' ? 'selected' : '' ?>>Ejecutada</option>
                             </select>
+                            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                                <select name="assigned_to" class="border rounded px-2 py-1 text-xs">
+                                    <option value="">Sin asignar</option>
+                                    <?php foreach ($supportUsers as $supportUser): ?>
+                                        <option value="<?= $supportUser['id'] ?>" <?= (isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($supportUser['id'])) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($supportUser['username']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php endif; ?>
                             <button type="submit" class="text-xs bg-[#010b50] text-white px-2 py-1 rounded">Actualizar</button>
                         </form>
                     <?php else: ?>
