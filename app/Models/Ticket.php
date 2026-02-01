@@ -19,9 +19,18 @@ class Ticket {
         ]);
     }
 
+    public static function assignTo($ticketId, $assignedTo) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("UPDATE tickets SET assigned_to = :assigned_to WHERE id = :id");
+        return $stmt->execute([
+            ':assigned_to' => $assignedTo,
+            ':id' => $ticketId
+        ]);
+    }
+
     public static function getAll() {
         $pdo = Database::connect();
-        $stmt = $pdo->query("SELECT * FROM tickets ORDER BY created_at DESC");
+        $stmt = $pdo->query("SELECT tickets.*, users.username AS assigned_username FROM tickets LEFT JOIN users ON tickets.assigned_to = users.id ORDER BY tickets.created_at DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
