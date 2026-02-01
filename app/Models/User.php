@@ -26,4 +26,16 @@ class User {
             ':role' => $role
         ]);
     }
+
+    public static function getAll() {
+        $pdo = Database::connect();
+        $stmt = $pdo->query("SELECT id, username, role FROM users");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function deleteById($id) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("DELETE FROM users WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
+    }
 }
