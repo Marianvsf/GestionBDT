@@ -32,6 +32,11 @@ class Database {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
 
+            $columns = $pdo->query("PRAGMA table_info(tickets)")->fetchAll(PDO::FETCH_COLUMN, 1);
+            if (!in_array('assigned_to', $columns, true)) {
+                $pdo->exec("ALTER TABLE tickets ADD COLUMN assigned_to INTEGER");
+            }
+
             // Seed (Usuario por defecto): admin / 123456
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = 'admin'");
             $stmt->execute();
