@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\Ticket;
+use App\Models\User;
 
 class TicketController {
     public function index() {
@@ -14,6 +15,21 @@ class TicketController {
             $status = $_POST['status'] ?? '';
             $allowed = ['Pendiente', 'En proceso', 'Ejecutada'];
 
+            $supportUsers = User::getSupportUsers();
+            $supportIds = array_map('intval', array_column($supportUsers, 'id'));
+
+            if ($ticketId > 0 && $role === 'Gerente' && array_key_exists('assigned_to', $_POST)) {
+                $assignedRaw = trim((string)($_POST['assigned_to'] ?? ''));
+                if ($assignedRaw === '') {
+                    Ticket::assignTo($ticketId, null);
+                } else {
+                    $assignedTo = intval($assignedRaw);
+                    if (in_array($assignedTo, $supportIds, true)) {
+                        Ticket::assignTo($ticketId, $assignedTo);
+                    }
+                }
+            }
+
             if ($ticketId > 0 && in_array($status, $allowed, true)) {
                 Ticket::updateStatus($ticketId, $status);
             }
@@ -22,6 +38,7 @@ class TicketController {
         }
         
         $tickets = Ticket::getAll();
+        $supportUsers = User::getSupportUsers();
         require __DIR__ . '/../Views/dashboard/index.php';
     }
 
