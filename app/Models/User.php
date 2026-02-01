@@ -33,6 +33,13 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getSupportUsers() {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("SELECT id, username FROM users WHERE role = 'Soporte' ORDER BY username ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function deleteById($id) {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("DELETE FROM users WHERE id = :id");
