@@ -83,4 +83,4 @@
         </div>
     </nav>
 
-    <main class="flex-grow w-full min-h-screen">
+    <main class="flex-grow w-full">
