@@ -2,7 +2,15 @@
 <div class="container mx-auto px-12 py-8">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Detalle de Incidencia</h2>
-        <a href="?route=dashboard" class="text-sm text-blue-700 hover:underline">Volver al tablero</a>
+        <div class="flex items-center gap-3">
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                <form method="POST" action="?route=delete_ticket" onsubmit="return confirm('¿Eliminar este ticket?');">
+                    <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                    <button type="submit" class="text-xs bg-red-600 text-white px-3 py-2 rounded">Eliminar</button>
+                </form>
+            <?php endif; ?>
+            <a href="?route=dashboard" class="text-sm text-blue-700 hover:underline">Volver al tablero</a>
+        </div>
     </div>
 
     <div class="bg-white rounded-lg shadow p-6">
