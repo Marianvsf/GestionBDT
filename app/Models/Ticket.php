@@ -40,4 +40,10 @@ class Ticket {
         $stmt->execute([':id' => $ticketId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function deleteById($ticketId) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("DELETE FROM tickets WHERE id = :id");
+        return $stmt->execute([':id' => $ticketId]);
+    }
 }
