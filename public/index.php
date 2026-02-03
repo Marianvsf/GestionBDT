@@ -46,6 +46,9 @@ switch ($route) {
     case 'ticket_detail':
         $ticket->show();
         break;
+    case 'delete_ticket':
+        $ticket->delete();
+        break;
     default:
         $auth->login();
         break;
