@@ -4,8 +4,8 @@
     <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
-<div class="overflow-x-auto bg-white rounded-lg shadow">
-    <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm">
+<div class="overflow-x-auto bg-white rounded-lg shadow max-w-[1440px]">
+    <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm max-w-[1440px]">
         <thead>
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
                 <th class="py-3 px-6">ID</th>
