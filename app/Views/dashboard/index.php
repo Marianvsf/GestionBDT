@@ -1,11 +1,11 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-12 py-8">
-<div class="flex jfiustify-between m-[70px] mx-auto items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Tablero de Control</h2>
+<div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+<div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
 <div class="overflow-x-auto bg-white rounded-lg shadow">
-    <table class="w-full text-left border-collapse">
+    <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm">
         <thead>
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
                 <th class="py-3 px-6">ID</th>
@@ -52,15 +52,16 @@
                 </td>
                 <td class="py-3 px-6">
                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                        <form method="POST" action="?route=dashboard" class="flex items-center gap-2 flex-wrap">
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-2 flex-wrap w-full">
+                            <form method="POST" action="?route=dashboard" class="flex items-center justify-center gap-2 flex-wrap w-full md:w-auto">
                             <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
-                            <select name="status" class="border rounded px-2 py-1 text-xs">
+                            <select name="status" class="border rounded px-2 py-1 text-xs w-full sm:w-auto">
                                 <option value="Pendiente" <?= $ticket['status'] === 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
                                 <option value="En proceso" <?= $ticket['status'] === 'En proceso' ? 'selected' : '' ?>>En proceso</option>
                                 <option value="Ejecutada" <?= $ticket['status'] === 'Ejecutada' ? 'selected' : '' ?>>Ejecutada</option>
                             </select>
                             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                <select name="assigned_to" class="border rounded px-2 py-1 text-xs">
+                                <select name="assigned_to" class="border rounded px-2 py-1 text-xs w-full sm:w-auto">
                                     <option value="">Sin asignar</option>
                                     <?php foreach ($supportUsers as $supportUser): ?>
                                         <option value="<?= $supportUser['id'] ?>" <?= (isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($supportUser['id'])) ? 'selected' : '' ?>>
@@ -69,14 +70,15 @@
                                     <?php endforeach; ?>
                                 </select>
                             <?php endif; ?>
-                            <button type="submit" class="text-xs bg-[#010b50] text-white px-2 py-1 rounded">Actualizar</button>
-                        </form>
-                        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                            <form method="POST" action="?route=delete_ticket" class="inline-flex" onsubmit="return confirm('¿Eliminar este ticket?');">
-                                <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
-                                <button type="submit" class="text-xs bg-red-600 text-white px-2 py-1 rounded">Eliminar</button>
+                                <button type="submit" class="text-xs bg-[#010b50] text-white px-2 py-1 rounded w-full sm:w-auto">Actualizar</button>
                             </form>
-                        <?php endif; ?>
+                            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                                <form method="POST" action="?route=delete_ticket" class="inline-flex justify-center w-full md:w-auto" onsubmit="return confirm('¿Eliminar este ticket?');">
+                                    <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                                    <button type="submit" class="text-xs bg-red-600 text-white px-2 py-1 rounded w-full sm:w-auto">Eliminar</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
                     <?php else: ?>
                         <span class="text-xs text-gray-400">Solo admin/soporte</span>
                     <?php endif; ?>
