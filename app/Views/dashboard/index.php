@@ -71,6 +71,12 @@
                             <?php endif; ?>
                             <button type="submit" class="text-xs bg-[#010b50] text-white px-2 py-1 rounded">Actualizar</button>
                         </form>
+                        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                            <form method="POST" action="?route=delete_ticket" class="inline-flex" onsubmit="return confirm('¿Eliminar este ticket?');">
+                                <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                                <button type="submit" class="text-xs bg-red-600 text-white px-2 py-1 rounded">Eliminar</button>
+                            </form>
+                        <?php endif; ?>
                     <?php else: ?>
                         <span class="text-xs text-gray-400">Solo admin/soporte</span>
                     <?php endif; ?>
