@@ -83,4 +83,4 @@
         </div>
     </nav>
 
-    <main class="flex-grow w-full">
+    <main class="flex-grow w-full pt-12 md:pt-12">
