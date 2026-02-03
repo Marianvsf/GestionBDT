@@ -85,4 +85,19 @@ class TicketController {
 
         require __DIR__ . '/../Views/dashboard/show.php';
     }
+
+    public function delete() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $ticketId = intval($_POST['ticket_id'] ?? 0);
+            if ($ticketId > 0) {
+                Ticket::deleteById($ticketId);
+            }
+        }
+
+        header('Location: index.php?route=dashboard');
+        exit;
+    }
 }
