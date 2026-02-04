@@ -4,6 +4,22 @@
     <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
+<?php if (empty($tickets)): ?>
+    <div class="bg-white rounded-lg shadow max-w-[1440px] p-8 sm:p-10">
+        <div class="flex flex-col items-center text-center gap-4">
+            <div class="h-16 w-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl">
+                ✅
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">¡Bienvenido!</h3>
+            <p class="text-gray-600 max-w-xl">
+                Aún no has reportado incidencias. Crea tu primer ticket para comenzar el seguimiento.
+            </p>
+            <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
+                Crear incidencia
+            </a>
+        </div>
+    </div>
+<?php else: ?>
 <div class="overflow-x-auto bg-white rounded-lg shadow max-w-[1440px]">
     <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm max-w-[1440px]">
         <thead>
@@ -88,5 +104,6 @@
         </tbody>
     </table>
 </div>
+<?php endif; ?>
 </div>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
