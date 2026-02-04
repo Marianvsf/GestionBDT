@@ -4,6 +4,20 @@ use App\Config\Database;
 use PDO;
 
 class Ticket {
+
+    public static function getByUserId($userId) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare(
+            "SELECT tickets.*, users.username AS assigned_username
+             FROM tickets
+             LEFT JOIN users ON tickets.assigned_to = users.id
+             WHERE tickets.user_id = :user_id
+             ORDER BY tickets.created_at DESC"
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function create($userId, $title, $description, $category, $priority) {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("INSERT INTO tickets (user_id, title, description, category, priority) VALUES (?, ?, ?, ?, ?)");
