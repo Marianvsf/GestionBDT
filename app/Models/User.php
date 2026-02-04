@@ -5,9 +5,11 @@ use PDO;
 
 class User {
     public static function login($username, $password) {
+        $normalized = trim($username);
+        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-        $stmt->execute([':username' => $username]);
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE LOWER(username) = :username");
+        $stmt->execute([':username' => $normalized]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
@@ -17,11 +19,13 @@ class User {
     }
 
     public static function create($username, $password, $role) {
+        $normalized = trim($username);
+        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
         $pdo = Database::connect();
         $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (:username, :password, :role)");
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         return $stmt->execute([
-            ':username' => $username,
+            ':username' => $normalized,
             ':password' => $hashed,
             ':role' => $role
         ]);
