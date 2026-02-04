@@ -36,8 +36,13 @@ class TicketController {
             header('Location: index.php?route=dashboard');
             exit;
         }
-        
-        $tickets = Ticket::getAll();
+
+        $role = $_SESSION['role'] ?? '';
+        if ($role === 'Analista') {
+            $tickets = Ticket::getByUserId($_SESSION['user_id']);
+        } else {
+            $tickets = Ticket::getAll();
+        }
         $supportUsers = User::getSupportUsers();
         require __DIR__ . '/../Views/dashboard/index.php';
     }
@@ -79,6 +84,12 @@ class TicketController {
 
         $ticket = Ticket::getById($ticketId);
         if (!$ticket) {
+            header('Location: index.php?route=dashboard');
+            exit;
+        }
+
+        $role = $_SESSION['role'] ?? '';
+        if ($role === 'Analista' && intval($ticket['user_id']) !== intval($_SESSION['user_id'])) {
             header('Location: index.php?route=dashboard');
             exit;
         }
