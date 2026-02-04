@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 <div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
 <?php if (empty($tickets)): ?>
-    <div class="bg-white rounded-lg shadow max-w-[1440px] p-8 sm:p-10">
+    <div class="bg-white rounded-lg mt-16 mx-auto shadow max-w-[1080px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
             <div class="h-16 w-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl">
                 ✅
