@@ -1,9 +1,5 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 <div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
-<div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
-    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
-</div>
-
 <?php if (empty($tickets)): ?>
     <div class="bg-white rounded-lg shadow max-w-[1440px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
@@ -20,6 +16,9 @@
         </div>
     </div>
 <?php else: ?>
+<div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
+</div>
 <div class="overflow-x-auto bg-white rounded-lg shadow max-w-[1440px]">
     <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm max-w-[1440px]">
         <thead>
