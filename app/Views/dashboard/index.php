@@ -20,31 +20,31 @@
     <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 <div class="overflow-x-auto bg-white rounded-lg shadow max-w-[1440px]">
-    <table class="w-full min-w-[900px] text-left border-collapse text-xs sm:text-sm max-w-[1440px]">
+    <table class="w-full min-w-[820px] sm:min-w-[900px] text-left border-collapse text-xs sm:text-sm max-w-[1440px]">
         <thead>
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
-                <th class="py-3 px-6">ID</th>
-                <th class="py-3 px-6">Título</th>
-                <th class="py-3 px-6">Categoría (IA)</th>
-                <th class="py-3 px-6">Prioridad</th>
-                <th class="py-3 px-6">Asignado</th>
-                <th class="py-3 px-6">Estado</th>
-                <th class="py-3 px-6">Acción</th>
+                <th class="py-3 px-3 sm:px-6">ID</th>
+                <th class="py-3 px-3 sm:px-6">Título</th>
+                <th class="py-3 px-3 sm:px-6">Categoría (IA)</th>
+                <th class="py-3 px-3 sm:px-6">Prioridad</th>
+                <th class="py-3 px-3 sm:px-6">Asignado</th>
+                <th class="py-3 px-3 sm:px-6">Estado</th>
+                <th class="py-3 px-3 sm:px-6">Acción</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 text-sm font-light">
             <?php foreach ($tickets as $ticket): ?>
             <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-6"><?= $ticket['id'] ?></td>
-                <td class="py-3 px-6 font-bold">
+                <td class="py-3 px-3 sm:px-6"><?= $ticket['id'] ?></td>
+                <td class="py-3 px-3 sm:px-6 font-bold break-words">
                     <a class="text-blue-700 hover:underline" href="?route=ticket_detail&id=<?= $ticket['id'] ?>">
                         <?= htmlspecialchars($ticket['title']) ?>
                     </a>
                 </td>
-                <td class="py-3 px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
-                <td class="py-3 px-6"><?= $ticket['priority'] ?></td>
+                <td class="py-3 px-3 sm:px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
+                <td class="py-3 px-3 sm:px-6"><?= $ticket['priority'] ?></td>
                 <?php $statusFormId = 'status-form-' . $ticket['id']; ?>
-                <td class="py-3 px-6">
+                <td class="py-3 px-3 sm:px-6">
                     <div class="flex flex-col gap-2">
                         <?php if (!empty($ticket['assigned_username'])): ?>
                             <span class="bg-slate-100 text-slate-700 py-1 px-3 rounded-full text-xs w-fit">
@@ -68,7 +68,7 @@
                         <?php endif; ?>
                     </div>
                 </td>
-                <td class="py-3 px-6">
+                <td class="py-3 px-3 sm:px-6">
                     <?php
                         $statusClass = 'bg-yellow-200 text-yellow-800';
                         if ($ticket['status'] === 'En proceso') { $statusClass = 'bg-blue-200 text-blue-800'; }
@@ -90,7 +90,7 @@
                         <?php endif; ?>
                     </div>
                 </td>
-                <td class="py-3 px-6">
+                <td class="py-3 px-3 sm:px-6">
                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
                         <div class="flex flex-col gap-2 w-full">
                             <button type="submit" form="<?= $statusFormId ?>" class="text-xs font-semibold bg-[#010b50] text-white px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0b1f7a] w-full sm:w-auto">Actualizar</button>
