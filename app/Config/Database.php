@@ -29,12 +29,17 @@ class Database {
                 category TEXT,
                 priority TEXT,
                 status TEXT DEFAULT 'Pendiente',
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
 
             $columns = $pdo->query("PRAGMA table_info(tickets)")->fetchAll(PDO::FETCH_COLUMN, 1);
             if (!in_array('assigned_to', $columns, true)) {
                 $pdo->exec("ALTER TABLE tickets ADD COLUMN assigned_to INTEGER");
+            }
+            if (!in_array('updated_at', $columns, true)) {
+                $pdo->exec("ALTER TABLE tickets ADD COLUMN updated_at DATETIME");
+                $pdo->exec("UPDATE tickets SET updated_at = created_at WHERE updated_at IS NULL");
             }
 
             // Seed (Usuario por defecto): admin / 123456
