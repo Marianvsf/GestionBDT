@@ -24,23 +24,30 @@
         <thead>
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
                 <th class="py-3 px-3 sm:px-6">ID</th>
+                <th class="py-3 px-3 sm:px-6">Creado</th>
                 <th class="py-3 px-3 sm:px-6">Título</th>
                 <th class="py-3 px-3 sm:px-6">Categoría (IA)</th>
                 <th class="py-3 px-3 sm:px-6">Prioridad</th>
                 <th class="py-3 px-3 sm:px-6">Asignado</th>
                 <th class="py-3 px-3 sm:px-6">Estado</th>
+                <th class="py-3 px-3 sm:px-6">Actualizado</th>
                 <th class="py-3 px-3 sm:px-6">Acción</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 text-sm font-light">
             <?php foreach ($tickets as $ticket): ?>
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-3 sm:px-6"><?= $ticket['id'] ?></td>
-                <td class="py-3 px-3 sm:px-6 font-bold break-words">
-                    <a class="text-blue-700 hover:underline" href="?route=ticket_detail&id=<?= $ticket['id'] ?>">
-                        <?= htmlspecialchars($ticket['title']) ?>
-                    </a>
-                </td>
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-3 sm:px-6"><?= $ticket['id'] ?></td>
+                    <td class="py-3 px-3 sm:px-6">
+                        <span class="text-xs text-slate-500">
+                            <?= isset($ticket['created_at']) ? htmlspecialchars($ticket['created_at']) : 'N/D' ?>
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 sm:px-6 font-bold break-words">
+                        <a class="text-blue-700 hover:underline" href="?route=ticket_detail&id=<?= $ticket['id'] ?>">
+                            <?= htmlspecialchars($ticket['title']) ?>
+                        </a>
+                    </td>
                 <td class="py-3 px-3 sm:px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
                 <td class="py-3 px-3 sm:px-6"><?= $ticket['priority'] ?></td>
                 <?php $statusFormId = 'status-form-' . $ticket['id']; ?>
@@ -89,6 +96,11 @@
                             </form>
                         <?php endif; ?>
                     </div>
+                </td>
+                <td class="py-3 px-3 sm:px-6">
+                    <span class="text-xs text-slate-500">
+                        <?= isset($ticket['updated_at']) && !empty($ticket['updated_at']) ? htmlspecialchars($ticket['updated_at']) : 'N/D' ?>
+                    </span>
                 </td>
                 <td class="py-3 px-3 sm:px-6">
                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
