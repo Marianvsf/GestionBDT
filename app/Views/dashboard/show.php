@@ -1,4 +1,15 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
+    <?php
+        $formatCaracas = function ($value) {
+            if (empty($value)) { return 'N/D'; }
+            try {
+                $dt = new DateTime($value, new DateTimeZone('UTC'));
+                $dt->setTimezone(new DateTimeZone('America/Caracas'));                    return $dt->format('Y-m-d H:i:s');
+            } catch (Exception $e) {
+                return htmlspecialchars($value);
+            }
+        };
+    ?>
 <div class="container mx-auto px-12 py-8">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Detalle de Incidencia</h2>
@@ -47,7 +58,7 @@
             <div>
                 <p class="text-sm text-gray-500">Fecha de creación</p>
                 <p class="text-lg font-semibold text-gray-800">
-                    <?= isset($ticket['created_at']) ? htmlspecialchars($ticket['created_at']) : 'N/D' ?>
+                    <?= $formatCaracas($ticket['created_at'] ?? null) ?>
                 </p>
             </div>
         </div>
