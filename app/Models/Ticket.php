@@ -26,7 +26,7 @@ class Ticket {
 
     public static function updateStatus($ticketId, $status) {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("UPDATE tickets SET status = :status WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE tickets SET status = :status, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
         return $stmt->execute([
             ':status' => $status,
             ':id' => $ticketId
@@ -35,7 +35,7 @@ class Ticket {
 
     public static function assignTo($ticketId, $assignedTo) {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("UPDATE tickets SET assigned_to = :assigned_to WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE tickets SET assigned_to = :assigned_to, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
         return $stmt->execute([
             ':assigned_to' => $assignedTo,
             ':id' => $ticketId
