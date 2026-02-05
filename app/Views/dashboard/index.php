@@ -43,17 +43,30 @@
                 </td>
                 <td class="py-3 px-6"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><?= $ticket['category'] ?></span></td>
                 <td class="py-3 px-6"><?= $ticket['priority'] ?></td>
+                <?php $statusFormId = 'status-form-' . $ticket['id']; ?>
                 <td class="py-3 px-6">
-                    <?php if (!empty($ticket['assigned_username'])): ?>
-                        <span class="bg-slate-100 text-slate-700 py-1 px-3 rounded-full text-xs">
-                            <?= htmlspecialchars($ticket['assigned_username']) ?>
-                            <?php if (isset($_SESSION['user_id']) && isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($_SESSION['user_id'])): ?>
-                                (Tú)
-                            <?php endif; ?>
-                        </span>
-                    <?php else: ?>
-                        <span class="text-xs text-gray-400">Sin asignar</span>
-                    <?php endif; ?>
+                    <div class="flex flex-col gap-2">
+                        <?php if (!empty($ticket['assigned_username'])): ?>
+                            <span class="bg-slate-100 text-slate-700 py-1 px-3 rounded-full text-xs w-fit">
+                                <?= htmlspecialchars($ticket['assigned_username']) ?>
+                                <?php if (isset($_SESSION['user_id']) && isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($_SESSION['user_id'])): ?>
+                                    (Tú)
+                                <?php endif; ?>
+                            </span>
+                        <?php else: ?>
+                            <span class="text-xs text-gray-400">Sin asignar</span>
+                        <?php endif; ?>
+                        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                            <select name="assigned_to" form="<?= $statusFormId ?>" class="border border-slate-200 rounded-md px-2.5 py-1.5 text-xs bg-white w-full sm:w-auto min-w-[160px]">
+                                <option value="">Sin asignar</option>
+                                <?php foreach ($supportUsers as $supportUser): ?>
+                                    <option value="<?= $supportUser['id'] ?>" <?= (isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($supportUser['id'])) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($supportUser['username']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php endif; ?>
+                    </div>
                 </td>
                 <td class="py-3 px-6">
                     <?php
@@ -61,36 +74,30 @@
                         if ($ticket['status'] === 'En proceso') { $statusClass = 'bg-blue-200 text-blue-800'; }
                         if ($ticket['status'] === 'Ejecutada') { $statusClass = 'bg-green-200 text-green-800'; }
                     ?>
-                    <span class="<?= $statusClass ?> py-1 px-3 rounded-full text-xs">
-                        <?= $ticket['status'] ?>
-                    </span>
+                    <div class="flex flex-col gap-2">
+                        <span class="<?= $statusClass ?> py-1 px-3 rounded-full text-xs w-fit">
+                            <?= $ticket['status'] ?>
+                        </span>
+                        <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
+                            <form id="<?= $statusFormId ?>" method="POST" action="?route=dashboard" class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 w-full">
+                                <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                                <select name="status" class="border border-slate-200 rounded-md px-2.5 py-1.5 text-xs bg-white w-full sm:w-auto min-w-[140px]">
+                                    <option value="Pendiente" <?= $ticket['status'] === 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
+                                    <option value="En proceso" <?= $ticket['status'] === 'En proceso' ? 'selected' : '' ?>>En proceso</option>
+                                    <option value="Ejecutada" <?= $ticket['status'] === 'Ejecutada' ? 'selected' : '' ?>>Ejecutada</option>
+                                </select>
+                            </form>
+                        <?php endif; ?>
+                    </div>
                 </td>
                 <td class="py-3 px-6">
                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                        <div class="flex flex-col md:flex-row items-center justify-center gap-2 flex-wrap w-full">
-                            <form method="POST" action="?route=dashboard" class="flex items-center justify-center gap-2 flex-wrap w-full md:w-auto">
-                            <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
-                            <select name="status" class="border rounded px-2 py-1 text-xs w-full sm:w-auto">
-                                <option value="Pendiente" <?= $ticket['status'] === 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
-                                <option value="En proceso" <?= $ticket['status'] === 'En proceso' ? 'selected' : '' ?>>En proceso</option>
-                                <option value="Ejecutada" <?= $ticket['status'] === 'Ejecutada' ? 'selected' : '' ?>>Ejecutada</option>
-                            </select>
+                        <div class="flex flex-col gap-2 w-full">
+                            <button type="submit" form="<?= $statusFormId ?>" class="text-xs font-semibold bg-[#010b50] text-white px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0b1f7a] w-full sm:w-auto">Actualizar</button>
                             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                <select name="assigned_to" class="border rounded px-2 py-1 text-xs w-full sm:w-auto">
-                                    <option value="">Sin asignar</option>
-                                    <?php foreach ($supportUsers as $supportUser): ?>
-                                        <option value="<?= $supportUser['id'] ?>" <?= (isset($ticket['assigned_to']) && intval($ticket['assigned_to']) === intval($supportUser['id'])) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($supportUser['username']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            <?php endif; ?>
-                                <button type="submit" class="text-xs bg-[#010b50] text-white px-2 py-1 rounded w-full sm:w-auto">Actualizar</button>
-                            </form>
-                            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                <form method="POST" action="?route=delete_ticket" class="inline-flex justify-center w-full md:w-auto" onsubmit="return confirm('¿Eliminar este ticket?');">
+                                <form method="POST" action="?route=delete_ticket" class="flex w-full sm:justify-end" onsubmit="return confirm('¿Eliminar este ticket?');">
                                     <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
-                                    <button type="submit" class="text-xs bg-red-600 text-white px-2 py-1 rounded w-full sm:w-auto">Eliminar</button>
+                                    <button type="submit" class="text-xs font-semibold bg-red-600 text-white px-3 py-1.5 rounded-md shadow-sm hover:bg-red-700 w-full sm:w-auto">Eliminar</button>
                                 </form>
                             <?php endif; ?>
                         </div>
