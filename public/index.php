@@ -1,4 +1,7 @@
 <?php
+// Zona horaria por defecto (Venezuela)
+date_default_timezone_set('America/Caracas');
+
 // Iniciar sesión SIEMPRE al principio
 session_start();
 

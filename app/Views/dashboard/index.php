@@ -16,6 +16,18 @@
         </div>
     </div>
 <?php else: ?>
+<?php
+    $formatCaracas = function ($value) {
+        if (empty($value)) { return 'N/D'; }
+        try {
+            $dt = new DateTime($value, new DateTimeZone('UTC'));
+            $dt->setTimezone(new DateTimeZone('America/Caracas'));
+            return $dt->format('Y-m-d H:i:s');
+        } catch (Exception $e) {
+            return htmlspecialchars($value);
+        }
+    };
+?>
 <div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
     <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
@@ -40,7 +52,7 @@
                     <td class="py-3 px-3 sm:px-6"><?= $ticket['id'] ?></td>
                     <td class="py-3 px-3 sm:px-6">
                         <span class="text-xs text-slate-500">
-                            <?= isset($ticket['created_at']) ? htmlspecialchars($ticket['created_at']) : 'N/D' ?>
+                            <?= $formatCaracas($ticket['created_at'] ?? null) ?>
                         </span>
                     </td>
                     <td class="py-3 px-3 sm:px-6 font-bold break-words">
@@ -99,7 +111,7 @@
                 </td>
                 <td class="py-3 px-3 sm:px-6">
                     <span class="text-xs text-slate-500">
-                        <?= isset($ticket['updated_at']) && !empty($ticket['updated_at']) ? htmlspecialchars($ticket['updated_at']) : 'N/D' ?>
+                        <?= $formatCaracas($ticket['updated_at'] ?? null) ?>
                     </span>
                 </td>
                 <td class="py-3 px-3 sm:px-6">
