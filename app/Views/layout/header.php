@@ -43,7 +43,7 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <?php if(!isset($_SESSION['user_id'])): ?>
-                        <a href="#" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
+                        <a href="?route=help" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
                     <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                         <div class="hidden md:flex items-center gap-3">
                             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
