@@ -94,7 +94,31 @@ class TicketController {
             exit;
         }
 
+        $comments = Ticket::getComments($ticketId);
         require __DIR__ . '/../Views/dashboard/show.php';
+    }
+
+    public function addComment() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+
+        $role = $_SESSION['role'] ?? '';
+        if ($role !== 'Soporte' && $role !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $ticketId = intval($_POST['ticket_id'] ?? 0);
+            $comment = trim((string)($_POST['comment'] ?? ''));
+            if ($ticketId > 0 && $comment !== '') {
+                $ticket = Ticket::getById($ticketId);
+                if ($ticket) {
+                    Ticket::addComment($ticketId, intval($_SESSION['user_id']), $comment);
+                }
+            }
+            header('Location: index.php?route=ticket_detail&id=' . $ticketId);
+            exit;
+        }
+
+        header('Location: index.php?route=dashboard');
+        exit;
     }
 
     public function delete() {
