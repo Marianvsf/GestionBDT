@@ -32,7 +32,7 @@
             <div class="flex items-center justify-between h-full">
                 <div class="flex items-center gap-4">
                 <?php if(isset($_SESSION['user_id']) && $currentRoute !== 'home' && $currentRoute !== 'login'): ?>
-                    <a href="?route=dashboard" class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300/60">
+                    <a href="?route=dashboard" class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-300/60">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="15 18 9 12 15 6"/>
                         </svg>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <?php if(!isset($_SESSION['user_id'])): ?>
-                        <a href="#" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
+                        <a href="?route=help" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
                     <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                         <div class="hidden md:flex items-center gap-3">
                             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
