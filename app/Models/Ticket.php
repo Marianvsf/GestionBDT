@@ -60,4 +60,32 @@ class Ticket {
         $stmt = $pdo->prepare("DELETE FROM tickets WHERE id = :id");
         return $stmt->execute([':id' => $ticketId]);
     }
+
+    public static function addComment($ticketId, $userId, $comment) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("INSERT INTO ticket_comments (ticket_id, user_id, comment) VALUES (:ticket_id, :user_id, :comment)");
+        $ok = $stmt->execute([
+            ':ticket_id' => $ticketId,
+            ':user_id' => $userId,
+            ':comment' => $comment
+        ]);
+        if ($ok) {
+            $pdo->prepare("UPDATE tickets SET updated_at = CURRENT_TIMESTAMP WHERE id = :id")
+                ->execute([':id' => $ticketId]);
+        }
+        return $ok;
+    }
+
+    public static function getComments($ticketId) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare(
+            "SELECT ticket_comments.*, users.username
+             FROM ticket_comments
+             LEFT JOIN users ON ticket_comments.user_id = users.id
+             WHERE ticket_comments.ticket_id = :ticket_id
+             ORDER BY ticket_comments.created_at ASC"
+        );
+        $stmt->execute([':ticket_id' => $ticketId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
