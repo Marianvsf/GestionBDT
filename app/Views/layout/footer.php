@@ -17,11 +17,11 @@
                 <div class="hidden lg:flex items-center bg-slate-50 px-4 py-1.5 rounded-full border border-slate-100">
                     <p class="text-[11px] text-slate-500 tracking-wide font-normal">
                         <span class="text-slate-400 mr-2">Dev Squad:</span> 
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Marian Suárez</span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Carlos Barboza</span>
+                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700"><a href="https://github.com/Marianvsf">Marian Suárez</a></span>
                         <span class="mx-2 text-slate-300">|</span>
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Luis Hernández</span>
+                        <span class="mx-2 text-slate-300">|</span>
+                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Pedro Peña</span>
                     </p>
                 </div>
 
@@ -44,7 +44,7 @@
 
             <div class="mt-4 flex lg:hidden justify-center border-t border-slate-50 pt-3">
                 <p class="text-[10px] text-slate-400 text-center tracking-wide uppercase">
-                    Dev: Marian • Carlos • Luis
+                    Dev: Marian • Luis • Pedro | v1.0.4-rc | <span class="text-emerald-500">Online</span>
                 </p>
             </div>
         </div>
