@@ -49,6 +49,9 @@ switch ($route) {
     case 'ticket_detail':
         $ticket->show();
         break;
+    case 'add_comment':
+        $ticket->addComment();
+        break;
     case 'delete_ticket':
         $ticket->delete();
         break;
