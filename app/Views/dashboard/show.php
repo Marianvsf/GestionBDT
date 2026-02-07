@@ -1,4 +1,16 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
+<?php
+    $formatCaracas = function ($value) {
+        if (empty($value)) { return 'N/D'; }
+        try {
+            $dt = new DateTime($value, new DateTimeZone('UTC'));
+            $dt->setTimezone(new DateTimeZone('America/Caracas'));
+            return $dt->format('Y-m-d H:i:s');
+        } catch (Exception $e) {
+            return htmlspecialchars($value);
+        }
+    };
+?>
 <div class="container mx-auto px-12 py-8">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Detalle de Incidencia</h2>
@@ -47,7 +59,7 @@
             <div>
                 <p class="text-sm text-gray-500">Fecha de creación</p>
                 <p class="text-lg font-semibold text-gray-800">
-                    <?= isset($ticket['created_at']) ? htmlspecialchars($ticket['created_at']) : 'N/D' ?>
+                    <?= $formatCaracas($ticket['created_at'] ?? null) ?>
                 </p>
             </div>
         </div>
@@ -57,6 +69,48 @@
             <div class="bg-gray-50 border rounded p-4 text-gray-700 whitespace-pre-line">
                 <?= htmlspecialchars($ticket['description']) ?>
             </div>
+        </div>
+
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Comentarios de Soporte</h3>
+                <span class="text-xs text-gray-400"><?= count($comments ?? []) ?> comentario(s)</span>
+            </div>
+
+            <?php if (!empty($comments)): ?>
+                <div class="space-y-3">
+                    <?php foreach ($comments as $comment): ?>
+                        <div class="bg-slate-50 border border-slate-100 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-semibold text-slate-700">
+                                    <?= htmlspecialchars($comment['username'] ?? 'Soporte') ?>
+                                </p>
+                                <span class="text-xs text-slate-400">
+                                    <?= $formatCaracas($comment['created_at'] ?? null) ?>
+                                </span>
+                            </div>
+                            <p class="text-sm text-slate-700 whitespace-pre-line">
+                                <?= htmlspecialchars($comment['comment'] ?? '') ?>
+                            </p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="bg-slate-50 border border-dashed border-slate-200 rounded-lg p-4 text-sm text-slate-500">
+                    Aún no hay comentarios de soporte.
+                </div>
+            <?php endif; ?>
+
+            <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Soporte' || $_SESSION['role'] === 'Gerente')): ?>
+                <form method="POST" action="?route=add_comment" class="mt-5">
+                    <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Agregar comentario</label>
+                    <textarea name="comment" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="Escribe una actualización para el equipo..." required></textarea>
+                    <div class="mt-3 flex justify-end">
+                        <button type="submit" class="text-xs font-semibold bg-[#010b50] text-white px-4 py-2 rounded-md shadow-sm hover:bg-[#0b1f7a]">Publicar comentario</button>
+                    </div>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 </div>
