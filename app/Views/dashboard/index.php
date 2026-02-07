@@ -32,7 +32,7 @@
     <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
-<div class="bg-transparent sm:bg-white rounded-lg sm:shadow w-full">
+<div class="bg-transparent sm:bg-white w-full sm:shadow sm:rounded-lg sm:overflow-hidden">
     <table class="w-full text-left border-collapse text-sm">
         <thead class="hidden md:table-header-group">
             <tr class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">
@@ -49,7 +49,7 @@
         </thead>
         <tbody class="text-gray-600 font-light block md:table-row-group">
             <?php foreach ($tickets as $ticket): ?>
-                <tr class="bg-white border border-gray-200 rounded-lg mb-4 block md:table-row md:border-b md:mb-0 hover:bg-gray-50 shadow-sm md:shadow-none">
+                <tr class="bg-white border border-gray-200 rounded-lg mb-4 block md:table-row md:border-b md:mb-0 hover:bg-gray-50 shadow-sm md:shadow-none md:rounded-none">
                     
                     <td class="px-4 py-3 border-b md:border-0 flex justify-between items-center md:table-cell">
                         <span class="font-bold text-gray-700 md:hidden">ID:</span>
@@ -85,7 +85,6 @@
                     <?php $statusFormId = 'status-form-' . $ticket['id']; ?>
                     <td class="px-4 py-3 border-b md:border-0 flex flex-col md:table-cell gap-2">
                         <span class="font-bold text-gray-700 md:hidden mb-1">Asignado a:</span>
-                        
                         <div class="flex flex-col gap-2 w-full md:w-auto">
                             <?php if (!empty($ticket['assigned_username'])): ?>
                                 <span class="bg-slate-100 text-slate-700 py-1 px-3 rounded-full text-xs w-fit">
