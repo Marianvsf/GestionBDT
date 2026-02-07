@@ -41,6 +41,17 @@ class Database {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
 
+            $pdo->exec("CREATE TABLE IF NOT EXISTS help_requests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT,
+                subject TEXT NOT NULL,
+                message TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )");
+
             $columns = $pdo->query("PRAGMA table_info(tickets)")->fetchAll(PDO::FETCH_COLUMN, 1);
             if (!in_array('assigned_to', $columns, true)) {
                 $pdo->exec("ALTER TABLE tickets ADD COLUMN assigned_to INTEGER");
