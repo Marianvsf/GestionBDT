@@ -9,17 +9,21 @@ session_start();
 require_once __DIR__ . '/../app/Config/Database.php';
 require_once __DIR__ . '/../app/Models/User.php';
 require_once __DIR__ . '/../app/Models/Ticket.php';
+require_once __DIR__ . '/../app/Models/HelpRequest.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Controllers/TicketController.php';
+require_once __DIR__ . '/../app/Controllers/HelpController.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\TicketController;
+use App\Controllers\HelpController;
 
 // Enrutamiento simple
 $route = $_GET['route'] ?? 'home';
 
 $auth = new AuthController();
 $ticket = new TicketController();
+$help = new HelpController();
 
 switch ($route) {
     case 'home':
@@ -42,6 +46,9 @@ switch ($route) {
         break;
     case 'users':
         $auth->users();
+        break;
+    case 'help':
+        $help->create();
         break;
     case 'delete_user':
         $auth->deleteUser();
