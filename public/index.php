@@ -17,6 +17,7 @@ require_once __DIR__ . '/../app/Controllers/HelpController.php';
 use App\Controllers\AuthController;
 use App\Controllers\TicketController;
 use App\Controllers\HelpController;
+use App\Controllers\Controller;
 
 // Enrutamiento simple
 $route = $_GET['route'] ?? 'home';
@@ -38,6 +39,12 @@ switch ($route) {
     case 'create_user':
         $auth->createUser();
         break;
+    case 'help':
+        $help->create();
+        break;
+    case 'help_requests':
+        $help->index();
+        break;
     case 'dashboard':
         $ticket->index();
         break;
@@ -46,9 +53,6 @@ switch ($route) {
         break;
     case 'users':
         $auth->users();
-        break;
-    case 'help':
-        $help->create();
         break;
     case 'delete_user':
         $auth->deleteUser();
