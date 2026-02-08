@@ -3,6 +3,15 @@ namespace App\Controllers;
 use App\Models\HelpRequest;
 
 class HelpController {
+	public function index() {
+		if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+		$role = $_SESSION['role'] ?? '';
+		if ($role !== 'Gerente' && $role !== 'Soporte') { header('Location: index.php?route=dashboard'); exit; }
+
+		$requests = HelpRequest::getAll();
+		require __DIR__ . '/../Views/dashboard/help_requests.php';
+	}
+
 	public function create() {
 		$success = null;
 		$error = null;
