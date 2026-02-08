@@ -19,4 +19,15 @@ class HelpRequest {
 			':message' => $message
 		]);
 	}
+
+	public static function getAll() {
+		$pdo = Database::connect();
+		$stmt = $pdo->query(
+			"SELECT help_requests.*, users.username
+			 FROM help_requests
+			 LEFT JOIN users ON help_requests.user_id = users.id
+			 ORDER BY help_requests.created_at DESC"
+		);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 }
