@@ -43,7 +43,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1" for="phone">Teléfono</label>
-                            <input id="phone" name="phone" type="text" value="<?= htmlspecialchars($form['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="0412-1234567" />
+                            <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]*" title="Solo se permiten números" value="<?= htmlspecialchars($form['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="0412-1234567" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1" for="subject">Asunto *</label>
