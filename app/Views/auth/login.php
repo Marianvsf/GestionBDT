@@ -97,12 +97,12 @@
                 </div>
 
                 <button type="submit" class="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#010b50] hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#010b50] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <svg class="h-5 w-5 text-blue-300 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    Acceder al Sistema
+                    <span class="absolute right-0 inset-y-0 flex items-center pr-3">
+                        <svg class="h-5 w-5 text-blue-300 group-hover:text-white transition-colors -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14" />
                         </svg>
                     </span>
-                    Acceder al Sistema
                 </button>
             </form>
         </div>
