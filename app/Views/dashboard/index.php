@@ -37,7 +37,6 @@
         <thead class="hidden md:table-header-group">
             <tr class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">
                 <th class="py-3 px-6">ID</th>
-                <th class="py-3 px-6">Creado</th>
                 <th class="py-3 px-6">Título</th>
                 <th class="py-3 px-6">Categoría</th>
                 <th class="py-3 px-6">Prioridad</th>
@@ -54,13 +53,6 @@
                     <td class="px-4 py-3 border-b md:border-0 flex justify-between items-center md:table-cell">
                         <span class="font-bold text-gray-700 md:hidden">ID:</span>
                         <span class="font-medium"><?= $ticket['id'] ?></span>
-                    </td>
-
-                    <td class="px-4 py-3 border-b md:border-0 flex justify-between items-center md:table-cell">
-                        <span class="font-bold text-gray-700 md:hidden">Creado:</span>
-                        <span class="text-xs text-slate-500">
-                            <?= $formatCaracas($ticket['created_at'] ?? null) ?>
-                        </span>
                     </td>
 
                     <td class="px-4 py-3 border-b md:border-0 flex justify-between items-center md:table-cell">
