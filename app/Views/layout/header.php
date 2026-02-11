@@ -32,7 +32,7 @@
             <div class="flex items-center justify-between h-full">
                 <div class="flex items-center gap-4">
                 <?php if(isset($_SESSION['user_id']) && $currentRoute !== 'home' && $currentRoute !== 'login' || $currentRoute == 'help'): ?>
-                    <a href="?route=dashboard" class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-300/60">
+                    <a href="?route=dashboard" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-300/60">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="15 18 9 12 15 6"/>
                         </svg>
