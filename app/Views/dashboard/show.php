@@ -62,6 +62,12 @@
                     <?= $formatCaracas($ticket['created_at'] ?? null) ?>
                 </p>
             </div>
+            <div>
+                <p class="text-sm text-gray-500">Creado por</p>
+                <p class="text-lg font-semibold text-gray-800">
+                    <?= htmlspecialchars($ticket['creator_username'] ?? 'N/D') ?>
+                </p>
+            </div>
         </div>
 
         <div class="mt-6">
