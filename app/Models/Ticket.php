@@ -50,7 +50,13 @@ class Ticket {
 
     public static function getById($ticketId) {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = :id");
+        $stmt = $pdo->prepare(
+            "SELECT tickets.*, u.username AS creator_username, ass.username AS assigned_username
+             FROM tickets
+             LEFT JOIN users u ON tickets.user_id = u.id
+             LEFT JOIN users ass ON tickets.assigned_to = ass.id
+             WHERE tickets.id = :id"
+        );
         $stmt->execute([':id' => $ticketId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
