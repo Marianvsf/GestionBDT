@@ -22,6 +22,8 @@
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Luis Hernández</span>
                         <span class="mx-2 text-slate-300">|</span>
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Pedro Peña</span>
+                        <span class="mx-2 text-slate-300">|</span>
+                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Carlos Barboza</span>
                     </p>
                 </div>
 

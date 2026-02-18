@@ -9,7 +9,7 @@
                 🚀 Versión 1.0.4 Beta
             </div>
             <h1 class="text-5xl font-bold mb-6 leading-tight">
-                Gestión Inteligente de <span class="text-blue-300">Incidencias</span>
+                Gestión Inteligente de <span class="text-blue-300">Incidencias Tecnológicas</span>
             </h1>
             <p class="text-lg text-blue-100 mb-8 leading-relaxed">
                 Bienvenido al portal centralizado del Banco Digital. Reporta fallas, gestiona tickets y obtén soluciones rápidas gracias a nuestro nuevo motor de clasificación por IA.
