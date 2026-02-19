@@ -98,6 +98,75 @@ class TicketController {
         require __DIR__ . '/../Views/dashboard/show.php';
     }
 
+    public function report() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+
+        $role = $_SESSION['role'] ?? '';
+        if ($role !== 'Soporte' && $role !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $from = trim((string)($_POST['from_date'] ?? ''));
+            $to = trim((string)($_POST['to_date'] ?? ''));
+            $status = trim((string)($_POST['status'] ?? ''));
+            $assigned = intval($_POST['assigned_to'] ?? 0);
+            $category = trim((string)($_POST['category'] ?? ''));
+
+            $pdo = \App\Config\Database::connect();
+            $sql = "SELECT t.*, u.username AS creator_username, ass.username AS assigned_username FROM tickets t LEFT JOIN users u ON t.user_id = u.id LEFT JOIN users ass ON t.assigned_to = ass.id WHERE 1=1";
+            $params = [];
+            if ($from !== '') {
+                $sql .= " AND DATE(t.created_at) >= :from";
+                $params[':from'] = $from;
+            }
+            if ($to !== '') {
+                $sql .= " AND DATE(t.created_at) <= :to";
+                $params[':to'] = $to;
+            }
+            if ($status !== '' && $status !== 'all') {
+                $sql .= " AND t.status = :status";
+                $params[':status'] = $status;
+            }
+            if ($assigned > 0) {
+                $sql .= " AND t.assigned_to = :assigned";
+                $params[':assigned'] = $assigned;
+            }
+            if ($category !== '') {
+                $sql .= " AND t.category LIKE :category";
+                $params[':category'] = "%" . $category . "%";
+            }
+            $sql .= " ORDER BY t.created_at DESC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            // Emitir CSV
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename="tickets_report_' . date('Ymd_His') . '.csv"');
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['ID','Titulo','Descripcion','Categoria','Prioridad','Estatus','Usuario_asignado','Usuario_creador','Creado','Actualizado'], ',', '"', '\\');
+            foreach ($rows as $r) {
+                fputcsv($out, [
+                    $r['id'] ?? '',
+                    $r['Titulo'] ?? '',
+                    $r['Descripcion'] ?? '',
+                    $r['Categoria'] ?? '',
+                    $r['Prioridad'] ?? '',
+                    $r['Estatus'] ?? '',
+                    $r['Usuario_asignado'] ?? $r['assigned_username'] ?? '',
+                    $r['Usuario_creador'] ?? '',
+                    $r['Creado'] ?? '',
+                    $r['Actualizado'] ?? ''
+                ], ',', '"', '\\');
+            }
+            fclose($out);
+            exit;
+        }
+
+        $supportUsers = User::getSupportUsers();
+        require __DIR__ . '/../Views/dashboard/report.php';
+    }
+
     public function addComment() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 
