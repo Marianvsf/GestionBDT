@@ -60,6 +60,9 @@ switch ($route) {
     case 'ticket_detail':
         $ticket->show();
         break;
+    case 'ticket_report':
+        $ticket->report();
+        break;
     case 'add_comment':
         $ticket->addComment();
         break;
