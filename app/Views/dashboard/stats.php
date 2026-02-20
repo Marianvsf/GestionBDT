@@ -1,10 +1,10 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+<div id="dashboard-root" class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
     <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <h1 class="text-2xl font-bold">Dashboard de Datos</h1>
         <div>
             <a href="?route=dashboard" class="inline-block px-3 py-2 bg-slate-100 rounded hover:bg-slate-200 transition">Volver</a>
-            <a href="?route=ticket_report_page" class="inline-block px-3 py-2 bg-indigo-600 text-white rounded ml-2 hover:bg-indigo-700 transition">Imprimir</a>
+                <button id="printBtn" class="inline-block px-3 py-2 bg-indigo-600 text-white rounded ml-2 hover:bg-indigo-700 transition">Imprimir</button>
         </div>
     </div>
 
@@ -146,6 +146,45 @@ async function loadStats() {
 }
 
 loadStats();
+</script>
+
+<script>
+function printDashboard() {
+    const root = document.getElementById('dashboard-root');
+    if (!root) return alert('No se encontró el área para imprimir');
+
+    // Clonar y reemplazar canvases por imágenes PNG (preserva gráficos)
+    const clone = root.cloneNode(true);
+    const canvases = root.querySelectorAll('canvas');
+    canvases.forEach(c => {
+        try {
+            const id = c.id;
+            const dataUrl = c.toDataURL('image/png');
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
+            const target = clone.querySelector('#' + id);
+            if (target && target.parentNode) target.parentNode.replaceChild(img, target);
+        } catch (e) {
+            // canvas may be tainted if coming from other origin; ignore
+            console.warn('No se pudo renderizar canvas a imagen', e);
+        }
+    });
+
+    const w = window.open('', '_blank', 'width=1200,height=900');
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Imprimir - Dashboard</title>');
+    w.document.write('<meta name="viewport" content="width=device-width,initial-scale=1">');
+    w.document.write('<link rel="stylesheet" href="https://cdn.tailwindcss.com">');
+    w.document.write('</head><body class="bg-white">');
+    w.document.write(clone.innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    w.focus();
+    setTimeout(() => { w.print(); }, 600);
+}
+
+document.getElementById('printBtn').addEventListener('click', printDashboard);
 </script>
 
 <?php require __DIR__ . '/../layout/footer.php'; ?>
