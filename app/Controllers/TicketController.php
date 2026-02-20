@@ -167,6 +167,50 @@ class TicketController {
         require __DIR__ . '/../Views/dashboard/report.php';
     }
 
+    public function stats() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+        $role = $_SESSION['role'] ?? '';
+        if ($role !== 'Soporte' && $role !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
+        require __DIR__ . '/../Views/dashboard/stats.php';
+    }
+
+    public function statsData() {
+        if (!isset($_SESSION['user_id'])) { header('HTTP/1.1 401 Unauthorized'); exit; }
+        $role = $_SESSION['role'] ?? '';
+        if ($role !== 'Soporte' && $role !== 'Gerente') { header('HTTP/1.1 403 Forbidden'); exit; }
+
+        $pdo = \App\Config\Database::connect();
+        // Total
+        $total = intval($pdo->query('SELECT COUNT(*) FROM tickets')->fetchColumn());
+
+        // By category
+        $stmt = $pdo->query("SELECT COALESCE(category,'(Sin categoría)') AS category, COUNT(*) AS cnt FROM tickets GROUP BY category ORDER BY cnt DESC");
+        $byCategory = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // By status
+        $stmt = $pdo->query("SELECT COALESCE(status,'Pendiente') AS status, COUNT(*) AS cnt FROM tickets GROUP BY status");
+        $byStatus = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // By priority
+        $stmt = $pdo->query("SELECT COALESCE(priority,'Baja') AS priority, COUNT(*) AS cnt FROM tickets GROUP BY priority");
+        $byPriority = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Timeseries last 30 days (SQLite compatible)
+        $stmt = $pdo->prepare("SELECT DATE(created_at) AS d, COUNT(*) AS cnt FROM tickets WHERE DATE(created_at) >= DATE('now', '-29 days') GROUP BY DATE(created_at) ORDER BY d ASC");
+        $stmt->execute();
+        $timeseries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'total' => $total,
+            'byCategory' => $byCategory,
+            'byStatus' => $byStatus,
+            'byPriority' => $byPriority,
+            'timeseries' => $timeseries
+        ]);
+        exit;
+    }
+
     public function addComment() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 
