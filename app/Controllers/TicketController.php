@@ -144,19 +144,19 @@ class TicketController {
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename="tickets_report_' . date('Ymd_His') . '.csv"');
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['ID','Titulo','Descripcion','Categoria','Prioridad','Estatus','Usuario_asignado','Usuario_creador','Creado','Actualizado'], ',', '"', '\\');
+            fputcsv($out, ['ID','Title','Description','Category','Priority','Status','Assigned To','Creator','Created At','Updated At'], ',', '"', '\\');
             foreach ($rows as $r) {
                 fputcsv($out, [
                     $r['id'] ?? '',
-                    $r['Titulo'] ?? '',
-                    $r['Descripcion'] ?? '',
-                    $r['Categoria'] ?? '',
-                    $r['Prioridad'] ?? '',
-                    $r['Estatus'] ?? '',
-                    $r['Usuario_asignado'] ?? $r['assigned_username'] ?? '',
-                    $r['Usuario_creador'] ?? '',
-                    $r['Creado'] ?? '',
-                    $r['Actualizado'] ?? ''
+                    $r['title'] ?? '',
+                    $r['description'] ?? '',
+                    $r['category'] ?? '',
+                    $r['priority'] ?? '',
+                    $r['status'] ?? '',
+                    $r['assigned_username'] ?? $r['assigned_username'] ?? '',
+                    $r['creator_username'] ?? '',
+                    $r['created_at'] ?? '',
+                    $r['updated_at'] ?? ''
                 ], ',', '"', '\\');
             }
             fclose($out);
