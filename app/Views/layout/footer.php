@@ -46,7 +46,7 @@
 
             <div class="mt-4 flex lg:hidden justify-center border-t border-slate-50 pt-3">
                 <p class="text-[10px] text-slate-400 text-center tracking-wide uppercase">
-                    Dev: Marian • Luis • Pedro | v1.0.4-rc | <span class="text-emerald-500">Online</span>
+                    Dev: Marian • Luis • Pedro • Carlos
                 </p>
             </div>
         </div>
