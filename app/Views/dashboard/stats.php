@@ -119,29 +119,45 @@ async function loadStats() {
         });
 
         // Status bar (Barras)
-        const stLabels = (data.byStatus || []).map(x => x.status);
-        const stValues = (data.byStatus || []).map(x => x.cnt);
-        const stCtx = document.getElementById('statusChart').getContext('2d');
-        new Chart(stCtx, { 
-            type: 'bar', 
-            data: { 
-                labels: stLabels, 
-                datasets: [{ 
-                    label: 'Tickets', 
-                    data: stValues, 
-                    backgroundColor: '#10b981',
-                    borderRadius: 4 // Opcional: bordes redondeados
-                }] 
-            }, 
-            options: { 
-                ...commonOptions,
-                scales: { 
-                    y: { beginAtZero: true } 
-                } 
-            } 
-        });
+        // Status bar (Barras)
+    const stLabels = (data.byStatus || []).map(x => x.status);
+    const stValues = (data.byStatus || []).map(x => x.cnt);
+
+    // Generar colores dinámicos según el nombre del estado
+    const stColors = stLabels.map(status => {
+      const s = status.toLowerCase();
+      if (s.includes('Ejecutado')) return '#9ca3af'; 
+      if (s.includes('pendiente')) return '#f59e0b'; 
+      if (s.includes('proceso')) return '#3b82f6';   
+      return '#10b981'; 
+    });
+
+    const stCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(stCtx, { 
+      type: 'bar', 
+      data: { 
+        labels: stLabels, 
+        datasets: [{ 
+          label: 'Tickets', 
+          data: stValues, 
+          backgroundColor: stColors, 
+          borderRadius: 4 
+        }] 
+      }, 
+      options: { 
+        ...commonOptions,
+        scales: { 
+          y: { beginAtZero: true } 
+        },
+        plugins: {
+          legend: { display: false } 
+        }
+      } 
+    });
+
     } catch (e) {
-        console.error("Error al cargar las estadísticas:", e);
+        console.error('Error cargando estadísticas:', e);
+        alert('No se pudieron cargar las estadísticas. Intente recargar la página.');
     }
 }
 
