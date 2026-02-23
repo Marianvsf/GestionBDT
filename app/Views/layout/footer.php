@@ -24,6 +24,8 @@
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Pedro Peña</span>
                         <span class="mx-2 text-slate-300">|</span>
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Carlos Barboza</span>
+                        <span class="mx-2 text-slate-300">|</span>
+                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Aimeth Mendez</span>
                     </p>
                 </div>
 
@@ -46,7 +48,7 @@
 
             <div class="mt-4 flex lg:hidden justify-center border-t border-slate-50 pt-3">
                 <p class="text-[10px] text-slate-400 text-center tracking-wide uppercase">
-                    Dev: Marian • Luis • Pedro • Carlos
+                    Dev: Marian • Luis • Pedro • Carlos • Aimeth
                 </p>
             </div>
         </div>
