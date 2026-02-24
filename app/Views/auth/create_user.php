@@ -22,7 +22,11 @@
             </div>
             <div>
                 <label class="block text-gray-700">Contraseña</label>
-                <input type="password" name="password" class="w-full p-2 border rounded" required>
+                <input id="password" type="password" name="password" class="w-full p-2 border rounded" required>
+                <label class="mt-2 inline-flex items-center gap-2 text-sm text-gray-600">
+                    <input id="toggle-password" type="checkbox" class="rounded">
+                    Mostrar contrasena
+                </label>
             </div>
             <div>
                 <label class="block text-gray-700">Rol</label>
@@ -40,4 +44,12 @@
         </form>
     </div>
 </div>
+<script>
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('toggle-password');
+
+    togglePassword.addEventListener('change', () => {
+        passwordInput.type = togglePassword.checked ? 'text' : 'password';
+    });
+</script>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
