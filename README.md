@@ -78,6 +78,53 @@ GestionBDT/
 
 ---
 
+## 🌍 Despliegue en cualquier hosting (PHP + PostgreSQL)
+
+La aplicación ahora soporta **PostgreSQL y SQLite** por variables de entorno, por lo que puedes desplegarla en Vercel, Render, Railway, Fly.io, VPS, cPanel, Apache o Nginx.
+
+### 1) Configurar variables de entorno
+
+Usa `.env.example` como base y crea tu `.env` en el servidor (o configura variables en el panel del proveedor):
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=tu_host
+DB_PORT=5432
+DB_DATABASE=tu_bd
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_clave
+```
+
+También puedes usar una sola variable:
+
+```env
+DATABASE_URL=postgres://usuario:clave@host:5432/base
+```
+
+### 2) Publicar el proyecto
+
+- Sube todo el proyecto al servidor.
+- Configura el **document root** apuntando a la carpeta `public/`.
+- Asegúrate de tener habilitada la extensión `pdo_pgsql` en PHP.
+
+### 3) Primer arranque
+
+- Al iniciar, el sistema crea tablas automáticamente si no existen.
+- Se crea el usuario inicial `admin / 123456` si aún no existe.
+
+### 4) Fallback local (opcional)
+
+Si quieres ejecutar local con SQLite:
+
+```env
+DB_CONNECTION=sqlite
+SQLITE_PATH=database/bdt.sqlite
+```
+
+> Recomendado para producción: PostgreSQL.
+
+---
+
 ## 🧪 Prueba de IA de Clasificación
 
 1. Ingresa a "Nuevo Reporte".
