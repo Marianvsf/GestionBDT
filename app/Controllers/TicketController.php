@@ -48,30 +48,54 @@ class TicketController {
     }
 
     public function create() {
-        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $desc = $_POST['description'];
-            
-            // --- RF-03: Simulación de IA para Clasificación ---
-            $category = 'General';
-            $priority = 'Baja';
-            
-            if (strpos(strtolower($desc), 'wifi') !== false || strpos(strtolower($desc), 'red') !== false) {
-                $category = 'Infraestructura';
-                $priority = 'Alta';
-            } elseif (strpos(strtolower($desc), 'login') !== false || strpos(strtolower($desc), 'acceso') !== false) {
-                $category = 'Seguridad';
-                $priority = 'Media';
-            }
-            // --------------------------------------------------
-
-            Ticket::create($_SESSION['user_id'], $_POST['title'], $desc, $category, $priority);
-            header('Location: index.php?route=dashboard');
-        } else {
-            require __DIR__ . '/../Views/dashboard/create.php';
-        }
+    if (!isset($_SESSION['user_id'])) { 
+        header('Location: index.php'); 
+        exit; 
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $desc = $_POST['description'];
+        
+        // --- RF-03: Simulación de IA para Clasificación (Optimizado) ---
+        $category = 'General';
+        $priority = 'Baja';
+        $desc_lower = strtolower($desc);
+
+        // 2. Diccionario de palabras clave
+        $reglas = [
+            'Infraestructura' => [
+                'prioridad' => 'Alta',
+                'palabras'  => ['wifi', 'red', 'internet', 'router', 'switch', 'vpn', 'servidor', 'cable', 'conexion', 'caido']
+            ],
+            'Seguridad' => [
+                'prioridad' => 'Media',
+                'palabras'  => ['login', 'acceso', 'contraseña', 'password', 'clave', 'cuenta', 'virus', 'malware', 'bloqueado', 'permisos']
+            ],
+            'Hardware' => [
+                'prioridad' => 'Media',
+                'palabras'  => ['impresora', 'pantalla', 'monitor', 'teclado', 'mouse', 'raton', 'computadora', 'laptop', 'pc', 'disco duro', 'no enciende']
+            ],
+            'Software' => [
+                'prioridad' => 'Baja',
+                'palabras'  => ['correo', 'email', 'excel', 'word', 'office', 'programa', 'aplicacion', 'error', 'licencia', 'actualizacion', 'sistema']
+            ]
+        ];
+
+        foreach ($reglas as $cat_nombre => $datos) {
+            foreach ($datos['palabras'] as $palabra) {
+                if (strpos($desc_lower, $palabra) !== false) {
+                    $category = $cat_nombre;
+                    $priority = $datos['prioridad'];
+                    break 2; 
+                }
+            }
+        }
+        Ticket::create($_SESSION['user_id'], $_POST['title'], $desc, $category, $priority);
+        header('Location: index.php?route=dashboard');
+    } else {
+        require __DIR__ . '/../Views/dashboard/create.php';
+    }
+}
 
     public function show() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
