@@ -144,7 +144,7 @@
                             </a>
                         <?php endif; ?>
                         <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                            <a href="?route=help_requests" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                            <a href="?route=help_requests" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
                                     <path d="M8 9h8"/>
@@ -152,13 +152,21 @@
                                 </svg>
                                 Solicitudes
                             </a>
-                        <a href="?route=ticket_report" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                        <a href="?route=ticket_report" class="inline-flex items-center justify-center gap-2 rounded-full bg-orange-300 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M3 3h18v4H3z" />
                                 <path d="M3 11h18v10H3z" />
                             </svg>
                             Reportes
                         </a>
+                        <a href="?route=ticket_stats" class="inline-flex items-center justify-center gap-2 rounded-full bg-yellow-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 3h18v4H3z" />
+                                    <path d="M3 11h6v10H3z" />
+                                    <path d="M13 11h8v10h-8z" />
+                                </svg>
+                                Estadísticas
+                            </a>
                         <?php endif; ?>
                         <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
