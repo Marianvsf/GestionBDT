@@ -69,6 +69,45 @@ class AuthController {
         require __DIR__ . '/../Views/auth/list_users.php';
     }
 
+    public function editUser() {
+        if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = intval($_POST['user_id'] ?? 0);
+            $username = trim($_POST['username'] ?? '');
+            $role = trim($_POST['role'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+
+            if ($userId <= 0 || $username === '' || $role === '') {
+                $error = "Completa todos los campos requeridos";
+                $user = User::getById($userId);
+                require __DIR__ . '/../Views/auth/edit_user.php';
+                return;
+            }
+
+            try {
+                $ok = User::update($userId, $username, $role, $password === '' ? null : $password);
+                if ($ok) {
+                    $_SESSION['user_success'] = "Usuario actualizado correctamente";
+                } else {
+                    $_SESSION['user_error'] = "No se pudo actualizar el usuario";
+                }
+            } catch (\Throwable $e) {
+                $_SESSION['user_error'] = "Usuario ya existe o datos inválidos";
+            }
+
+            header('Location: index.php?route=users');
+            exit;
+        } else {
+            $userId = intval($_GET['id'] ?? 0);
+            if ($userId <= 0) { header('Location: index.php?route=users'); exit; }
+            $user = User::getById($userId);
+            if (!$user) { $_SESSION['user_error'] = "Usuario no encontrado"; header('Location: index.php?route=users'); exit; }
+            require __DIR__ . '/../Views/auth/edit_user.php';
+        }
+    }
+
     public function deleteUser() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
