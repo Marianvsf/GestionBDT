@@ -1,10 +1,16 @@
 FROM php:8.2-apache
 
-# Copia los archivos de tu proyecto al directorio de Apache
+# 1. Cambiamos el DocumentRoot de Apache a la carpeta /public
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# 2. Copiamos los archivos
 COPY . /var/www/html/
 
-# Habilita el módulo de reescritura de Apache (útil para URLs limpias)
+# 3. Permisos y módulos
 RUN a2enmod rewrite
+RUN chown -R www-data:www-data /var/www/html/
 
-# Expone el puerto 80
 EXPOSE 80
