@@ -15,7 +15,6 @@ class Database {
 
     self::loadEnvFile();
 
-    // OPCIONES CRÍTICAS: Timeout corto de 5 segundos
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -25,17 +24,15 @@ class Database {
     try {
         [$dsn, $username, $password] = self::buildPgsqlConnection();
         
-        // DEBUG: Esto saldrá en tus logs de Railway
+        // DEBUG: Esto saldrá en logs de Railway
         error_log("Intentando conectar a DSN: $dsn con usuario: $username");
 
         self::$connection = new PDO($dsn, $username, $password, $options);
 
-        // COMENTA ESTO TEMPORALMENTE para ver si entra al sistema
-        // self::runMigrations(self::$connection, 'pgsql');
-        // self::seedDefaultAdmin(self::$connection);
+        self::runMigrations(self::$connection, 'pgsql');
+        self::seedDefaultAdmin(self::$connection);
 
     } catch (PDOException $e) {
-        // ESTO ROMPERÁ EL SILENCIO: Verás el error real en el navegador
         die("<h1>ERROR DE CONEXIÓN REAL:</h1>" . $e->getMessage());
     }
 
@@ -43,7 +40,7 @@ class Database {
 }
 
     private static function buildPgsqlConnection(): array {
-    // 1. PRIORIDAD: Intentar usar las variables individuales que configuraste en Render
+    // 1. PRIORIDAD: usar las variables individuales que configuraste en Render
     $host   = self::env('DB_HOST');
     $user   = self::env('DB_USER');
     $pass   = self::env('DB_PASSWORD');
