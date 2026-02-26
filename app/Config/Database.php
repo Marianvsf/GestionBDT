@@ -26,8 +26,8 @@ class Database {
 
             self::$connection = new PDO($dsn, $username, $password, $options);
 
-            self::runMigrations(self::$connection, 'pgsql');
-            self::seedDefaultAdmin(self::$connection);
+            //self::runMigrations(self::$connection, 'pgsql');
+            //self::seedDefaultAdmin(self::$connection);
 
         } catch (PDOException $e) {
             // Esto imprimirá el error real en la pestaña "Logs" de Railway
