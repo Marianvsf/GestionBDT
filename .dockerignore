@@ -1,0 +1,11 @@
+.git
+.github
+php/
+database/bdt.sqlite
+*.sqlite
+*.db
+.env
+.env.*
+!.env.example
+node_modules/
+docker-compose.override.yml
