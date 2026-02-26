@@ -20,7 +20,7 @@
     $formatCaracas = function ($value) {
         if (empty($value)) { return 'N/D'; }
         try {
-            $dt = new DateTime($value, new DateTimeZone('UTC'));
+            $dt = new DateTime($value);
             $dt->setTimezone(new DateTimeZone('America/Caracas'));
             return $dt->format('Y-m-d H:i:s');
         } catch (Exception $e) {
