@@ -43,31 +43,39 @@ class Database {
 }
 
     private static function buildPgsqlConnection(): array {
-        $databaseUrl = self::env('DATABASE_URL');
+    // 1. PRIORIDAD: Intentar usar las variables individuales que configuraste en Render
+    $host   = self::env('DB_HOST');
+    $user   = self::env('DB_USER');
+    $pass   = self::env('DB_PASSWORD');
+    $dbName = self::env('DB_NAME');
+    $port   = self::env('DB_PORT', '5432');
 
-        if (!empty($databaseUrl)) {
-            $parts = parse_url($databaseUrl);
-            if ($parts !== false) {
-                $host = $parts['host'] ?? '';
-                $port = $parts['port'] ?? 5432;
-                $dbName = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
-                $user = $parts['user'] ?? '';
-                $pass = $parts['pass'] ?? '';
-                
-                $dsn = "pgsql:host=$host;port=$port;dbname=$dbName";
-                return [$dsn, $user, $pass];
-            }
-        }
-
-        $host   = self::env('PGHOST', self::env('DB_HOST', '127.0.0.1'));
-        $port   = self::env('PGPORT', self::env('DB_PORT', '5432'));
-        $dbName = self::env('PGDATABASE', self::env('DB_DATABASE', 'railway'));
-        $user   = self::env('PGUSER', self::env('DB_USERNAME', 'postgres'));
-        $pass   = self::env('PGPASSWORD', self::env('DB_PASSWORD', ''));
-
+    // Si todas las variables individuales existen, las usamos
+    if ($host && $user && $pass && $dbName) {
         $dsn = "pgsql:host=$host;port=$port;dbname=$dbName";
         return [$dsn, $user, $pass];
     }
+
+    // 2. SEGUNDA OPCIÓN: Intentar con DATABASE_URL si las individuales no están
+    $databaseUrl = self::env('DATABASE_URL');
+    if (!empty($databaseUrl)) {
+        $parts = parse_url($databaseUrl);
+        if ($parts !== false) {
+            $host = $parts['host'] ?? '';
+            $port = $parts['port'] ?? 5432;
+            $dbName = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
+            $user = $parts['user'] ?? '';
+            $pass = $parts['pass'] ?? '';
+            
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbName";
+            return [$dsn, $user, $pass];
+        }
+    }
+
+    // 3. ÚLTIMA OPCIÓN: Valores por defecto (Local)
+    $dsn = "pgsql:host=127.0.0.1;port=5432;dbname=railway";
+    return [$dsn, 'postgres', ''];
+}
 
     private static function runMigrations(PDO $pdo, string $driver): void {
         $normalized = strtolower($driver);
