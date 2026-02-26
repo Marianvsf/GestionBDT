@@ -39,19 +39,34 @@
                                     <span class="text-xs text-gray-400">Tu usuario</span>
                                 <?php else: ?>
                                     <div class="flex items-center gap-3">
-                                        <a href="?route=edit_user&id=<?= $user['id'] ?>" class="text-sm text-indigo-700 hover:underline">Editar</a>
+                                        <a href="?route=edit_user&id=<?= $user['id'] ?>" class="text-sm text-indigo-700 hover:underline relative group">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                            </svg>
+                                                <span class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded 
+                                                bg-blue-700 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 shadow-lg z-50">
+                                                    Editar usuario
+                                                <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-blue-700"></span>
+                                                </span>
+                                        </a>
                                         <form method="POST" action="?route=delete_user" onsubmit="return confirm('¿Eliminar este usuario?')">
                                             <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                                             <button type="submit" class="group relative justify-center">
                                                 <svg class="h-5 w-5 text-red-500 hover:text-red-700 transition-colors cursor-pointer" fill="currentColor" viewBox="0 0 640 640">
-                                                <path d="M262.2 48C248.9 48 236.9 56.3 232.2 68.8L216 112L120 112C106.7 112 96 122.7 96 136C96 149.3 106.7 160 120 160L520 160C533.3 160 544 149.3 544 136C544 122.7 533.3 112 520 112L424 112L407.8 68.8C403.1 56.3 391.2 48 377.8 48L262.2 48zM128 208L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 208L464 208L464 512C464 520.8 456.8 528 448 528L192 528C183.2 528 176 520.8 176 512L176 208L128 208zM288 280C288 266.7 277.3 256 264 256C250.7 256 240 266.7 240 280L240 456C240 469.3 250.7 480 264 480C277.3 480 288 469.3 288 456L288 280zM400 280C400 266.7 389.3 256 376 256C362.7 256 352 266.7 352 280L352 456C352 469.3 362.7 480 376 480C389.3 480 400 469.3 400 456L400 280z"/></svg>
-                                                <span class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-red-700 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 shadow-lg z-50">
-                                                    Eliminar ticket
+                                                <path d="M262.2 48C248.9 48 236.9 56.3 232.2 68.8L216 112L120 112C106.7 112 96 122.7 96 136C96 
+                                                149.3 106.7 160 120 160L520 160C533.3 160 544 149.3 544 136C544 122.7 533.3 112 520 112L424 
+                                                112L407.8 68.8C403.1 56.3 391.2 48 377.8 48L262.2 48zM128 208L128 512C128 547.3 156.7 576 192 
+                                                576L448 576C483.3 576 512 547.3 512 512L512 208L464 208L464 512C464 520.8 456.8 528 448 528L192 
+                                                528C183.2 528 176 520.8 176 512L176 208L128 208zM288 280C288 266.7 277.3 256 264 256C250.7 256 
+                                                240 266.7 240 280L240 456C240 469.3 250.7 480 264 480C277.3 480 288 469.3 288 456L288 280zM400 
+                                                280C400 266.7 389.3 256 376 256C362.7 256 352 266.7 352 280L352 456C352 469.3 362.7 480 376 480C389.3 480 400 469.3 400 456L400 280z"/></svg>
+                                                <span class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded 
+                                                bg-red-700 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 shadow-lg z-50">
+                                                    Eliminar usuario
                                                 <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-red-700"></span>
-                                            </span>
-                                            </span>
-                                        </button>
-                                    </form>
+                                                </span>
+                                          </button>
+                                        </form>
                                     </div>
                                 <?php endif; ?>
                             </td>
