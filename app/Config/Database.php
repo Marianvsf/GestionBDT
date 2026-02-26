@@ -1,5 +1,6 @@
 <?php
 namespace App\Config;
+
 use PDO;
 use PDOException;
 
@@ -14,36 +15,63 @@ class Database {
 
         self::loadEnvFile();
 
-        $driver = self::env('DB_CONNECTION', 'pgsql');
-        $dsn = '';
-        $username = null;
-        $password = null;
         $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_TIMEOUT            => 5, // Timeout de 5 segundos para evitar el error 502 por espera infinita
         ];
 
         try {
-            // Siempre construir conexión PostgreSQL
             [$dsn, $username, $password] = self::buildPgsqlConnection();
 
             self::$connection = new PDO($dsn, $username, $password, $options);
 
-            // Ejecutar migraciones para PostgreSQL
             self::runMigrations(self::$connection, 'pgsql');
             self::seedDefaultAdmin(self::$connection);
 
         } catch (PDOException $e) {
-            die('Error de conexión: ' . $e->getMessage());
+            // Esto imprimirá el error real en la pestaña "Logs" de Railway
+            error_log("FALLO CRÍTICO DE CONEXIÓN: " . $e->getMessage());
+            
+            // Esto mostrará el error en el navegador para diagnóstico inmediato
+            echo "<h1>Error de conexión a la Base de Datos</h1>";
+            echo "<pre>" . $e->getMessage() . "</pre>";
+            exit;
         }
 
         return self::$connection;
     }
 
+    private static function buildPgsqlConnection(): array {
+        $databaseUrl = self::env('DATABASE_URL');
+
+        if (!empty($databaseUrl)) {
+            $parts = parse_url($databaseUrl);
+            if ($parts !== false) {
+                $host = $parts['host'] ?? '';
+                $port = $parts['port'] ?? 5432;
+                $dbName = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
+                $user = $parts['user'] ?? '';
+                $pass = $parts['pass'] ?? '';
+                
+                $dsn = "pgsql:host=$host;port=$port;dbname=$dbName";
+                return [$dsn, $user, $pass];
+            }
+        }
+
+        $host   = self::env('PGHOST', self::env('DB_HOST', '127.0.0.1'));
+        $port   = self::env('PGPORT', self::env('DB_PORT', '5432'));
+        $dbName = self::env('PGDATABASE', self::env('DB_DATABASE', 'railway'));
+        $user   = self::env('PGUSER', self::env('DB_USERNAME', 'postgres'));
+        $pass   = self::env('PGPASSWORD', self::env('DB_PASSWORD', ''));
+
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbName";
+        return [$dsn, $user, $pass];
+    }
+
     private static function runMigrations(PDO $pdo, string $driver): void {
         $normalized = strtolower($driver);
 
-        // Migraciones y estructura pensadas para PostgreSQL
         $pdo->exec("CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(120) NOT NULL UNIQUE,
@@ -102,77 +130,32 @@ class Database {
             $insert->execute([
                 ':username' => 'admin',
                 ':password' => $pass,
-                ':role' => 'Gerente',
+                ':role'     => 'Gerente',
             ]);
         }
     }
 
     private static function columnExists(PDO $pdo, string $table, string $column, string $driver): bool {
-        if ($driver === 'pgsql' || $driver === 'postgres' || $driver === 'postgresql') {
+        if (in_array($driver, ['pgsql', 'postgres', 'postgresql'])) {
             $query = $pdo->prepare("SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = :table AND column_name = :column LIMIT 1");
-            $query->execute([
-                ':table' => $table,
-                ':column' => $column,
-            ]);
+            $query->execute([':table' => $table, ':column' => $column]);
             return (bool) $query->fetchColumn();
         }
-
-        // Solo soportado PostgreSQL en la versión actual
         return false;
     }
 
-    private static function buildPgsqlConnection(): array {
-        $databaseUrl = self::env('DATABASE_URL', '');
-
-        if (!empty($databaseUrl)) {
-            $parts = parse_url($databaseUrl);
-            if ($parts !== false) {
-                $host = $parts['host'] ?? '127.0.0.1';
-                $port = $parts['port'] ?? 5432;
-                $dbName = isset($parts['path']) ? ltrim($parts['path'], '/') : 'postgres';
-                $user = $parts['user'] ?? '';
-                $pass = $parts['pass'] ?? '';
-                $dsn = "pgsql:host={$host};port={$port};dbname={$dbName}";
-                return [$dsn, $user, $pass];
-            }
-        }
-
-        $host = self::env('PGHOST', self::env('DB_HOST', '127.0.0.1'));
-        $port = self::env('PGPORT', self::env('DB_PORT', '5432'));
-        $dbName = self::env('PGDATABASE', self::env('DB_DATABASE', 'gestionbdt'));
-        $user = self::env('PGUSER', self::env('DB_USERNAME', 'postgres'));
-        $pass = self::env('PGPASSWORD', self::env('DB_PASSWORD', ''));
-
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbName}";
-        return [$dsn, $user, $pass];
-    }
-
     private static function loadEnvFile(): void {
-        if (self::$envLoaded) {
-            return;
-        }
-
+        if (self::$envLoaded) return;
         self::$envLoaded = true;
-        $envPath = __DIR__ . '/../../.env';
 
-        if (!file_exists($envPath)) {
-            return;
-        }
+        $envPath = __DIR__ . '/../../.env';
+        if (!file_exists($envPath)) return;
 
         $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (!is_array($lines)) {
-            return;
-        }
-
         foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line === '' || str_starts_with($line, '#') || strpos($line, '=') === false) {
-                continue;
-            }
-
+            if (empty(trim($line)) || str_starts_with(trim($line), '#')) continue;
             [$key, $value] = array_map('trim', explode('=', $line, 2));
             $value = trim($value, "\"'");
-
             if ($key !== '' && getenv($key) === false) {
                 putenv("{$key}={$value}");
                 $_ENV[$key] = $value;
@@ -183,10 +166,6 @@ class Database {
 
     private static function env(string $key, ?string $default = null): ?string {
         $value = getenv($key);
-        if ($value === false || $value === '') {
-            return $default;
-        }
-
-        return $value;
+        return ($value === false || $value === '') ? $default : $value;
     }
 }
