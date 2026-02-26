@@ -1,0 +1,7 @@
+{
+  "name": "gestion-bdt/app",
+  "description": "Proyecto para la UNEXCA",
+  "require": {
+    "php": "^8.1"
+  }
+}
