@@ -39,6 +39,9 @@ switch ($route) {
     case 'create_user':
         $auth->createUser();
         break;
+    case 'edit_user':
+        $auth->editUser();
+        break;
     case 'help':
         $help->create();
         break;
