@@ -1,12 +1,12 @@
 <?php
-// Forzar visualización de errores
+// 1. Forzar que se muestren errores si algo falla
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-echo "<h1>Prueba de vida del servidor</h1>";
-echo "PHP está funcionando correctamente.<br>";
+// 2. Mensaje de prueba inmediato
+echo "<h1>El servidor PHP está VIVO</h1>";
+echo "Puerto detectado: " . getenv('PORT') . "<br>";
+echo "Extensión Postgres: " . (extension_loaded('pdo_pgsql') ? 'CARGADA' : 'FALTA');
 
-// Verificar si las extensiones de Postgres están activas
-echo "PDO Postgres: " . (extension_loaded('pdo_pgsql') ? 'INSTALADA' : 'FALTA') . "<br>";
-
+// 3. Detener todo aquí para que no cargue la base de datos
 exit;

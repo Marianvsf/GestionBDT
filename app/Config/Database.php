@@ -9,38 +9,38 @@ class Database {
     private static bool $envLoaded = false;
 
     public static function connect() {
-        if (self::$connection instanceof PDO) {
-            return self::$connection;
-        }
-
-        self::loadEnvFile();
-
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_TIMEOUT            => 5, // Timeout de 5 segundos para evitar el error 502 por espera infinita
-        ];
-
-        try {
-            [$dsn, $username, $password] = self::buildPgsqlConnection();
-
-            self::$connection = new PDO($dsn, $username, $password, $options);
-
-            //self::runMigrations(self::$connection, 'pgsql');
-            //self::seedDefaultAdmin(self::$connection);
-
-        } catch (PDOException $e) {
-            // Esto imprimirá el error real en la pestaña "Logs" de Railway
-            error_log("FALLO CRÍTICO DE CONEXIÓN: " . $e->getMessage());
-            
-            // Esto mostrará el error en el navegador para diagnóstico inmediato
-            echo "<h1>Error de conexión a la Base de Datos</h1>";
-            echo "<pre>" . $e->getMessage() . "</pre>";
-            exit;
-        }
-
+    if (self::$connection instanceof PDO) {
         return self::$connection;
     }
+
+    self::loadEnvFile();
+
+    // OPCIONES CRÍTICAS: Timeout corto de 5 segundos
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_TIMEOUT => 5, 
+    ];
+
+    try {
+        [$dsn, $username, $password] = self::buildPgsqlConnection();
+        
+        // DEBUG: Esto saldrá en tus logs de Railway
+        error_log("Intentando conectar a DSN: $dsn con usuario: $username");
+
+        self::$connection = new PDO($dsn, $username, $password, $options);
+
+        // COMENTA ESTO TEMPORALMENTE para ver si entra al sistema
+        // self::runMigrations(self::$connection, 'pgsql');
+        // self::seedDefaultAdmin(self::$connection);
+
+    } catch (PDOException $e) {
+        // ESTO ROMPERÁ EL SILENCIO: Verás el error real en el navegador
+        die("<h1>ERROR DE CONEXIÓN REAL:</h1>" . $e->getMessage());
+    }
+
+    return self::$connection;
+}
 
     private static function buildPgsqlConnection(): array {
         $databaseUrl = self::env('DATABASE_URL');
