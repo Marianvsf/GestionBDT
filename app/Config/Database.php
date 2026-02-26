@@ -14,7 +14,7 @@ class Database {
 
         self::loadEnvFile();
 
-        $driver = self::env('DB_CONNECTION', 'sqlite');
+        $driver = self::env('DB_CONNECTION', 'pgsql');
         $dsn = '';
         $username = null;
         $password = null;
@@ -24,16 +24,13 @@ class Database {
         ];
 
         try {
-            if ($driver === 'pgsql' || $driver === 'postgres' || $driver === 'postgresql') {
-                [$dsn, $username, $password] = self::buildPgsqlConnection();
-            } else {
-                $dbPath = self::env('SQLITE_PATH', __DIR__ . '/../../database/bdt.sqlite');
-                $dsn = 'sqlite:' . $dbPath;
-            }
+            // Siempre construir conexión PostgreSQL
+            [$dsn, $username, $password] = self::buildPgsqlConnection();
 
             self::$connection = new PDO($dsn, $username, $password, $options);
 
-            self::runMigrations(self::$connection, $driver);
+            // Ejecutar migraciones para PostgreSQL
+            self::runMigrations(self::$connection, 'pgsql');
             self::seedDefaultAdmin(self::$connection);
 
         } catch (PDOException $e) {
@@ -46,15 +43,15 @@ class Database {
     private static function runMigrations(PDO $pdo, string $driver): void {
         $normalized = strtolower($driver);
 
-        if ($normalized === 'pgsql' || $normalized === 'postgres' || $normalized === 'postgresql') {
-            $pdo->exec("CREATE TABLE IF NOT EXISTS users (
+        // Migraciones y estructura pensadas para PostgreSQL
+        $pdo->exec("CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(120) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
                 role VARCHAR(80) NOT NULL
             )");
 
-            $pdo->exec("CREATE TABLE IF NOT EXISTS tickets (
+        $pdo->exec("CREATE TABLE IF NOT EXISTS tickets (
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER,
                 title VARCHAR(255) NOT NULL,
@@ -67,7 +64,7 @@ class Database {
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )");
 
-            $pdo->exec("CREATE TABLE IF NOT EXISTS ticket_comments (
+        $pdo->exec("CREATE TABLE IF NOT EXISTS ticket_comments (
                 id SERIAL PRIMARY KEY,
                 ticket_id INTEGER NOT NULL,
                 user_id INTEGER NOT NULL,
@@ -75,7 +72,7 @@ class Database {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )");
 
-            $pdo->exec("CREATE TABLE IF NOT EXISTS help_requests (
+        $pdo->exec("CREATE TABLE IF NOT EXISTS help_requests (
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER,
                 name VARCHAR(200) NOT NULL,
@@ -86,60 +83,12 @@ class Database {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )");
 
-            if (!self::columnExists($pdo, 'tickets', 'assigned_to', $normalized)) {
-                $pdo->exec("ALTER TABLE tickets ADD COLUMN assigned_to INTEGER");
-            }
-            if (!self::columnExists($pdo, 'tickets', 'updated_at', $normalized)) {
-                $pdo->exec("ALTER TABLE tickets ADD COLUMN updated_at TIMESTAMP");
-                $pdo->exec("UPDATE tickets SET updated_at = created_at WHERE updated_at IS NULL");
-            }
-        } else {
-            $pdo->exec("CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL,
-                role TEXT NOT NULL
-            )");
-
-            $pdo->exec("CREATE TABLE IF NOT EXISTS tickets (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                title TEXT NOT NULL,
-                description TEXT NOT NULL,
-                category TEXT,
-                priority TEXT,
-                status TEXT DEFAULT 'Pendiente',
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                assigned_to INTEGER,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )");
-
-            $pdo->exec("CREATE TABLE IF NOT EXISTS ticket_comments (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                ticket_id INTEGER NOT NULL,
-                user_id INTEGER NOT NULL,
-                comment TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )");
-
-            $pdo->exec("CREATE TABLE IF NOT EXISTS help_requests (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT,
-                subject TEXT NOT NULL,
-                message TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )");
-
-            if (!self::columnExists($pdo, 'tickets', 'assigned_to', $normalized)) {
-                $pdo->exec("ALTER TABLE tickets ADD COLUMN assigned_to INTEGER");
-            }
-            if (!self::columnExists($pdo, 'tickets', 'updated_at', $normalized)) {
-                $pdo->exec("ALTER TABLE tickets ADD COLUMN updated_at DATETIME");
-                $pdo->exec("UPDATE tickets SET updated_at = created_at WHERE updated_at IS NULL");
-            }
+        if (!self::columnExists($pdo, 'tickets', 'assigned_to', $normalized)) {
+            $pdo->exec("ALTER TABLE tickets ADD COLUMN IF NOT EXISTS assigned_to INTEGER");
+        }
+        if (!self::columnExists($pdo, 'tickets', 'updated_at', $normalized)) {
+            $pdo->exec("ALTER TABLE tickets ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP");
+            $pdo->exec("UPDATE tickets SET updated_at = created_at WHERE updated_at IS NULL");
         }
     }
 
@@ -168,8 +117,8 @@ class Database {
             return (bool) $query->fetchColumn();
         }
 
-        $columns = $pdo->query("PRAGMA table_info($table)")->fetchAll(PDO::FETCH_COLUMN, 1);
-        return in_array($column, $columns, true);
+        // Solo soportado PostgreSQL en la versión actual
+        return false;
     }
 
     private static function buildPgsqlConnection(): array {
