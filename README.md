@@ -5,7 +5,7 @@
 
 ![Status](https://img.shields.io/badge/Status-Despliegue_Listo-green)
 ![PHP](https://img.shields.io/badge/Backend-PHP_Nativo-blue)
-![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
 
 ---
 
@@ -13,7 +13,7 @@
 
 GestionBDT es una solución **Fullstack** diseñada para modernizar la gestión de incidencias en BDT, eliminando los registros manuales y aportando eficiencia operativa.
 
-Utiliza una arquitectura **MVC (Modelo-Vista-Controlador)** construida desde cero en **PHP Nativo**, garantizando **portabilidad total** (Zero-Installation) gracias a SQLite y al servidor embebido.
+Utiliza una arquitectura **MVC (Modelo-Vista-Controlador)** construida desde cero en **PHP Nativo**. Para entornos de producción requiere una base de datos **PostgreSQL** y la extensión `pdo_pgsql` habilitada.
 
 ### Objetivos
 
@@ -37,7 +37,7 @@ Utiliza una arquitectura **MVC (Modelo-Vista-Controlador)** construida desde cer
 ## 🛠️ Stack Tecnológico
 
 - **Lenguaje:** PHP 8.x (CLI Server)
-- **Base de Datos:** SQLite 3
+- **Base de Datos:** PostgreSQL
 - **Frontend:** HTML5 + Tailwind CSS (CDN)
 - **Arquitectura:** MVC Manual (Sin Frameworks)
 
@@ -50,7 +50,7 @@ GestionBDT/
 │   ├── Controllers/      # Controladores Auth y Tickets
 │   ├── Models/           # Acceso a datos (User, Ticket)
 │   └── Views/            # Plantillas HTML/PHP
-├── database/             # bdt.sqlite (Base de datos física)
+├── database/             # (opcional) carpeta para dumps o migraciones
 ├── php/                  # PHP portable (binarios)
 ├── public/               # Punto de entrada (index.php) y Assets
 └── README.md             # Documentación
@@ -112,14 +112,9 @@ DATABASE_URL=postgres://usuario:clave@host:5432/base
 - Al iniciar, el sistema crea tablas automáticamente si no existen.
 - Se crea el usuario inicial `admin / 123456` si aún no existe.
 
-### 4) Fallback local (opcional)
+### 4) Nota sobre ejecución local
 
-Si quieres ejecutar local con SQLite:
-
-```env
-DB_CONNECTION=sqlite
-SQLITE_PATH=database/bdt.sqlite
-```
+Para desarrollo local se recomienda usar PostgreSQL (por ejemplo con Docker) y configurar las variables en `.env`.
 
 > Recomendado para producción: PostgreSQL.
 
