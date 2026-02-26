@@ -137,11 +137,11 @@ class Database {
             }
         }
 
-        $host = self::env('DB_HOST', '127.0.0.1');
-        $port = self::env('DB_PORT', '5432');
-        $dbName = self::env('DB_DATABASE', 'gestionbdt');
-        $user = self::env('DB_USERNAME', 'postgres');
-        $pass = self::env('DB_PASSWORD', '');
+        $host = self::env('PGHOST', self::env('DB_HOST', '127.0.0.1'));
+        $port = self::env('PGPORT', self::env('DB_PORT', '5432'));
+        $dbName = self::env('PGDATABASE', self::env('DB_DATABASE', 'gestionbdt'));
+        $user = self::env('PGUSER', self::env('DB_USERNAME', 'postgres'));
+        $pass = self::env('PGPASSWORD', self::env('DB_PASSWORD', ''));
 
         $dsn = "pgsql:host={$host};port={$port};dbname={$dbName}";
         return [$dsn, $user, $pass];
