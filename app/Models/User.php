@@ -37,6 +37,36 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getById($id) {
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare("SELECT id, username, role FROM users WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function update($id, $username, $role, $password = null) {
+        $normalized = trim($username);
+        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
+        $pdo = Database::connect();
+        if ($password === null) {
+            $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role WHERE id = :id");
+            return $stmt->execute([
+                ':username' => $normalized,
+                ':role' => $role,
+                ':id' => $id
+            ]);
+        }
+
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role WHERE id = :id");
+        return $stmt->execute([
+            ':username' => $normalized,
+            ':password' => $hashed,
+            ':role' => $role,
+            ':id' => $id
+        ]);
+    }
+
     public static function getSupportUsers() {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("SELECT id, username FROM users WHERE role = 'Soporte' ORDER BY username ASC");
