@@ -30,10 +30,12 @@ Este manual describe el uso del sistema para los perfiles:
 ### 2.3 Usuario inicial (primera ejecución)
 
 - **Usuario:** `admin`
-- **Contraseña:** `123456`
+- **Contraseña:** `123456` (se crea hashed en la BD)
 - **Rol:** Gerente
 
-> Recomendación: crear usuarios operativos y restringir el uso de la cuenta inicial.
+> Recomendación: crear usuarios operativos y restringir el uso de la cuenta inicial. Cambia la contraseña del `admin` tras el primer acceso.
+
+> Nota técnica: En el primer arranque la aplicación crea automáticamente las tablas `users`, `tickets`, `ticket_comments` y `help_requests` si no existen.
 
 ### 2.4 Cierre de sesión
 
@@ -103,13 +105,13 @@ En el tablero se visualizan columnas como:
 - Título
 - Categoría
 - Prioridad
-- Asignado
-- Estado
-- Fecha de actualización
+- Asignado (campo `assigned_to`, referencia al usuario de Soporte)
+- Estado (por defecto `Pendiente`)
+- Fecha de actualización (`updated_at`)
 
 ### 5.2.1 Estados disponibles
 
-- **Pendiente**
+- **Pendiente** (valor por defecto)
 - **En proceso**
 - **Ejecutada**
 
@@ -136,13 +138,13 @@ En el tablero se visualizan columnas como:
 
 ---
 
-## 5.3 Detalle de incidencia
+### 5.3 Detalle de incidencia
 
 Desde el título del ticket se abre el detalle con:
 
 - Datos completos del ticket.
 - Descripción original.
-- Historial de comentarios de soporte.
+- Historial de comentarios de soporte (almacenados en la tabla `ticket_comments`, cada comentario incluye `user_id`, `comment` y `created_at`).
 
 ### 5.3.1 Comentarios
 
@@ -150,6 +152,8 @@ Desde el título del ticket se abre el detalle con:
 
 1. Escribir comentario en **Agregar comentario**.
 2. Presionar **Publicar comentario**.
+
+> Nota: los comentarios muestran la marca de tiempo (`created_at`) y el autor.
 
 ---
 
@@ -224,10 +228,12 @@ Disponible para usuarios autenticados y público.
 2. Completar formulario:
    - Nombre completo _(obligatorio)_
    - Correo _(obligatorio y válido)_
-   - Teléfono _(opcional)_
+   - Teléfono _(opcional) — campo `phone` en la BD_
    - Asunto _(obligatorio)_
    - Descripción _(obligatorio)_
 3. Presionar **Enviar solicitud**.
+
+> Nota técnica: las solicitudes de ayuda se almacenan en `help_requests` con campos `name`, `email`, `phone`, `subject`, `message` y `created_at`.
 
 ## 9.2 Visualizar solicitudes
 
@@ -272,5 +278,5 @@ Para soporte funcional o técnico del sistema, contactar al equipo TI de BDT por
 ## 13. Control de versión del manual
 
 - **Documento:** Manual de Usuario GestionBDT
-- **Versión:** 1.0
-- **Fecha:** 2026-02-24
+- **Versión:** 1.1
+- **Fecha:** 2026-02-26
