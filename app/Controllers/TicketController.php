@@ -219,8 +219,14 @@ class TicketController {
         $stmt = $pdo->query("SELECT COALESCE(priority,'Baja') AS priority, COUNT(*) AS cnt FROM tickets GROUP BY priority");
         $byPriority = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Timeseries last 30 days (SQLite compatible)
-        $stmt = $pdo->prepare("SELECT DATE(created_at) AS d, COUNT(*) AS cnt FROM tickets WHERE DATE(created_at) >= DATE('now', '-29 days') GROUP BY DATE(created_at) ORDER BY d ASC");
+        // Timeseries last 30 days (DB-driver aware: SQLite vs PostgreSQL)
+        $driver = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        if ($driver === 'sqlite') {
+            $stmt = $pdo->prepare("SELECT DATE(created_at) AS d, COUNT(*) AS cnt FROM tickets WHERE DATE(created_at) >= DATE('now', '-29 days') GROUP BY DATE(created_at) ORDER BY d ASC");
+        } else {
+            // PostgreSQL: use date cast and interval arithmetic
+            $stmt = $pdo->prepare("SELECT (created_at::date) AS d, COUNT(*) AS cnt FROM tickets WHERE created_at::date >= CURRENT_DATE - INTERVAL '29 days' GROUP BY (created_at::date) ORDER BY d ASC");
+        }
         $stmt->execute();
         $timeseries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
