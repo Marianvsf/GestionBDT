@@ -63,8 +63,8 @@ GestionBDT/
 1. **Ejecutar el Servidor**
 
    ```bash
-   # Para Windows (usando PHP portable incluido)
-   ./php/php.exe -S localhost:8000 -t public
+   # Para Windows
+   php -S localhost:8000 -t public
    ```
 
 2. **Acceder al Sistema**
@@ -80,26 +80,25 @@ GestionBDT/
 
 ## 🌍 Despliegue en cualquier hosting (PHP + PostgreSQL)
 
-La aplicación ahora soporta **PostgreSQL y SQLite** por variables de entorno, por lo que puedes desplegarla en Vercel, Render, Railway, Fly.io, VPS, cPanel, Apache o Nginx.
+La aplicación soporta **PostgreSQL** (requiere `pdo_pgsql`).
 
 ### 1) Configurar variables de entorno
+
+La conexión puede configurarse mediante variables individuales o una sola `DATABASE_URL`.
 
 Usa `.env.example` como base y crea tu `.env` en el servidor (o configura variables en el panel del proveedor):
 
 ```env
-DB_CONNECTION=pgsql
+# Opcional: también puedes usar DATABASE_URL en formato:
+# postgres://usuario:clave@host:5432/base
 DB_HOST=tu_host
 DB_PORT=5432
-DB_DATABASE=tu_bd
-DB_USERNAME=tu_usuario
+DB_NAME=tu_bd
+DB_USER=tu_usuario
 DB_PASSWORD=tu_clave
 ```
 
-También puedes usar una sola variable:
-
-```env
-DATABASE_URL=postgres://usuario:clave@host:5432/base
-```
+Si no existen las variables individuales, la aplicación intentará parsear `DATABASE_URL`.
 
 ### 2) Publicar el proyecto
 
@@ -109,8 +108,9 @@ DATABASE_URL=postgres://usuario:clave@host:5432/base
 
 ### 3) Primer arranque
 
-- Al iniciar, el sistema crea tablas automáticamente si no existen.
-- Se crea el usuario inicial `admin / 123456` si aún no existe.
+- Al iniciar, el sistema crea automáticamente las tablas necesarias si no existen: `users`, `tickets`, `ticket_comments` y `help_requests`.
+- Si faltan columnas en `tickets`, la aplicación añade `assigned_to` y `updated_at` automáticamente y normaliza `updated_at` para registros previos.
+- Se crea el usuario inicial `admin` con contraseña `123456` (rol `Gerente`) si no existe —recomendado cambiar la contraseña tras el primer acceso.
 
 ### 4) Nota sobre ejecución local
 
