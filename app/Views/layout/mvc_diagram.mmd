@@ -1,0 +1,42 @@
+flowchart LR
+Browser["Cliente (navegador)"] --> Public["public/index.php"]
+Public --> Router["Front controller / Router"]
+Router --> Controllers["Controllers"]
+
+subgraph Controllers
+  AuthController["AuthController.php"]
+  HelpController["HelpController.php"]
+  TicketController["TicketController.php"]
+end
+
+subgraph Models
+  UserModel["User"]
+  HelpRequestModel["HelpRequest"]
+  TicketModel["Ticket"]
+end
+
+subgraph Views
+  AuthViews["app/Views/auth/*"]
+  DashboardViews["app/Views/dashboard/*"]
+  HomeViews["app/Views/home/*"]
+  LayoutViews["app/Views/layout/*"]
+end
+
+Controllers -->|usa / invoca| AuthController
+Controllers -->|usa / invoca| HelpController
+Controllers -->|usa / invoca| TicketController
+
+AuthController -->|lee/escribe| UserModel
+HelpController -->|lee/escribe| HelpRequestModel
+TicketController -->|lee/escribe| TicketModel
+
+AuthController -->|renderiza| AuthViews
+HelpController -->|renderiza| DashboardViews
+TicketController -->|renderiza| DashboardViews
+
+Controllers -->|incluye layout| LayoutViews
+
+Controllers --> ConfigDB["app/Config/Database.php"]
+ConfigDB --> Database["Base de datos"]
+
+Public --> Assets[public/assets/*]
