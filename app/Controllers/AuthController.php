@@ -33,13 +33,16 @@ class AuthController {
             $username = trim($_POST['username'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $role = trim($_POST['role'] ?? '');
-
             if ($username === '' || $password === '' || $role === '') {
                 $error = "Completa todos los campos";
                 require __DIR__ . '/../Views/auth/create_user.php';
                 return;
             }
-
+            if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d).{8,}$/', $password)) {
+                $error = "La contraseña debe tener al menos 8 caracteres y contener letras y números.";
+                require __DIR__ . '/../Views/auth/create_user.php';
+                return; 
+            }
             try {
                 $ok = User::create($username, $password, $role);
                 if ($ok) {
