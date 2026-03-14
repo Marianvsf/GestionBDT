@@ -21,22 +21,29 @@
                 <input type="text" name="username" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required>
             </div>
             <div>
-                <label class="block text-gray-700 mb-1">Contraseña</label>
-                <div class="relative">
-                    <input id="password" type="password" name="password" class="w-full p-2 pr-10 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required>
-                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                            <circle cx="12" cy="12" r="3" />
-                        </svg>
-                        <svg id="eye-slash-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-                            <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
-                            <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
-                            <line x1="2" y1="2" x2="22" y2="22" />
-                        </svg>
-                    </button>
-                </div>
+    <label class="block text-gray-700 mb-1">Contraseña</label>
+    <div class="relative">
+        <input 
+            id="password" 
+            type="password" 
+            name="password" 
+            class="w-full p-2 pr-10 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900 peer" 
+            required 
+            minlength="8"
+            pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
+            title="Debe tener al menos 8 caracteres, incluyendo al menos una letra y un número">
+            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg id="eye-slash-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                        <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                    <line x1="2" y1="2" x2="22" y2="22" />
+                </svg>
+            </button>
+        </div>
+                <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres, debe contener letras y números.</p>
             </div>
             <div>
                 <label class="block text-gray-700 mb-1">Rol</label>
