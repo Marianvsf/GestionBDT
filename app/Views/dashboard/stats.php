@@ -166,38 +166,198 @@ loadStats();
 
 <script>
 function printDashboard() {
-    const root = document.getElementById('dashboard-root');
-    if (!root) return alert('No se encontró el área para imprimir');
-
-    // Clonar y reemplazar canvases por imágenes PNG (preserva gráficos)
-    const clone = root.cloneNode(true);
-    const canvases = root.querySelectorAll('canvas');
-    canvases.forEach(c => {
+    const getText = (id) => document.getElementById(id)?.textContent?.trim() || '0';
+    const getCanvasImage = (id) => {
+        const canvas = document.getElementById(id);
+        if (!canvas) return '';
         try {
-            const id = c.id;
-            const dataUrl = c.toDataURL('image/png');
-            const img = document.createElement('img');
-            img.src = dataUrl;
-            img.style.maxWidth = '100%';
-            img.style.height = 'auto';
-            const target = clone.querySelector('#' + id);
-            if (target && target.parentNode) target.parentNode.replaceChild(img, target);
+            return canvas.toDataURL('image/png');
         } catch (e) {
-            // canvas may be tainted if coming from other origin; ignore
-            console.warn('No se pudo renderizar canvas a imagen', e);
+            console.warn('No se pudo renderizar el gráfico para imprimir:', id, e);
+            return '';
         }
-    });
+    };
+
+    const stats = {
+        total: getText('stat-total'),
+        cats: getText('stat-cats'),
+        status: getText('stat-status'),
+        prio: getText('stat-prio')
+    };
+
+    const tsChart = getCanvasImage('tsChart');
+    const catChart = getCanvasImage('catChart');
+    const statusChart = getCanvasImage('statusChart');
+
+    if (!tsChart && !catChart && !statusChart) {
+        alert('No hay gráficos listos para imprimir. Espere unos segundos e inténtelo de nuevo.');
+        return;
+    }
+
+    const printDate = new Date().toLocaleString('es-DO');
+    const chartTemplate = (title, image, heightClass) => `
+        <section class="panel">
+            <h2>${title}</h2>
+            <div class="chart ${heightClass}">
+                ${image ? `<img src="${image}" alt="${title}">` : '<div class="empty">Sin datos</div>'}
+            </div>
+        </section>
+    `;
+
+    const html = `
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Imprimir - Dashboard</title>
+    <style>
+        @page { size: A4 landscape; margin: 8mm; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            color: #0f172a;
+            background: #ffffff;
+        }
+        .sheet {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 6px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            line-height: 1.1;
+            color: #1e293b;
+        }
+        .header .date {
+            font-size: 11px;
+            color: #475569;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .stat {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 7px;
+            text-align: center;
+        }
+        .stat .label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 2px;
+        }
+        .stat .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.1;
+        }
+        .row-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 8px;
+        }
+        .panel {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 8px;
+            break-inside: avoid;
+        }
+        .panel h2 {
+            margin: 0 0 5px 0;
+            font-size: 13px;
+            color: #334155;
+            font-weight: 600;
+        }
+        .chart {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .chart-lg { height: 190px; }
+        .chart-md { height: 190px; }
+        .chart-sm { height: 150px; }
+        .chart img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .empty {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <header class="header">
+            <h1>Dashboard de Datos</h1>
+            <div class="date">Generado: ${printDate}</div>
+        </header>
+
+        <section class="stats">
+            <article class="stat">
+                <div class="label">Total tickets</div>
+                <div class="value">${stats.total}</div>
+            </article>
+            <article class="stat">
+                <div class="label">Categorías</div>
+                <div class="value">${stats.cats}</div>
+            </article>
+            <article class="stat">
+                <div class="label">Estados</div>
+                <div class="value">${stats.status}</div>
+            </article>
+            <article class="stat">
+                <div class="label">Prioridades</div>
+                <div class="value">${stats.prio}</div>
+            </article>
+        </section>
+
+        <section class="row-main">
+            ${chartTemplate('Tickets en últimos 30 días', tsChart, 'chart-lg')}
+            ${chartTemplate('Distribución por categoría', catChart, 'chart-md')}
+        </section>
+
+        ${chartTemplate('Resumen por estado', statusChart, 'chart-sm')}
+    </div>
+</body>
+</html>`;
 
     const w = window.open('', '_blank', 'width=1200,height=900');
-    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Imprimir - Dashboard</title>');
-    w.document.write('<meta name="viewport" content="width=device-width,initial-scale=1">');
-    w.document.write('<link rel="stylesheet" href="https://cdn.tailwindcss.com">');
-    w.document.write('</head><body class="bg-white">');
-    w.document.write(clone.innerHTML);
-    w.document.write('</body></html>');
+    if (!w) {
+        alert('El navegador bloqueó la ventana de impresión. Permita ventanas emergentes e intente nuevamente.');
+        return;
+    }
+
+    w.document.open();
+    w.document.write(html);
     w.document.close();
     w.focus();
-    setTimeout(() => { w.print(); }, 600);
+
+    setTimeout(() => {
+        w.print();
+    }, 450);
 }
 
 document.getElementById('printBtn').addEventListener('click', printDashboard);
