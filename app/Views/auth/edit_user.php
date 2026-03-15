@@ -49,5 +49,18 @@
         </form>
     </div>
 </div>
+<script>
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const eyeIcon = document.getElementById('eye-icon');
+    const eyeSlashIcon = document.getElementById('eye-slash-icon');
 
+    togglePasswordBtn.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        eyeIcon.classList.toggle('hidden');
+        eyeSlashIcon.classList.toggle('hidden');
+    });
+</script>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
