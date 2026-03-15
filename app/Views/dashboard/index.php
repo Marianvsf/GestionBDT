@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
-<?php if (empty($tickets)): ?>
+<div class="container mx-auto px-16 sm:px-16 sm:max-w1-8xl lg:px-12 py-6 sm:py-8">
+<?php if (empty($tickets) && empty($hasActiveFilters)): ?>
     <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
             <div class="h-16 w-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl">
@@ -12,6 +12,18 @@
             </p>
             <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
                 Crear incidencia
+            </a>
+        </div>
+    </div>
+<?php elseif (empty($tickets) && !empty($hasActiveFilters)): ?>
+    <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
+        <div class="flex flex-col items-center text-center gap-3">
+            <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">No se encontraron tickets</h3>
+            <p class="text-gray-600 max-w-xl">
+                Intenta ajustar los filtros para ver otros resultados.
+            </p>
+            <a href="?route=dashboard" class="inline-flex items-center gap-2 rounded-full bg-slate-200 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-300/40">
+                Limpiar filtros
             </a>
         </div>
     </div>
@@ -27,9 +39,72 @@
             return htmlspecialchars($value);
         }
     };
+
+    $filterQuery = http_build_query(array_filter([
+        'status' => $filters['status'] ?? '',
+        'priority' => $filters['priority'] ?? '',
+        'category' => $filters['category'] ?? '',
+        'q' => $filters['q'] ?? ''
+    ], function ($v) {
+        return $v !== '';
+    }));
+
+    $dashboardAction = '?route=dashboard' . ($filterQuery !== '' ? '&' . $filterQuery : '');
 ?>
 <div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
     <h2 class="text-xl mx-auto sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
+</div>
+
+<div class="bg-white mx-auto w-full sm:shadow sm:rounded-lg p-4 mb-4">
+    <form method="GET" action="" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
+        <input type="hidden" name="route" value="dashboard">
+
+        <div>
+            <label for="filter-q" class="block text-xs font-semibold text-slate-600 mb-1">Buscar</label>
+            <input id="filter-q" type="text" name="q" value="<?= htmlspecialchars($filters['q'] ?? '') ?>" placeholder="ID o título" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm">
+        </div>
+
+        <div>
+            <label for="filter-status" class="block text-xs font-semibold text-slate-600 mb-1">Estado</label>
+            <select id="filter-status" name="status" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm bg-white">
+                <option value="">Todos</option>
+                <option value="Pendiente" <?= (($filters['status'] ?? '') === 'Pendiente') ? 'selected' : '' ?>>Pendiente</option>
+                <option value="En proceso" <?= (($filters['status'] ?? '') === 'En proceso') ? 'selected' : '' ?>>En proceso</option>
+                <option value="Ejecutada" <?= (($filters['status'] ?? '') === 'Ejecutada') ? 'selected' : '' ?>>Ejecutada</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="filter-priority" class="block text-xs font-semibold text-slate-600 mb-1">Prioridad</label>
+            <select id="filter-priority" name="priority" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm bg-white">
+                <option value="">Todas</option>
+                <option value="Baja" <?= (($filters['priority'] ?? '') === 'Baja') ? 'selected' : '' ?>>Baja</option>
+                <option value="Media" <?= (($filters['priority'] ?? '') === 'Media') ? 'selected' : '' ?>>Media</option>
+                <option value="Alta" <?= (($filters['priority'] ?? '') === 'Alta') ? 'selected' : '' ?>>Alta</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="filter-category" class="block text-xs font-semibold text-slate-600 mb-1">Categoría</label>
+            <select id="filter-category" name="category" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm bg-white">
+                <option value="">Todas</option>
+                <?php foreach (($categoryOptions ?? []) as $categoryOption): ?>
+                    <option value="<?= htmlspecialchars($categoryOption) ?>" <?= (($filters['category'] ?? '') === $categoryOption) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($categoryOption) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="inline-flex justify-center items-center rounded-md bg-indigo-600 text-white text-sm font-semibold px-4 py-2 hover:bg-indigo-700 transition w-full">
+                Filtrar
+            </button>
+            <a href="?route=dashboard" class="inline-flex justify-center items-center rounded-md bg-slate-200 text-slate-700 text-sm font-semibold px-4 py-2 hover:bg-slate-300 transition w-full">
+                Limpiar
+            </a>
+        </div>
+    </form>
 </div>
 
 <div class="bg-transparent mx-auto sm:bg-white w-full sm:shadow sm:rounded-lg sm:overflow-hidden">
@@ -114,7 +189,7 @@
                                 <?= $ticket['status'] ?>
                             </span>
                             <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                                <form id="<?= $statusFormId ?>" method="POST" action="?route=dashboard" class="w-full">
+                                <form id="<?= $statusFormId ?>" method="POST" action="<?= $dashboardAction ?>" class="w-full">
                                     <input type="hidden" name="ticket_id" value="<?= $ticket['id'] ?>">
                                     <select name="status" class="border border-slate-200 rounded-md px-2 py-1 text-xs bg-white w-full">
                                         <option value="Pendiente" <?= $ticket['status'] === 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
