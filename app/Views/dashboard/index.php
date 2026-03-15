@@ -29,10 +29,10 @@
     };
 ?>
 <div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
-    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
+    <h2 class="text-xl mx-auto sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
-<div class="bg-transparent sm:bg-white w-full sm:shadow sm:rounded-lg sm:overflow-hidden">
+<div class="bg-transparent mx-auto sm:bg-white w-full sm:shadow sm:rounded-lg sm:overflow-hidden">
     <table class="w-full text-left border-collapse text-sm">
         <thead class="hidden md:table-header-group">
             <tr class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">
