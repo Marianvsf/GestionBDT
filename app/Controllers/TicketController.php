@@ -7,6 +7,21 @@ class TicketController {
     public function index() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 
+        $filterStatus = trim((string)($_GET['status'] ?? ''));
+        $filterPriority = trim((string)($_GET['priority'] ?? ''));
+        $filterCategory = trim((string)($_GET['category'] ?? ''));
+        $filterSearch = trim((string)($_GET['q'] ?? ''));
+
+        $allowedStatus = ['Pendiente', 'En proceso', 'Ejecutada'];
+        $allowedPriority = ['Baja', 'Media', 'Alta'];
+
+        if ($filterStatus !== '' && !in_array($filterStatus, $allowedStatus, true)) {
+            $filterStatus = '';
+        }
+        if ($filterPriority !== '' && !in_array($filterPriority, $allowedPriority, true)) {
+            $filterPriority = '';
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role = $_SESSION['role'] ?? '';
             if ($role !== 'Gerente' && $role !== 'Soporte') { header('Location: index.php?route=dashboard'); exit; }
@@ -33,16 +48,62 @@ class TicketController {
             if ($ticketId > 0 && in_array($status, $allowed, true)) {
                 Ticket::updateStatus($ticketId, $status);
             }
-            header('Location: index.php?route=dashboard');
+            $redirectParams = ['route' => 'dashboard'];
+            if ($filterStatus !== '') { $redirectParams['status'] = $filterStatus; }
+            if ($filterPriority !== '') { $redirectParams['priority'] = $filterPriority; }
+            if ($filterCategory !== '') { $redirectParams['category'] = $filterCategory; }
+            if ($filterSearch !== '') { $redirectParams['q'] = $filterSearch; }
+
+            header('Location: index.php?' . http_build_query($redirectParams));
             exit;
         }
 
         $role = $_SESSION['role'] ?? '';
         if ($role === 'Analista') {
-            $tickets = Ticket::getByUserId($_SESSION['user_id']);
+            $baseTickets = Ticket::getByUserId($_SESSION['user_id']);
         } else {
-            $tickets = Ticket::getAll();
+            $baseTickets = Ticket::getAll();
         }
+
+        $categoryOptions = [];
+        foreach ($baseTickets as $t) {
+            $category = trim((string)($t['category'] ?? ''));
+            if ($category !== '') {
+                $categoryOptions[$category] = true;
+            }
+        }
+        $categoryOptions = array_keys($categoryOptions);
+        sort($categoryOptions, SORT_NATURAL | SORT_FLAG_CASE);
+
+        $tickets = array_values(array_filter($baseTickets, function ($ticket) use ($filterStatus, $filterPriority, $filterCategory, $filterSearch) {
+            if ($filterStatus !== '' && (($ticket['status'] ?? '') !== $filterStatus)) {
+                return false;
+            }
+            if ($filterPriority !== '' && (($ticket['priority'] ?? '') !== $filterPriority)) {
+                return false;
+            }
+            if ($filterCategory !== '' && (($ticket['category'] ?? '') !== $filterCategory)) {
+                return false;
+            }
+            if ($filterSearch !== '') {
+                $title = strtolower((string)($ticket['title'] ?? ''));
+                $id = (string)($ticket['id'] ?? '');
+                $query = strtolower($filterSearch);
+                if (strpos($title, $query) === false && strpos($id, $query) === false) {
+                    return false;
+                }
+            }
+            return true;
+        }));
+
+        $hasActiveFilters = ($filterStatus !== '' || $filterPriority !== '' || $filterCategory !== '' || $filterSearch !== '');
+        $filters = [
+            'status' => $filterStatus,
+            'priority' => $filterPriority,
+            'category' => $filterCategory,
+            'q' => $filterSearch,
+        ];
+
         $supportUsers = User::getSupportUsers();
         require __DIR__ . '/../Views/dashboard/index.php';
     }
