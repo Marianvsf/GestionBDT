@@ -5,8 +5,7 @@ use PDO;
 
 class User {
     public static function login($username, $password) {
-        $normalized = trim($username);
-        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
+        $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
         $stmt = $pdo->prepare("SELECT * FROM users WHERE LOWER(username) = :username");
         $stmt->execute([':username' => $normalized]);
@@ -19,8 +18,7 @@ class User {
     }
 
     public static function create($username, $password, $role) {
-        $normalized = trim($username);
-        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
+        $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
         $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (:username, :password, :role)");
         $hashed = password_hash($password, PASSWORD_DEFAULT);
@@ -45,8 +43,7 @@ class User {
     }
 
     public static function update($id, $username, $role, $password = null) {
-        $normalized = trim($username);
-        $normalized = function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
+        $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
         if ($password === null) {
             $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role WHERE id = :id");
@@ -78,5 +75,10 @@ class User {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
+    }
+
+    private static function normalizeUsername($username) {
+        $normalized = trim((string) $username);
+        return function_exists('mb_strtolower') ? mb_strtolower($normalized, 'UTF-8') : strtolower($normalized);
     }
 }
