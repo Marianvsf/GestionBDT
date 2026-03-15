@@ -13,7 +13,7 @@
             <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['id']) ?>">
             <div>
                 <label class="block text-gray-700">Usuario</label>
-                <input type="text" name="username" class="w-full p-2 border rounded" required value="<?= htmlspecialchars($user['username']) ?>">
+                <input id="username" type="text" name="username" class="w-full p-2 border rounded" required value="<?= htmlspecialchars($user['username']) ?>" autocapitalize="off" spellcheck="false">
             </div>
             <div>
                 <label class="block text-gray-700">Contraseña <span class="text-sm text-gray-600">(dejar en blanco para mantener)</span></label>
@@ -50,10 +50,15 @@
     </div>
 </div>
 <script>
+    const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const togglePasswordBtn = document.getElementById('toggle-password');
     const eyeIcon = document.getElementById('eye-icon');
     const eyeSlashIcon = document.getElementById('eye-slash-icon');
+
+    usernameInput.addEventListener('input', () => {
+        usernameInput.value = usernameInput.value.toLowerCase();
+    });
 
     togglePasswordBtn.addEventListener('click', () => {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
