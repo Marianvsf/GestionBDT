@@ -6,6 +6,17 @@
             <a href="?route=create_user" class="text-sm text-indigo-700 hover:underline">Crear usuario</a>
         </div>
 
+        <?php
+            $roles = [];
+            foreach ($users as $userItem) {
+                $roleValue = trim((string)($userItem['role'] ?? ''));
+                if ($roleValue !== '' && !in_array($roleValue, $roles, true)) {
+                    $roles[] = $roleValue;
+                }
+            }
+            sort($roles, SORT_NATURAL | SORT_FLAG_CASE);
+        ?>
+
         <?php if(isset($flashError)): ?>
             <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md text-red-700 mb-4 text-sm">
                 <?= htmlspecialchars($flashError) ?>
@@ -18,6 +29,54 @@
             </div>
         <?php endif; ?>
 
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div class="md:col-span-2">
+                    <label for="userSearch" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Buscar</label>
+                    <input
+                        id="userSearch"
+                        type="text"
+                        placeholder="ID o nombre de usuario"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    >
+                </div>
+                <div>
+                    <label for="roleFilter" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Rol</label>
+                    <select
+                        id="roleFilter"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    >
+                        <option value="all">Todos</option>
+                        <?php foreach ($roles as $roleOption): ?>
+                            <option value="<?= htmlspecialchars($roleOption) ?>"><?= htmlspecialchars($roleOption) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div>
+                    <label for="ownerFilter" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Tipo</label>
+                    <select
+                        id="ownerFilter"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    >
+                        <option value="all">Todos</option>
+                        <option value="self">Mi usuario</option>
+                        <option value="others">Otros usuarios</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-3">
+                <p id="usersCount" class="text-xs text-gray-500">Mostrando 0 de 0 usuarios</p>
+                <button
+                    id="clearUserFilters"
+                    type="button"
+                    class="text-xs text-indigo-700 font-semibold hover:underline"
+                >
+                    Limpiar filtros
+                </button>
+            </div>
+        </div>
+
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -28,14 +87,22 @@
                         <th class="py-3 px-6">Acción</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody id="usersTableBody" class="text-gray-600 text-sm font-light">
                     <?php foreach ($users as $user): ?>
-                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <?php $isCurrentUser = intval($user['id']) === intval($_SESSION['user_id']); ?>
+                        <?php $normalizedUsername = function_exists('mb_strtolower') ? mb_strtolower((string)$user['username'], 'UTF-8') : strtolower((string)$user['username']); ?>
+                        <tr
+                            class="border-b border-gray-200 hover:bg-gray-100"
+                            data-user-id="<?= intval($user['id']) ?>"
+                            data-username="<?= htmlspecialchars($normalizedUsername) ?>"
+                            data-role="<?= htmlspecialchars((string)$user['role']) ?>"
+                            data-is-self="<?= $isCurrentUser ? '1' : '0' ?>"
+                        >
                             <td class="py-3 px-6"><?= $user['id'] ?></td>
                             <td class="py-3 px-6 font-semibold"><?= htmlspecialchars($user['username']) ?></td>
                             <td class="py-3 px-6"><?= htmlspecialchars($user['role']) ?></td>
                             <td class="py-3 px-6">
-                                <?php if (intval($user['id']) === intval($_SESSION['user_id'])): ?>
+                                <?php if ($isCurrentUser): ?>
                                     <span class="text-xs text-gray-400">Tu usuario</span>
                                 <?php else: ?>
                                     <div class="flex items-center gap-3">
@@ -75,6 +142,68 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="emptyUsersState" class="hidden mt-3 text-sm text-gray-500 bg-gray-50 border border-gray-200 rounded-md px-4 py-3">
+            No hay usuarios que coincidan con los filtros.
+        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var searchInput = document.getElementById('userSearch');
+    var roleFilter = document.getElementById('roleFilter');
+    var ownerFilter = document.getElementById('ownerFilter');
+    var clearButton = document.getElementById('clearUserFilters');
+    var usersCount = document.getElementById('usersCount');
+    var emptyState = document.getElementById('emptyUsersState');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('#usersTableBody tr[data-user-id]'));
+
+    if (!searchInput || !roleFilter || !ownerFilter || !clearButton || !usersCount || !emptyState) {
+        return;
+    }
+
+    var totalUsers = rows.length;
+
+    function applyFilters() {
+        var keyword = searchInput.value.trim().toLowerCase();
+        var selectedRole = roleFilter.value;
+        var selectedOwner = ownerFilter.value;
+        var visibleCount = 0;
+
+        rows.forEach(function (row) {
+            var rowId = row.getAttribute('data-user-id') || '';
+            var rowUsername = (row.getAttribute('data-username') || '').toLowerCase();
+            var rowRole = row.getAttribute('data-role') || '';
+            var rowIsSelf = row.getAttribute('data-is-self') === '1';
+
+            var matchesKeyword = keyword === '' || rowId.indexOf(keyword) !== -1 || rowUsername.indexOf(keyword) !== -1;
+            var matchesRole = selectedRole === 'all' || rowRole === selectedRole;
+            var matchesOwner = selectedOwner === 'all' || (selectedOwner === 'self' && rowIsSelf) || (selectedOwner === 'others' && !rowIsSelf);
+            var isVisible = matchesKeyword && matchesRole && matchesOwner;
+
+            row.classList.toggle('hidden', !isVisible);
+            if (isVisible) {
+                visibleCount += 1;
+            }
+        });
+
+        usersCount.textContent = 'Mostrando ' + visibleCount + ' de ' + totalUsers + ' usuarios';
+        emptyState.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    clearButton.addEventListener('click', function () {
+        searchInput.value = '';
+        roleFilter.value = 'all';
+        ownerFilter.value = 'all';
+        applyFilters();
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    roleFilter.addEventListener('change', applyFilters);
+    ownerFilter.addEventListener('change', applyFilters);
+
+    applyFilters();
+});
+</script>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
