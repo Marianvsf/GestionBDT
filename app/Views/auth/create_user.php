@@ -18,7 +18,7 @@
         <form method="POST" class="space-y-4">
             <div>
                 <label class="block text-gray-700 mb-1">Usuario</label>
-                <input type="text" name="username" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required>
+                <input id="username" type="text" name="username" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required autocapitalize="off" spellcheck="false">
             </div>
             <div>
     <label class="block text-gray-700 mb-1">Contraseña</label>
@@ -63,10 +63,15 @@
     </div>
 </div>
 <script>
+    const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const togglePasswordBtn = document.getElementById('toggle-password');
     const eyeIcon = document.getElementById('eye-icon');
     const eyeSlashIcon = document.getElementById('eye-slash-icon');
+
+    usernameInput.addEventListener('input', () => {
+        usernameInput.value = usernameInput.value.toLowerCase();
+    });
 
     togglePasswordBtn.addEventListener('click', () => {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
