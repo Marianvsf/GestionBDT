@@ -65,7 +65,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
-                            <input id="username" name="username" type="text" required class="pl-10 block w-full px-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#010b50] focus:border-transparent transition duration-200 sm:text-sm bg-gray-50 focus:bg-white" placeholder="ej: j.perez">
+                            <input id="username" name="username" type="text" required class="pl-10 block w-full px-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#010b50] focus:border-transparent transition duration-200 sm:text-sm bg-gray-50 focus:bg-white" placeholder="ej: j.perez" autocapitalize="off" spellcheck="false">
                         </div>
                     </div>
 
@@ -110,6 +110,12 @@
 </div>
 
 <script>
+    const usernameInput = document.getElementById('username');
+
+    usernameInput.addEventListener('input', () => {
+        usernameInput.value = usernameInput.value.toLowerCase();
+    });
+
     function togglePasswordVisibility() {
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.getElementById('eye-icon');
