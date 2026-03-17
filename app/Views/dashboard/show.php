@@ -36,6 +36,10 @@
                 <p class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($ticket['title']) ?></p>
             </div>
             <div>
+                <p class="text-sm text-gray-500">Departamento</p>
+                <p class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($ticket['department'] ?? 'No especificado') ?></p>
+            </div>
+            <div>
                 <p class="text-sm text-gray-500">Categoría (IA)</p>
                 <span class="inline-flex bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs">
                     <?= $ticket['category'] ?>
