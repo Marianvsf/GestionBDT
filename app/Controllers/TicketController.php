@@ -4,6 +4,25 @@ use App\Models\Ticket;
 use App\Models\User;
 
 class TicketController {
+    private const DEPARTMENTS = [
+        'Recursos Humanos',
+        'Operaciones',
+        'Gestión de Riesgos',
+        'Finanzas y Contabilidad',
+        'Tecnología de la Información (TI)',
+        'Auditoría Interna',
+        'Cumplimiento',
+        'Marketing y Comunicaciones',
+        'Atención al Cliente',
+        'Banca Minorista',
+        'Banca Corporativa',
+        'Banca de Inversión',
+        'Tesorería',
+        'Análisis de Crédito',
+        'Cobranzas',
+        'Departamento Legal',
+    ];
+
     public function index() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 
@@ -114,7 +133,14 @@ class TicketController {
         exit; 
     }
 
+    $departments = self::DEPARTMENTS;
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $department = trim((string)($_POST['department'] ?? ''));
+        if (!in_array($department, $departments, true)) {
+            $department = 'No especificado';
+        }
+
         $desc = $_POST['description'];
         
         // --- RF-03: Simulación de IA para Clasificación (Optimizado) ---
@@ -151,7 +177,7 @@ class TicketController {
                 }
             }
         }
-        Ticket::create($_SESSION['user_id'], $_POST['title'], $desc, $category, $priority);
+        Ticket::create($_SESSION['user_id'], $_POST['title'], $desc, $department, $category, $priority);
         header('Location: index.php?route=dashboard');
     } else {
         require __DIR__ . '/../Views/dashboard/create.php';
@@ -229,12 +255,13 @@ class TicketController {
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename="tickets_report_' . date('Ymd_His') . '.csv"');
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['ID','Title','Description','Category','Priority','Status','Assigned To','Creator','Created At','Updated At'], ',', '"', '\\');
+            fputcsv($out, ['ID','Title','Description','Department','Category','Priority','Status','Assigned To','Creator','Created At','Updated At'], ',', '"', '\\');
             foreach ($rows as $r) {
                 fputcsv($out, [
                     $r['id'] ?? '',
                     $r['title'] ?? '',
                     $r['description'] ?? '',
+                    $r['department'] ?? '',
                     $r['category'] ?? '',
                     $r['priority'] ?? '',
                     $r['status'] ?? '',
