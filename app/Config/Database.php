@@ -89,6 +89,7 @@ class Database {
                 user_id INTEGER,
                 title VARCHAR(255) NOT NULL,
                 description TEXT NOT NULL,
+            department VARCHAR(180),
                 category VARCHAR(120),
                 priority VARCHAR(60),
                 status VARCHAR(60) DEFAULT 'Pendiente',
@@ -122,6 +123,9 @@ class Database {
         if (!self::columnExists($pdo, 'tickets', 'updated_at', $normalized)) {
             $pdo->exec("ALTER TABLE tickets ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP");
             $pdo->exec("UPDATE tickets SET updated_at = created_at WHERE updated_at IS NULL");
+        }
+        if (!self::columnExists($pdo, 'tickets', 'department', $normalized)) {
+            $pdo->exec("ALTER TABLE tickets ADD COLUMN IF NOT EXISTS department VARCHAR(180)");
         }
     }
 
