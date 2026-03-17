@@ -8,6 +8,15 @@
             <input type="text" name="title" class="w-full p-2 border rounded" required>
         </div>
         <div class="mb-4">
+            <label class="block text-gray-700">Departamento</label>
+            <select name="department" class="w-full p-2 border rounded bg-white" required>
+                <option value="" disabled selected>Selecciona un departamento</option>
+                <?php foreach (($departments ?? []) as $department): ?>
+                    <option value="<?= htmlspecialchars($department) ?>"><?= htmlspecialchars($department) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="mb-4">
             <label class="block text-gray-700">Descripción Detallada</label>
             <textarea name="description" rows="4" class="w-full p-2 border rounded" placeholder="Describe el problema. Ej: No puedo acceder al wifi..." required></textarea>
             <p class="text-xs text-gray-500 mt-1">La IA clasificará esto automáticamente.</p>
