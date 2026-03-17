@@ -18,10 +18,10 @@ class Ticket {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($userId, $title, $description, $category, $priority) {
+    public static function create($userId, $title, $description, $department, $category, $priority) {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("INSERT INTO tickets (user_id, title, description, category, priority) VALUES (?, ?, ?, ?, ?)");
-        return $stmt->execute([$userId, $title, $description, $category, $priority]);
+        $stmt = $pdo->prepare("INSERT INTO tickets (user_id, title, description, department, category, priority) VALUES (?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$userId, $title, $description, $department, $category, $priority]);
     }
 
     public static function updateStatus($ticketId, $status) {
