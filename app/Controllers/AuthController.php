@@ -3,6 +3,25 @@ namespace App\Controllers;
 use App\Models\User;
 
 class AuthController {
+    private const DEPARTMENTS = [
+        'Recursos Humanos',
+        'Operaciones',
+        'Gestión de Riesgos',
+        'Finanzas y Contabilidad',
+        'Tecnología de la Información (TI)',
+        'Auditoría Interna',
+        'Cumplimiento',
+        'Marketing y Comunicaciones',
+        'Atención al Cliente',
+        'Banca Minorista',
+        'Banca Corporativa',
+        'Banca de Inversión',
+        'Tesorería',
+        'Análisis de Crédito',
+        'Cobranzas',
+        'Departamento Legal',
+    ];
+
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = User::login($_POST['username'], $_POST['password']);
@@ -29,13 +48,22 @@ class AuthController {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
 
+        $departments = self::DEPARTMENTS;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $role = trim($_POST['role'] ?? '');
+            $department = trim($_POST['department'] ?? '');
 
-            if ($username === '' || $password === '' || $role === '') {
+            if ($username === '' || $password === '' || $role === '' || $department === '') {
                 $error = "Completa todos los campos";
+                require __DIR__ . '/../Views/auth/create_user.php';
+                return;
+            }
+
+            if (!in_array($department, $departments, true)) {
+                $error = "Selecciona un departamento válido";
                 require __DIR__ . '/../Views/auth/create_user.php';
                 return;
             }
@@ -47,7 +75,7 @@ class AuthController {
             }
 
             try {
-                $ok = User::create($username, $password, $role);
+                $ok = User::create($username, $password, $role, $department);
                 if ($ok) {
                     $success = "Usuario creado correctamente";
                 } else {
@@ -79,14 +107,24 @@ class AuthController {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
 
+        $departments = self::DEPARTMENTS;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = intval($_POST['user_id'] ?? 0);
             $username = trim($_POST['username'] ?? '');
             $role = trim($_POST['role'] ?? '');
+            $department = trim($_POST['department'] ?? '');
             $password = trim($_POST['password'] ?? '');
 
-            if ($userId <= 0 || $username === '' || $role === '') {
+            if ($userId <= 0 || $username === '' || $role === '' || $department === '') {
                 $error = "Completa todos los campos requeridos";
+                $user = User::getById($userId);
+                require __DIR__ . '/../Views/auth/edit_user.php';
+                return;
+            }
+
+            if (!in_array($department, $departments, true)) {
+                $error = "Selecciona un departamento válido";
                 $user = User::getById($userId);
                 require __DIR__ . '/../Views/auth/edit_user.php';
                 return;
@@ -102,7 +140,7 @@ class AuthController {
             }
 
             try {
-                $ok = User::update($userId, $username, $role, $password === '' ? null : $password);
+                $ok = User::update($userId, $username, $role, $department, $password === '' ? null : $password);
                 if ($ok) {
                     $_SESSION['user_success'] = "Usuario actualizado correctamente";
                 } else {
