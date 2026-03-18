@@ -17,49 +17,52 @@ class User {
         return false;
     }
 
-    public static function create($username, $password, $role) {
+    public static function create($username, $password, $role, $department) {
         $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (:username, :password, :role)");
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, role, department) VALUES (:username, :password, :role, :department)");
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         return $stmt->execute([
             ':username' => $normalized,
             ':password' => $hashed,
-            ':role' => $role
+            ':role' => $role,
+            ':department' => $department
         ]);
     }
 
     public static function getAll() {
         $pdo = Database::connect();
-        $stmt = $pdo->query("SELECT id, username, role FROM users");
+        $stmt = $pdo->query("SELECT id, username, role, department FROM users");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getById($id) {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare("SELECT id, username, role FROM users WHERE id = :id");
+        $stmt = $pdo->prepare("SELECT id, username, role, department FROM users WHERE id = :id");
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function update($id, $username, $role, $password = null) {
+    public static function update($id, $username, $role, $department, $password = null) {
         $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
         if ($password === null) {
-            $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role WHERE id = :id");
+            $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role, department = :department WHERE id = :id");
             return $stmt->execute([
                 ':username' => $normalized,
                 ':role' => $role,
+                ':department' => $department,
                 ':id' => $id
             ]);
         }
 
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role, department = :department WHERE id = :id");
         return $stmt->execute([
             ':username' => $normalized,
             ':password' => $hashed,
             ':role' => $role,
+            ':department' => $department,
             ':id' => $id
         ]);
     }
