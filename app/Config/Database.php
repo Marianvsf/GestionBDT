@@ -81,7 +81,8 @@ class Database {
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(120) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
-                role VARCHAR(80) NOT NULL
+            role VARCHAR(80) NOT NULL,
+            department VARCHAR(180)
             )");
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS tickets (
@@ -127,6 +128,9 @@ class Database {
         if (!self::columnExists($pdo, 'tickets', 'department', $normalized)) {
             $pdo->exec("ALTER TABLE tickets ADD COLUMN IF NOT EXISTS department VARCHAR(180)");
         }
+        if (!self::columnExists($pdo, 'users', 'department', $normalized)) {
+            $pdo->exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS department VARCHAR(180)");
+        }
     }
 
     private static function seedDefaultAdmin(PDO $pdo): void {
@@ -135,11 +139,12 @@ class Database {
 
         if ((int) $stmt->fetchColumn() === 0) {
             $pass = password_hash('123456', PASSWORD_DEFAULT);
-            $insert = $pdo->prepare('INSERT INTO users (username, password, role) VALUES (:username, :password, :role)');
+            $insert = $pdo->prepare('INSERT INTO users (username, password, role, department) VALUES (:username, :password, :role, :department)');
             $insert->execute([
                 ':username' => 'admin',
                 ':password' => $pass,
                 ':role'     => 'Gerente',
+                ':department' => 'Operaciones',
             ]);
         }
     }
