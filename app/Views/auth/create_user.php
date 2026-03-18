@@ -49,9 +49,20 @@
                 <label class="block text-gray-700 mb-1">Rol</label>
                 <select name="role" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required>
                     <option value="">Selecciona un rol</option>
-                    <option value="Gerente">Gerente</option>
-                    <option value="Analista">Analista</option>
-                    <option value="Soporte">Soporte</option>
+                    <option value="Gerente" <?= (($_POST['role'] ?? '') === 'Gerente') ? 'selected' : '' ?>>Gerente</option>
+                    <option value="Analista" <?= (($_POST['role'] ?? '') === 'Analista') ? 'selected' : '' ?>>Analista</option>
+                    <option value="Soporte" <?= (($_POST['role'] ?? '') === 'Soporte') ? 'selected' : '' ?>>Soporte</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1">Departamento</label>
+                <select name="department" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-900" required>
+                    <option value="">Selecciona un departamento</option>
+                    <?php foreach (($departments ?? []) as $departmentOption): ?>
+                        <option value="<?= htmlspecialchars($departmentOption) ?>" <?= (($_POST['department'] ?? '') === $departmentOption) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($departmentOption) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
