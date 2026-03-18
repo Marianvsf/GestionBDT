@@ -87,6 +87,7 @@
                             <th class="py-3 px-6">ID</th>
                             <th class="py-3 px-6">Usuario</th>
                             <th class="py-3 px-6">Rol</th>
+                            <th class="py-3 px-6">Departamento</th>
                             <th class="py-3 px-6">Acción</th>
                         </tr>
                     </thead>
@@ -104,6 +105,7 @@
                                 <td class="py-3 px-6"><?= $user['id'] ?></td>
                                 <td class="py-3 px-6 font-semibold"><?= htmlspecialchars($user['username']) ?></td>
                                 <td class="py-3 px-6"><?= htmlspecialchars($user['role']) ?></td>
+                                <td class="py-3 px-6"><?= htmlspecialchars($user['department'] ?? 'No especificado') ?></td>
                                 <td class="py-3 px-6">
                                     <?php if ($isCurrentUser): ?>
                                         <span class="text-xs text-gray-400">Tu usuario</span>
