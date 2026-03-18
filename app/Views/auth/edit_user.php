@@ -42,6 +42,17 @@
                     <option value="Soporte" <?= ($user['role'] === 'Soporte') ? 'selected' : '' ?>>Soporte</option>
                 </select>
             </div>
+            <div>
+                <label class="block text-gray-700">Departamento</label>
+                <select name="department" class="w-full p-2 border rounded" required>
+                    <option value="">Selecciona un departamento</option>
+                    <?php foreach (($departments ?? []) as $departmentOption): ?>
+                        <option value="<?= htmlspecialchars($departmentOption) ?>" <?= (($user['department'] ?? '') === $departmentOption) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($departmentOption) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <div class="flex items-center gap-3">
                 <button type="submit" class="bg-[#010b50] text-white px-4 py-2 rounded hover:bg-blue-900">Guardar</button>
                 <a href="?route=users" class="text-sm text-gray-600 hover:text-gray-800">Volver</a>
