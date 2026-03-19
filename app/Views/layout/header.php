@@ -10,12 +10,28 @@
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
         .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
+        .with-ticker.nav-top { top: 2.5rem; }
+        .with-ticker.nav-scrolled { top: 4rem; }
         
         /* Animación suave para el fondo */
         .animated-bg {
             background: linear-gradient(-45deg, #010b50, #0f172a, #1e3a8a, #312e81);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
+        }
+        @keyframes company-ticker-loop {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .company-ticker-track {
+            display: flex;
+            width: max-content;
+            animation: company-ticker-loop 28s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .company-ticker-track {
+                animation: none;
+            }
         }
         @keyframes gradient {
             0% { background-position: 0% 50%; }
@@ -27,7 +43,39 @@
 <body class="bg-gray-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen">
 
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
-    <nav id="main-nav" class="fixed z-50 nav-top">
+    <?php $showCompanyTicker = true; ?>
+    <?php if($showCompanyTicker): ?>
+        <section class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50" aria-label="Avisos de la empresa">
+            <div class="company-ticker-track py-2">
+                <div class="flex items-center shrink-0">
+                    <span class="px-5 text-sm text-[#010b50]">Avisos de la empresa:</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-blue-300">|</span>
+                </div>
+                <div class="flex items-center shrink-0" aria-hidden="true">
+                    <span class="px-5 text-sm text-[#010b50]">Avisos de la empresa:</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-blue-300">|</span>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <nav id="main-nav" class="fixed z-50 nav-top <?= $showCompanyTicker ? 'with-ticker' : '' ?>">
         <div class="container mx-auto px-6 flex flex-col">
             <div class="flex items-center justify-between h-full">
                 <div class="flex items-center gap-4">
@@ -201,4 +249,4 @@
         }
     </script>
 
-    <main class="flex-grow w-full pt-12 md:pt-12">
+    <main class="flex-grow w-full <?= $showCompanyTicker ? 'pt-24 md:pt-24' : 'pt-12 md:pt-12' ?>">
