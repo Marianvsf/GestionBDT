@@ -45,7 +45,7 @@
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
     <?php $showCompanyTicker = true; ?>
     <?php if($showCompanyTicker): ?>
-        <section class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50" aria-label="Avisos de la empresa">
+        <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50 transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
                 <div class="flex items-center shrink-0">
                     <span class="px-5 text-sm text-[#010b50]">Avisos de la empresa:</span>
@@ -238,8 +238,10 @@
     </nav>
 
     <script>
+        // Lógica para el menú móvil
         const navToggle = document.getElementById('nav-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        
         if (navToggle && mobileMenu) {
             navToggle.addEventListener('click', () => {
                 const isOpen = mobileMenu.classList.contains('hidden') === false;
@@ -247,6 +249,31 @@
                 navToggle.setAttribute('aria-expanded', String(!isOpen));
             });
         }
+
+        // Lógica para ocultar el ticker y animar el navbar al hacer scroll
+        const nav = document.getElementById('main-nav');
+        const ticker = document.getElementById('company-ticker');
+        const hasTicker = <?= $showCompanyTicker ? 'true' : 'false' ?>;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                // Cuando bajas el scroll
+                if (ticker) {
+                    ticker.classList.add('-translate-y-full'); // Oculta el ticker hacia arriba
+                }
+                nav.classList.add('nav-scrolled');
+                nav.classList.remove('nav-top');
+                if (hasTicker) nav.classList.remove('with-ticker'); // Ajusta el margen del navbar
+            } else {
+                // Cuando vuelves al inicio
+                if (ticker) {
+                    ticker.classList.remove('-translate-y-full'); // Muestra el ticker de nuevo
+                }
+                nav.classList.remove('nav-scrolled');
+                nav.classList.add('nav-top');
+                if (hasTicker) nav.classList.add('with-ticker'); // Devuelve el margen del navbar
+            }
+        });
     </script>
 
     <main class="flex-grow w-full <?= $showCompanyTicker ? 'pt-24 md:pt-24' : 'pt-12 md:pt-12' ?>">
