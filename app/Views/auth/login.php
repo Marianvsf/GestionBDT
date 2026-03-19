@@ -1,52 +1,5 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
-<style>
-    @keyframes company-ticker-loop {
-        from { transform: translateX(0); }
-        to { transform: translateX(-50%); }
-    }
-
-    .company-ticker-track {
-        display: flex;
-        width: max-content;
-        animation: company-ticker-loop 28s linear infinite;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .company-ticker-track {
-            animation: none;
-        }
-    }
-</style>
-<section class="rounded-xl border border-blue-100 bg-white shadow-sm overflow-hidden" aria-label="Avisos de la empresa">
-    <div class="px-4 py-2 bg-[#010b50] text-white text-xs font-semibold uppercase tracking-wide">Avisos de la empresa</div>
-        <div class="overflow-hidden bg-blue-50">
-            <div class="company-ticker-track py-2">
-                    <div class="flex items-center shrink-0">
-                        <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                        <span class="text-blue-300">|</span>
-                        <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                        <span class="text-blue-300">|</span>
-                        <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                        <span class="text-blue-300">|</span>
-                        <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                        <span class="text-blue-300">|</span>
-                    </div>
-                    <div class="flex items-center shrink-0" aria-hidden="true">
-                        <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                        <span class="text-blue-300">|</span>
-                        <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                        <span class="text-blue-300">|</span>                            <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                        <span class="text-blue-300">|</span>
-                        <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                        <span class="text-blue-300">|</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div class="w-full grid grid-cols-1 lg:grid-cols-2 min-h-screen">
     <div class="hidden lg:flex flex-col justify-center relative overflow-hidden animated-bg text-white">
         <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
