@@ -78,16 +78,33 @@
                 </div>
             <?php endif; ?>
 
+            <?php
+                $formatUserDate = function ($value) {
+                    if (!is_string($value) || trim($value) === '') {
+                        return 'No disponible';
+                    }
+
+                    $timestamp = strtotime($value);
+                    if ($timestamp === false) {
+                        return 'No disponible';
+                    }
+
+                    return date('d/m/Y H:i', $timestamp);
+                };
+            ?>
+
             
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse overflow-hidden text-sm">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
                             <th class="py-3 px-6">ID</th>
                             <th class="py-3 px-6">Usuario</th>
                             <th class="py-3 px-6">Rol</th>
                             <th class="py-3 px-6">Departamento</th>
+                            <th class="py-3 px-6">Creado</th>
+                            <th class="py-3 px-6">Actualizado</th>
                             <th class="py-3 px-6">Acción</th>
                         </tr>
                     </thead>
@@ -106,6 +123,8 @@
                                 <td class="py-3 px-6 font-semibold"><?= htmlspecialchars($user['username']) ?></td>
                                 <td class="py-3 px-6"><?= htmlspecialchars($user['role']) ?></td>
                                 <td class="py-3 px-6"><?= htmlspecialchars($user['department'] ?? 'No especificado') ?></td>
+                                <td class="py-3 px-6"><?= htmlspecialchars($formatUserDate($user['created_at'] ?? null)) ?></td>
+                                <td class="py-3 px-6"><?= htmlspecialchars($formatUserDate($user['updated_at'] ?? null)) ?></td>
                                 <td class="py-3 px-6">
                                     <?php if ($isCurrentUser): ?>
                                         <span class="text-xs text-gray-400">Tu usuario</span>
