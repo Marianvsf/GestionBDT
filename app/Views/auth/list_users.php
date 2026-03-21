@@ -1,9 +1,9 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-12 py-8 mt-[70px]">
-    <div class="max-w-5xl mx-auto bg-white border-none rounded-lg p-4 mb-4">
+<div class="container mx-auto px-12 py-8 mt-[50px]">
+    <h2 class="text-xl text-center font-bold">Usuarios</h2>
+    <div class="max-w-5xl mx-auto border-none rounded-lg mb-4">
         <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold">Usuarios</h2>
-                <a href="?route=create_user" class="text-sm text-indigo-700 hover:underline">Crear usuario</a>
+                <a href="?route=create_user" class="text-sm text-right justify-end text-indigo-700 hover:underline">Crear usuario</a>
             </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                     <div class="md:col-span-2">
