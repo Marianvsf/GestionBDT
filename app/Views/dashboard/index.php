@@ -55,7 +55,7 @@
     <h2 class="text-xl mx-auto sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
-<div class="bg-white mx-auto w-full sm:shadow sm:rounded-lg p-4 mb-4">
+<div class="mx-auto w-full sm:rounded-lg mb-4">
     <form method="GET" action="" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
         <input type="hidden" name="route" value="dashboard">
 
