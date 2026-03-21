@@ -32,7 +32,14 @@ class User {
 
     public static function getAll() {
         $pdo = Database::connect();
-        $stmt = $pdo->query("SELECT id, username, role, department FROM users");
+        try {
+            $stmt = $pdo->query("SELECT id, username, role, department, created_at, updated_at FROM users");
+        } catch (\PDOException $e) {
+            if ((string) $e->getCode() !== '42703') {
+                throw $e;
+            }
+            $stmt = $pdo->query("SELECT id, username, role, department, NULL AS created_at, NULL AS updated_at FROM users");
+        }
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -47,24 +54,54 @@ class User {
         $normalized = self::normalizeUsername($username);
         $pdo = Database::connect();
         if ($password === null) {
-            $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role, department = :department WHERE id = :id");
+            try {
+                $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role, department = :department, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
+                return $stmt->execute([
+                    ':username' => $normalized,
+                    ':role' => $role,
+                    ':department' => $department,
+                    ':id' => $id
+                ]);
+            } catch (\PDOException $e) {
+                if ((string) $e->getCode() !== '42703') {
+                    throw $e;
+                }
+
+                $stmt = $pdo->prepare("UPDATE users SET username = :username, role = :role, department = :department WHERE id = :id");
+                return $stmt->execute([
+                    ':username' => $normalized,
+                    ':role' => $role,
+                    ':department' => $department,
+                    ':id' => $id
+                ]);
+            }
+        }
+
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+        try {
+            $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role, department = :department, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
             return $stmt->execute([
                 ':username' => $normalized,
+                ':password' => $hashed,
+                ':role' => $role,
+                ':department' => $department,
+                ':id' => $id
+            ]);
+        } catch (\PDOException $e) {
+            if ((string) $e->getCode() !== '42703') {
+                throw $e;
+            }
+
+            $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role, department = :department WHERE id = :id");
+            return $stmt->execute([
+                ':username' => $normalized,
+                ':password' => $hashed,
                 ':role' => $role,
                 ':department' => $department,
                 ':id' => $id
             ]);
         }
-
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("UPDATE users SET username = :username, password = :password, role = :role, department = :department WHERE id = :id");
-        return $stmt->execute([
-            ':username' => $normalized,
-            ':password' => $hashed,
-            ':role' => $role,
-            ':department' => $department,
-            ':id' => $id
-        ]);
     }
 
     public static function getSupportUsers() {
