@@ -131,6 +131,14 @@ class Database {
         if (!self::columnExists($pdo, 'users', 'department', $normalized)) {
             $pdo->exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS department VARCHAR(180)");
         }
+        if (!self::columnExists($pdo, 'users', 'created_at', $normalized)) {
+            $pdo->exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+            $pdo->exec("UPDATE users SET created_at = CURRENT_TIMESTAMP WHERE created_at IS NULL");
+        }
+        if (!self::columnExists($pdo, 'users', 'updated_at', $normalized)) {
+            $pdo->exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+            $pdo->exec("UPDATE users SET updated_at = created_at WHERE updated_at IS NULL");
+        }
     }
 
     private static function seedDefaultAdmin(PDO $pdo): void {
