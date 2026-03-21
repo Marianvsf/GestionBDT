@@ -18,14 +18,6 @@
                     <p class="text-[11px] text-slate-500 tracking-wide font-normal">
                         <span class="text-slate-400 mr-2">Dev Squad:</span> 
                         <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700"><a href="https://github.com/Marianvsf">Marian Suárez</a></span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Luis Hernández</span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Pedro Peña</span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Carlos Barboza</span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span class="hover:text-blue-600 transition-colors cursor-default font-medium text-slate-700">Aimeth Mendez</span>
                     </p>
                 </div>
 
@@ -48,7 +40,7 @@
 
             <div class="mt-4 flex lg:hidden justify-center border-t border-slate-50 pt-3">
                 <p class="text-[10px] text-slate-400 text-center tracking-wide uppercase">
-                    Dev: Marian • Luis • Pedro • Carlos • Aimeth
+                    Dev: Marian Suárez | <span class="text-slate-300">v1.0.4-rc</span>
                 </p>
             </div>
         </div>
