@@ -43,7 +43,7 @@
 <body class="bg-gray-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen">
 
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
-    <?php $showCompanyTicker = true; ?>
+    <?php $showCompanyTicker = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
     <?php if($showCompanyTicker): ?>
         <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50 transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
