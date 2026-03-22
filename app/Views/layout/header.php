@@ -93,17 +93,17 @@
                 <span class="text-xl font-italic text-gray-900 tracking-tight">BDT<span class="text-[#4F46E5]">.sistema</span></span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">                               <path d="M12 5v14"/>
-                            <path d="M5 12h14"/>
-                        </svg>
-                        Incidencia
-                    </a>
                     <?php if(!isset($_SESSION['user_id'])): ?>
                         <a href="?route=help" class="text-sm font-semibold text-gray-500 hover:text-[#010b50]">Centro de Ayuda</a>
-                    <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
-                        <div class="hidden md:flex items-center gap-3">
-                            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                        <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
+                            <div class="hidden md:flex items-center gap-3">
+                                <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">                               <path d="M12 5v14"/>
+                                        <path d="M5 12h14"/>
+                                    </svg>
+                                    Incidencia
+                                </a>
+                                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
                                 <a href="?route=users" class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
