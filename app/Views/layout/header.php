@@ -10,8 +10,11 @@
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
         .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
-        .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.74); border-bottom: 1px solid rgba(203, 213, 225, 0.8); backdrop-filter: blur(14px); }
-        .login-nav.nav-top::after { content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, rgba(56, 189, 248, 0), rgba(79, 70, 229, 0.55), rgba(244, 114, 182, 0.45), rgba(56, 189, 248, 0)); background-size: 200% 100%; animation: gradient 7s ease infinite; }
+        .login-nav { overflow: hidden; isolation: isolate; }
+        .login-nav > .container { position: relative; z-index: 2; }
+        .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.7); border-bottom: 1px solid rgba(203, 213, 225, 0.8); backdrop-filter: blur(14px); }
+        .login-nav::before { content: ''; position: absolute; z-index: 1; inset: -120% -32% auto; height: 320%; background: linear-gradient(112deg, rgba(56, 189, 248, 0.02) 0%, rgba(56, 189, 248, 0.42) 22%, rgba(79, 70, 229, 0.46) 40%, rgba(244, 114, 182, 0.44) 62%, rgba(251, 146, 60, 0.42) 84%, rgba(56, 189, 248, 0.02) 100%); filter: saturate(120%); transform: translateX(-42%) rotate(-8deg); animation: nav-color-sweep 9s cubic-bezier(0.4, 0, 0.2, 1) infinite; pointer-events: none; }
+        .login-nav.nav-top::after { content: ''; position: absolute; z-index: 3; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, rgba(56, 189, 248, 0), rgba(79, 70, 229, 0.7), rgba(244, 114, 182, 0.55), rgba(56, 189, 248, 0)); background-size: 200% 100%; animation: gradient 7s ease infinite; pointer-events: none; }
         .login-nav.nav-scrolled { background-color: rgba(255, 255, 255, 0.78); border: 1px solid rgba(203, 213, 225, 0.78); box-shadow: 0 18px 35px -20px rgba(30, 41, 59, 0.5); }
         .with-ticker.nav-top { top: 2.5rem; }
         .with-ticker.nav-scrolled { top: 4rem; }
@@ -40,6 +43,16 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+        @keyframes nav-color-sweep {
+            0% { transform: translateX(-44%) rotate(-8deg); opacity: 0.38; }
+            50% { transform: translateX(10%) rotate(-8deg); opacity: 0.58; }
+            100% { transform: translateX(56%) rotate(-8deg); opacity: 0.34; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .login-nav::before {
+                animation: none;
+            }
         }
     </style>
 </head>
