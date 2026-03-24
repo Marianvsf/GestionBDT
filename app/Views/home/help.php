@@ -1,9 +1,49 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
-<div class="w-full bg-slate-50">
+<style>
+    .help-stage {
+        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 55%, #f8fafc 100%);
+    }
+    .help-sweep {
+        position: absolute;
+        top: -10rem;
+        right: -16rem;
+        width: 58rem;
+        height: 58rem;
+        border-radius: 9999px;
+        background: conic-gradient(from 235deg, rgba(56, 189, 248, 0.32), rgba(79, 70, 229, 0.54), rgba(244, 114, 182, 0.54), rgba(251, 146, 60, 0.48), rgba(56, 189, 248, 0.32));
+        filter: blur(2px);
+        opacity: 0.9;
+        transform: rotate(-14deg);
+        animation: help-sweep-rotate 24s linear infinite;
+    }
+    .help-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: radial-gradient(circle at 20% 35%, rgba(0, 0, 0, 0.65), transparent 72%);
+    }
+    @keyframes help-sweep-rotate {
+        0% { transform: rotate(-14deg) translateX(0); }
+        50% { transform: rotate(-9deg) translateX(-2.5rem); }
+        100% { transform: rotate(-14deg) translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .help-sweep { animation: none; }
+    }
+</style>
+
+<div class="help-stage relative w-full overflow-hidden">
+    <div class="help-sweep pointer-events-none" aria-hidden="true"></div>
+    <div class="help-grid pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10">
     <div class="max-w-6xl mx-auto px-6 py-10 lg:py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 lg:p-10">
+            <div class="rounded-3xl border border-white/80 bg-white/88 p-8 shadow-xl shadow-indigo-900/10 backdrop-blur lg:p-10">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="h-12 w-12 rounded-2xl bg-[#010b50] text-white flex items-center justify-center shadow-lg shadow-blue-900/20">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -12,7 +52,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900">Centro de Ayuda</h1>
-                        <p class="text-sm text-slate-500">Cuéntanos tu inconveniente y te contactaremos.</p>
+                        <p class="text-sm text-slate-600">Cuéntanos tu inconveniente y te contactaremos.</p>
                     </div>
                 </div>
 
@@ -31,29 +71,29 @@
                 <form method="POST" action="?route=help" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1" for="name">Nombre completo *</label>
-                            <input id="name" name="name" type="text" required value="<?= htmlspecialchars($form['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="Ej: María Pérez" />
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="name">Nombre completo *</label>
+                            <input id="name" name="name" type="text" required value="<?= htmlspecialchars($form['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder-gray-400 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="Ej: María Pérez" />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1" for="email">Correo *</label>
-                            <input id="email" name="email" type="email" required value="<?= htmlspecialchars($form['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="nombre@correo.com" />
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="email">Correo *</label>
+                            <input id="email" name="email" type="email" required value="<?= htmlspecialchars($form['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder-gray-400 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="nombre@correo.com" />
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1" for="phone">Teléfono</label>
-                            <input id="phone" name="phone" type="number" inputmode="numeric" pattern="[0-9]*" title="Solo se permiten números" value="<?= htmlspecialchars($form['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="0412-1234567" />
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="phone">Teléfono</label>
+                            <input id="phone" name="phone" type="number" inputmode="numeric" pattern="[0-9]*" title="Solo se permiten números" value="<?= htmlspecialchars($form['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder-gray-400 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="0412-1234567" />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1" for="subject">Asunto *</label>
-                            <input id="subject" name="subject" type="text" required value="<?= htmlspecialchars($form['subject'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="Ej: Problema con acceso" />
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="subject">Asunto *</label>
+                            <input id="subject" name="subject" type="text" required value="<?= htmlspecialchars($form['subject'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder-gray-400 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="Ej: Problema con acceso" />
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1" for="message">Descripción *</label>
-                        <textarea id="message" name="message" rows="5" required class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#010b50]/30 focus:border-transparent" placeholder="Describe el detalle de tu solicitud."><?= htmlspecialchars($form['message'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                        <label class="mb-1 block text-sm font-medium text-gray-700" for="message">Descripción *</label>
+                        <textarea id="message" name="message" rows="5" required class="w-full rounded-2xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder-gray-400 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#010b50]/30" placeholder="Describe el detalle de tu solicitud."><?= htmlspecialchars($form['message'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
                     </div>
 
                     <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#010b50] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/20 transition hover:bg-[#0b1f7a] focus:outline-none focus:ring-2 focus:ring-[#010b50]/40">
@@ -66,9 +106,9 @@
             </div>
 
             <div class="space-y-6">
-                <div class="rounded-3xl bg-gradient-to-br from-[#010b50] via-[#1e3a8a] to-[#312e81] p-8 text-white shadow-xl">
+                <div class="rounded-3xl bg-gradient-to-br from-indigo-700 via-sky-600 to-pink-500 p-8 text-white shadow-xl shadow-indigo-900/20">
                     <h2 class="text-2xl font-semibold mb-3">Canales de soporte</h2>
-                    <p class="text-sm text-blue-100">Nuestro equipo atiende solicitudes en horario laboral. Si es urgente, usa los canales destacados.</p>
+                    <p class="text-sm text-indigo-50/90">Nuestro equipo atiende solicitudes en horario laboral. Si es urgente, usa los canales destacados.</p>
                     <div class="mt-6 space-y-4">
                         <div class="flex items-center gap-3">
                             <div class="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center">
@@ -79,7 +119,7 @@
                             </div>
                             <div>
                                 <p class="text-sm font-semibold">Mesa de ayuda</p>
-                                <p class="text-xs text-blue-200">Respuestas en menos de 24h</p>
+                                <p class="text-xs text-indigo-100/90">Respuestas en menos de 24h</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -90,7 +130,7 @@
                             </div>
                             <div>
                                 <p class="text-sm font-semibold">Correo interno</p>
-                                <p class="text-xs text-blue-200">soporte@bdt.com</p>
+                                <p class="text-xs text-indigo-100/90">soporte@bdt.com</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -101,15 +141,15 @@
                             </div>
                             <div>
                                 <p class="text-sm font-semibold">Línea directa</p>
-                                <p class="text-xs text-blue-200">(0212) 555-0101</p>
+                                <p class="text-xs text-indigo-100/90">(0212) 555-0101</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
+                <div class="rounded-3xl border border-white/80 bg-white/88 p-6 shadow-lg shadow-indigo-900/5 backdrop-blur">
                     <h3 class="text-lg font-semibold text-slate-900">¿Qué ocurre después?</h3>
-                    <ul class="mt-3 space-y-2 text-sm text-slate-600">
+                    <ul class="mt-3 space-y-2 text-sm text-slate-700">
                         <li class="flex items-start gap-2">
                             <span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span>
                             Revisamos tu solicitud y asignamos un especialista.
@@ -127,6 +167,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <?php require __DIR__ . '/../layout/footer.php'; ?>
