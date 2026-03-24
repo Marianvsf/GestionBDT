@@ -4,7 +4,7 @@
         <div class="max-w-[1440px] mx-auto px-6 py-5">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 
-                <!-- <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3">
                     <div class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded border border-slate-100">
                         <img src="/assets/images/unexca-logo.png" alt="UNEXCA Logo" class="w-5 h-5 object-contain"/>
                     </div>
@@ -12,7 +12,7 @@
                         <span class="text-[11px] font-bold text-slate-800 tracking-wider uppercase leading-none">UNEXCA</span>
                         <span class="text-[10px] text-slate-400 font-medium tracking-wide">PNF Informática - 2026</span>
                     </div>
-                </div> -->
+                </div>
 
                 <div class="hidden lg:flex items-center bg-slate-50 px-4 py-1.5 rounded-full border border-slate-100">
                     <p class="text-[11px] text-slate-500 tracking-wide font-normal">
