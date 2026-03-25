@@ -55,7 +55,7 @@
     <div class="login-wave pointer-events-none" aria-hidden="true"></div>
     <div class="login-grid pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 mx-auto grid min-h-screen w-full max-w-7xl grid-cols-1 gap-10 px-4 pb-12 pt-24 sm:px-6 lg:grid-cols-12 lg:gap-14 lg:px-10 lg:pt-32">
+    <div class="relative z-10 mx-auto grid min-h-screen w-full max-w-7xl grid-cols-1 gap-10 px-4 pb-12 pt-50 sm:px-6 lg:grid-cols-12 lg:gap-14 lg:px-10">
         <section class="lg:col-span-7 lg:pt-14">
             <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200/90 bg-white/70 px-4 py-1.5 text-sm font-semibold text-indigo-700 backdrop-blur">
                 <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
