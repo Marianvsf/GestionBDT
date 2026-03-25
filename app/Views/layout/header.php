@@ -9,7 +9,7 @@
     <style>
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
-        .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
+        .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.46); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
         .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.74); border-bottom: 1px solid rgba(203, 213, 225, 0.8); backdrop-filter: blur(14px); }
         .login-nav.nav-top::after { content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, rgba(56, 189, 248, 0), rgba(79, 70, 229, 0.55), rgba(244, 114, 182, 0.45), rgba(56, 189, 248, 0)); background-size: 200% 100%; animation: gradient 7s ease infinite; }
         .login-nav.nav-scrolled { background-color: rgba(255, 255, 255, 0.78); border: 1px solid rgba(203, 213, 225, 0.78); box-shadow: 0 18px 35px -20px rgba(30, 41, 59, 0.5); }
