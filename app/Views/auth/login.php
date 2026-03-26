@@ -55,7 +55,7 @@
     <div class="hero-gradient" aria-hidden="true"></div>
 
     <section class="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 sm:px-6 lg:px-8">
-        <div class="rounded-3xl border border-white/65 bg-white/55 p-5 shadow-xl shadow-slate-300/40 backdrop-blur-md md:p-8">
+        <div class="rounded-3xl border border-white/65 bg-white/25 p-5 shadow-xl shadow-slate-300/40 backdrop-blur-md md:p-8">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
                 <div class="lg:col-span-7" >
                     <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-3 py-1 text-xs font-semibold text-indigo-700">
