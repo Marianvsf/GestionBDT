@@ -10,8 +10,8 @@
 
 <div class="container mx-auto px-12 pb-12 mt-[70px]">
 <div class="feature-card p-12 rounded-lg max-w-3xl mx-auto">
+<h2 class="text-xl text-center items-center font-bold mb-4">Reportar Incidencia</h2>
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-    <h2 class="text-xl font-bold mb-4">Reportar Incidencia</h2>
     <form method="POST">
         <div class="mb-4">
             <label class="block text-gray-700">Asunto</label>
