@@ -7,6 +7,22 @@
     <link rel="icon" type="image/png" href="assets/images/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .app-stage {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 42%, #f7f8fc 100%);
+        }
+        .app-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+        }
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
         .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.46); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
@@ -43,7 +59,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen">
+<body class="relative text-slate-800 antialiased font-sans flex flex-col min-h-screen overflow-x-hidden">
+
+    <div class="app-stage" aria-hidden="true"></div>
+    <div class="app-grid" aria-hidden="true"></div>
 
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
     <?php $isLoginRoute = ($currentRoute === 'login'); ?>
