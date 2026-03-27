@@ -3,16 +3,7 @@
 <style>
     .login-stage {
         position: relative;
-        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 42%, #f7f8fc 100%);
-    }
-    .login-grid {
-        position: absolute;
-        inset: 0;
-        background-image:
-            linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
-        background-size: 64px 64px;
-        pointer-events: none;
+        background: transparent;
     }
     .hero-gradient {
         position: absolute;
@@ -51,7 +42,6 @@
 </style>
 
 <div class="login-stage min-h-screen overflow-hidden pb-16">
-    <div class="login-grid" aria-hidden="true"></div>
     <div class="hero-gradient" aria-hidden="true"></div>
 
     <section class="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 sm:px-6 lg:px-8">
