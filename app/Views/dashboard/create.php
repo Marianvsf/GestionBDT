@@ -1,5 +1,15 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-12 py-8 mt-[70px]">
+<style>
+    
+    .feature-card {
+        border: 1px solid rgba(203, 213, 225, 0.6);
+        background: linear-gradient(160deg, rgba(241, 245, 249, 0.92), rgba(248, 250, 252, 0.98));
+        box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
+    }
+</style>
+
+<div class="container mx-auto px-12 pb-12 mt-[70px]">
+<div class="feature-card p-12 rounded-lg max-w-3xl mx-auto">
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Reportar Incidencia</h2>
     <form method="POST">
@@ -23,6 +33,7 @@
         </div>
         <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded">Enviar Reporte</button>
     </form>
+</div>
 </div>
 </div>
 <?php require __DIR__ . '/../layout/footer.php'; ?>
