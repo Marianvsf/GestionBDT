@@ -1,16 +1,22 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<style>
-    
+<style>    
     .feature-card {
         border: 1px solid rgba(203, 213, 225, 0.6);
         background: linear-gradient(160deg, rgba(241, 245, 249, 0.55), rgba(248, 250, 252, 0.45));
         box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
     }
+    @media (max-width: 768px) {
+    .feature-card {
+        background: none;
+        box-shadow: none;
+        border: none;
+        }
+    }
 </style>
 
 <div class="container mx-auto px-12 pb-12 mt-[70px]">
-<div class="feature-card p-12 rounded-3xl max-w-3xl mx-auto">
-<h2 class="text-3xl text-center items-center font-bold mt-1 mb-4">Reportar Incidencia</h2>
+<div class="feature-card md:p-12 rounded-3xl max-w-3xl mx-auto">
+<h2 class="md:text-3xl sm:text-lg text-center items-center font-bold mt-1 mb-4">Reportar Incidencia</h2>
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
     <form method="POST">
         <div class="mb-4">
