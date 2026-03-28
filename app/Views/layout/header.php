@@ -11,7 +11,32 @@
             position: fixed;
             inset: 0;
             z-index: -2;
-            background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 42%, #f7f8fc 100%);
+            background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
+            overflow: hidden;
+        }
+        .app-stage::before {
+            content: '';
+            position: absolute;
+            top: -14rem;
+            right: -16rem;
+            width: 56rem;
+            height: 56rem;
+            border-radius: 9999px;
+            background: radial-gradient(circle at 35% 30%, rgba(147, 197, 253, 0.72), rgba(191, 219, 254, 0.42) 35%, rgba(244, 114, 182, 0.4) 58%, rgba(251, 191, 36, 0.36) 74%, rgba(255, 255, 255, 0) 100%);
+            filter: blur(2px);
+            pointer-events: none;
+        }
+        .app-stage::after {
+            content: '';
+            position: absolute;
+            bottom: -22rem;
+            left: -18rem;
+            width: 48rem;
+            height: 48rem;
+            border-radius: 9999px;
+            background: radial-gradient(circle at 45% 45%, rgba(96, 165, 250, 0.36), rgba(165, 180, 252, 0.34) 42%, rgba(251, 191, 36, 0.22) 72%, rgba(255, 255, 255, 0) 100%);
+            filter: blur(2px);
+            pointer-events: none;
         }
         .app-grid {
             position: fixed;
@@ -49,6 +74,10 @@
         }
         @media (prefers-reduced-motion: reduce) {
             .company-ticker-track {
+                animation: none;
+            }
+            .app-stage::before,
+            .app-stage::after {
                 animation: none;
             }
         }
