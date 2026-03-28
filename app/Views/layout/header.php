@@ -149,14 +149,14 @@
                         <a href="?route=help" class="text-sm font-semibold <?= $isLoginRoute ? 'text-slate-600 hover:text-[#010b50]' : 'text-gray-500 hover:text-[#010b50]' ?>">Centro de Ayuda</a>
                         <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                             <div class="hidden md:flex items-center gap-3">
-                                <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-70 shadow-sm transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
+                                <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-emerald-600/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">                               <path d="M12 5v14"/>
                                         <path d="M5 12h14"/>
                                     </svg>
                                     Incidencia
                                 </a>
                                 <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                <a href="?route=users" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                                <a href="?route=users" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                         <circle cx="9" cy="7" r="4"/>
@@ -165,7 +165,7 @@
                                     </svg>
                                     Usuarios
                                 </a>
-                                <a href="?route=create_user" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/40">
+                                <a href="?route=create_user" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                         <circle cx="8.5" cy="7" r="4"/>
@@ -176,7 +176,7 @@
                                 </a>
                             <?php endif; ?>
                             <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                                <a href="?route=help_requests" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                                <a href="?route=help_requests" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
                                         <path d="M8 9h8"/>
@@ -184,7 +184,7 @@
                                     </svg>
                                     Solicitudes
                                 </a>
-                                <a href="?route=ticket_stats" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                                <a href="?route=ticket_stats" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M3 3h18v4H3z" />
                                         <path d="M3 11h6v10H3z" />
@@ -192,7 +192,7 @@
                                     </svg>
                                     Estadísticas
                                 </a>
-                                <a href="?route=ticket_report" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
+                                <a href="?route=ticket_report" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-400/40">
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M3 3h18v4H3z" />
                                         <path d="M3 11h18v10H3z" />
