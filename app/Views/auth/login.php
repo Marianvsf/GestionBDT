@@ -28,7 +28,7 @@
     }
     .demo-panel {
         border: 1px solid rgba(191, 219, 254, 0.8);
-        background: linear-gradient(130deg, rgba(191, 219, 254, 0.66), rgba(196, 181, 253, 0.6), rgba(249, 168, 212, 0.56), rgba(253, 230, 138, 0.52));
+        background: rgba(255, 255, 255, 0.8);
         box-shadow: 0 28px 50px -35px rgba(30, 41, 59, 0.5);
     }
     @media (max-width: 1024px) {
@@ -208,12 +208,12 @@
     </section>
 
     <section class="relative z-10 mx-auto mt-20 w-full max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <h3 class="text-center text-4xl font-black text-slate-900">Solicita una Demo</h3>
+        <h3 class="text-center text-3xl font-black text-slate-900">Solicita una Demo</h3>
         <div class="mx-auto mt-8 w-full max-w-xl rounded-3xl p-6 demo-panel">
             <form class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <input type="text" class="rounded-xl border border-white/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Nombre" aria-label="Nombre">
-                <input type="email" class="rounded-xl border border-white/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Correo corporativo" aria-label="Correo corporativo">
-                <input type="text" class="sm:col-span-2 rounded-xl border border-white/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Empresa" aria-label="Empresa">
+                <input type="text" class="rounded-xl border border-gray/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Nombre" aria-label="Nombre">
+                <input type="email" class="rounded-xl border border-gray/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Correo corporativo" aria-label="Correo corporativo">
+                <input type="text" class="sm:col-span-2 rounded-xl border border-gray/70 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#010b50]" placeholder="Empresa" aria-label="Empresa">
                 <button type="button" class="sm:col-span-2 rounded-xl bg-[#010b50] px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[#0b1f7a]">Enviar Solicitud</button>
             </form>
         </div>
