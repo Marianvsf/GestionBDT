@@ -11,15 +11,19 @@
             position: fixed;
             inset: 0;
             z-index: -2;
-            background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
+            background: #f8fafc;
             overflow: hidden;
+        }
+        .app-stage--colorful {
+            background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
         }
         .app-grid {
             position: fixed;
             inset: 0;
             z-index: -1;
             background-image:
-                linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+                linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
             background-size: 64px 64px;
             pointer-events: none;
         }
@@ -64,12 +68,14 @@
 </head>
 <body class="relative text-slate-800 antialiased font-sans flex flex-col min-h-screen overflow-x-hidden">
 
-    <div class="app-stage" aria-hidden="true"></div>
-    <div class="app-grid" aria-hidden="true"></div>
-
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
     <?php $isLoginRoute = ($currentRoute === 'login'); ?>
     <?php $showCompanyTicker = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
+    <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
+
+    <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : '' ?>" aria-hidden="true"></div>
+    <div class="app-grid" aria-hidden="true"></div>
+
     <?php if($showCompanyTicker): ?>
         <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50 transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
