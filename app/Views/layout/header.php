@@ -17,6 +17,12 @@
         .app-stage--colorful {
             background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
         }
+        .app-stage--soft {
+            background:
+                radial-gradient(1100px circle at 10% 8%, rgba(59, 130, 246, 0.08), transparent 56%),
+                radial-gradient(900px circle at 86% 14%, rgba(236, 72, 153, 0.06), transparent 54%),
+                linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        }
         .app-grid {
             position: fixed;
             inset: 0;
@@ -73,7 +79,7 @@
     <?php $showCompanyTicker = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
     <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
 
-    <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : '' ?>" aria-hidden="true"></div>
+    <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : 'app-stage--soft' ?>" aria-hidden="true"></div>
     <div class="app-grid" aria-hidden="true"></div>
 
     <?php if($showCompanyTicker): ?>
