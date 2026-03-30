@@ -1,7 +1,22 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-12 py-8 mt-[70px]">
+<style>    
+    .feature-card {
+        border: 1px solid rgba(203, 213, 225, 0.6);
+        background: linear-gradient(160deg, rgba(241, 245, 249, 0.55), rgba(248, 250, 252, 0.45));
+        box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
+    }
+    @media (max-width: 768px) {
+    .feature-card {
+        background: none;
+        box-shadow: none;
+        border: none;
+        }
+    }
+</style>
+<div class="container mx-auto px-12 py-8">
+    <div class="feature-card md:p-12 rounded-3xl max-w-3xl mx-auto">
+    <h2 class="text-2xl text-center font-bold pb-6">Crear Usuario</h2>
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-        <h2 class="text-xl font-bold mb-4">Crear Usuario</h2>
 
         <?php if(isset($error)): ?>
             <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md text-red-700 mb-4 text-sm">
@@ -72,6 +87,7 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 <script>
     const usernameInput = document.getElementById('username');
