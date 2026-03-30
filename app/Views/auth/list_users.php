@@ -1,6 +1,21 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div class="container mx-auto px-12 py-8 mt-[50px]">
-    <h2 class="text-xl text-center font-bold">Usuarios</h2>
+<style>    
+    .feature-card {
+        border: 1px solid rgba(203, 213, 225, 0.6);
+        background: linear-gradient(160deg, rgba(241, 245, 249, 0.55), rgba(248, 250, 252, 0.45));
+        box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
+    }
+    @media (max-width: 768px) {
+    .feature-card {
+        background: none;
+        box-shadow: none;
+        border: none;
+        }
+    }
+</style>
+<div class="feature-card md:p-12 mt-16 rounded-3xl mx-16">
+<h2 class="text-2xl text-center font-bold">Usuarios</h2>
+<div class="container bg-white mx-auto px-12 py-8 mt-[50px] p-6 rounded-lg shadow my-auto">
     <div class="max-w-5xl mx-auto border-none rounded-lg mb-4">
         <div class="flex items-center justify-between mb-4">
                 <a href="?route=create_user" class="text-sm text-right justify-end text-indigo-700 hover:underline">Crear usuario</a>
@@ -52,9 +67,7 @@
                 </div>
             </div>
 
-        <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow">
-            
-
+        <div class="max-w-5xl mx-auto">
             <?php
                 $roles = [];
                 foreach ($users as $userItem) {
@@ -95,7 +108,7 @@
 
             
 
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto border border-gray-300 rounded-lg">
                 <table class="w-full text-left border-collapse overflow-hidden text-sm">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
@@ -171,6 +184,7 @@
                 No hay usuarios que coincidan con los filtros.
             </div>
         </div>
+    </div>
     </div>
 
 <script>
