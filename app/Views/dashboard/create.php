@@ -14,8 +14,7 @@
     }
 </style>
 
-<div class="container mx-auto px-12 pb-12 mt-[70px]">
-<div class="feature-card md:p-12 rounded-3xl max-w-3xl mx-auto">
+<div class="md:p-12 rounded-3xl max-w-3xl mx-auto">
 <h2 class="md:text-3xl sm:text-lg text-center items-center font-bold mt-1 mb-4">Reportar Incidencia</h2>
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
     <form method="POST">
@@ -39,7 +38,6 @@
         </div>
         <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded">Enviar Reporte</button>
     </form>
-</div>
 </div>
 </div>
 <?php require __DIR__ . '/../layout/footer.php'; ?>

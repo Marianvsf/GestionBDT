@@ -11,32 +11,17 @@
             position: fixed;
             inset: 0;
             z-index: -2;
-            background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
+            background: #f8fafc;
             overflow: hidden;
         }
-        .app-stage::before {
-            content: '';
-            position: absolute;
-            top: -14rem;
-            right: -16rem;
-            width: 56rem;
-            height: 56rem;
-            border-radius: 9999px;
-            background: radial-gradient(circle at 35% 30%, rgba(147, 197, 253, 0.72), rgba(191, 219, 254, 0.42) 35%, rgba(244, 114, 182, 0.4) 58%, rgba(251, 191, 36, 0.36) 74%, rgba(255, 255, 255, 0) 100%);
-            filter: blur(2px);
-            pointer-events: none;
+        .app-stage--colorful {
+            background: linear-gradient(165deg, #eff6ff 0%, #e0e7ff 35%, #fce7f3 68%, #fef3c7 100%);
         }
-        .app-stage::after {
-            content: '';
-            position: absolute;
-            bottom: -22rem;
-            left: -18rem;
-            width: 48rem;
-            height: 48rem;
-            border-radius: 9999px;
-            background: radial-gradient(circle at 45% 45%, rgba(96, 165, 250, 0.36), rgba(165, 180, 252, 0.34) 42%, rgba(251, 191, 36, 0.22) 72%, rgba(255, 255, 255, 0) 100%);
-            filter: blur(2px);
-            pointer-events: none;
+        .app-stage--soft {
+            background:
+                radial-gradient(1100px circle at 10% 8%, rgba(59, 130, 246, 0.08), transparent 56%),
+                radial-gradient(900px circle at 86% 14%, rgba(236, 72, 153, 0.06), transparent 54%),
+                linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
         }
         .app-grid {
             position: fixed;
@@ -52,7 +37,6 @@
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
         .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.46); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
         .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.74); border-bottom: 1px solid rgba(203, 213, 225, 0.8); backdrop-filter: blur(14px); }
-        .login-nav.nav-top::after { content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, rgba(56, 189, 248, 0), rgba(79, 70, 229, 0.55), rgba(244, 114, 182, 0.45), rgba(56, 189, 248, 0)); background-size: 200% 100%; animation: gradient 7s ease infinite; }
         .login-nav.nav-scrolled { background-color: rgba(255, 255, 255, 0.78); border: 1px solid rgba(203, 213, 225, 0.78); box-shadow: 0 18px 35px -20px rgba(30, 41, 59, 0.5); }
         .with-ticker.nav-top { top: 2.5rem; }
         .with-ticker.nav-scrolled { top: 4rem; }
@@ -90,12 +74,14 @@
 </head>
 <body class="relative text-slate-800 antialiased font-sans flex flex-col min-h-screen overflow-x-hidden">
 
-    <div class="app-stage" aria-hidden="true"></div>
-    <div class="app-grid" aria-hidden="true"></div>
-
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
     <?php $isLoginRoute = ($currentRoute === 'login'); ?>
     <?php $showCompanyTicker = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
+    <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
+
+    <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : 'app-stage--soft' ?>" aria-hidden="true"></div>
+    <div class="app-grid" aria-hidden="true"></div>
+
     <?php if($showCompanyTicker): ?>
         <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50 transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
