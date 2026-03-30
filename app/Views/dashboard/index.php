@@ -1,7 +1,22 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
+<style>    
+    .feature-card {
+        border: 1px solid rgba(203, 213, 225, 0.6);
+        background: linear-gradient(160deg, rgba(241, 245, 249, 0.55), rgba(248, 250, 252, 0.45));
+        box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
+    }
+    @media (max-width: 768px) {
+    .feature-card {
+        background: none;
+        box-shadow: none;
+        border: none;
+        }
+    }
+</style>
 <div class="container mx-auto px-16 sm:px-16 sm:max-w1-8xl lg:px-12 py-6 sm:py-8">
 <?php if (empty($tickets) && empty($hasActiveFilters)): ?>
-    <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
+    <div class="feature-card md:p-12 mt-16 rounded-3xl max-w-3xl mx-auto">
+    <div class="bg-white rounded-lg mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
             <div class="h-16 w-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl">
                 ✅
@@ -14,6 +29,7 @@
                 Crear incidencia
             </a>
         </div>
+    </div>
     </div>
 <?php elseif (empty($tickets) && !empty($hasActiveFilters)): ?>
     <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
