@@ -13,9 +13,8 @@
         }
     }
 </style>
-<div class="feature-card md:p-12 mt-16 rounded-3xl mx-16">
+<div class="feature-card md:p-12 mt-16 max-w-5xl rounded-3xl mx-auto">
 <h2 class="text-2xl text-center font-bold">Usuarios</h2>
-<div class="container bg-white mx-auto px-12 py-8 mt-[50px] p-6 rounded-lg shadow my-auto">
     <div class="max-w-5xl mx-auto border-none rounded-lg mb-4">
         <div class="flex items-center justify-between mb-4">
                 <a href="?route=create_user" class="text-sm text-right justify-end text-indigo-700 hover:underline">Crear usuario</a>
@@ -109,7 +108,7 @@
             
 
             <div class="overflow-x-auto border border-gray-300 rounded-lg">
-                <table class="w-full text-left border-collapse overflow-hidden text-sm">
+                <table class="w-full text-left bg-white border-collapse overflow-hidden text-sm">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
                             <th class="py-3 px-6">ID</th>
@@ -184,7 +183,6 @@
                 No hay usuarios que coincidan con los filtros.
             </div>
         </div>
-    </div>
     </div>
 
 <script>
