@@ -67,7 +67,8 @@
 
     $dashboardAction = '?route=dashboard' . ($filterQuery !== '' ? '&' . $filterQuery : '');
 ?>
-<div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
+<div class="feature-card md:p-12 mt-8 rounded-3xl mx-auto">
+<div class="flex items-center justify-between mb-6">
     <h2 class="text-xl mx-auto sm:text-2xl font-bold text-gray-800">Tablero de Control</h2>
 </div>
 
@@ -265,6 +266,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+</div>
 </div>
 <?php endif; ?>
 </div>
