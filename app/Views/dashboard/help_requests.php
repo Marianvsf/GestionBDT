@@ -1,4 +1,18 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
+<style>    
+    .feature-card {
+        border: 1px solid rgba(203, 213, 225, 0.6);
+        background: linear-gradient(160deg, rgba(241, 245, 249, 0.55), rgba(248, 250, 252, 0.45));
+        box-shadow: 0 20px 45px -30px rgba(30, 41, 59, 0.35);
+    }
+    @media (max-width: 768px) {
+    .feature-card {
+        background: none;
+        box-shadow: none;
+        border: none;
+        }
+    }
+</style>
 <?php
     $formatCaracas = function ($value) {
         if (empty($value)) { return 'N/D'; }
@@ -11,7 +25,8 @@
         }
     };
 ?>
-<div class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+<div class="container mx-auto mt-16 px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+<div class="feature-card md:p-12 rounded-3xl max-w-5xl mx-auto">
 <?php if (empty($requests)): ?>
     <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
@@ -26,8 +41,8 @@
         </div>
     </div>
 <?php else: ?>
+    <h2 class="text-xl sm:text-2xl font-bold text-center text-gray-800">Solicitudes de Ayuda</h2>
     <div class="flex items-center justify-between mt-6 sm:mt-10 mb-6">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Solicitudes de Ayuda</h2>
         <a href="?route=dashboard" class="text-sm text-blue-700 hover:underline">Volver al tablero</a>
     </div>
 
@@ -105,6 +120,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
     </div>
 <?php endif; ?>
 </div>
