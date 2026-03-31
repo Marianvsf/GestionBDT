@@ -26,7 +26,7 @@
     };
 ?>
 <div class="container mx-auto mt-16 px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
-<div class="feature-card md:p-12 rounded-3xl max-w-5xl mx-auto">
+<div class="feature-card md:p-12 rounded-3xl max-w-6xl mx-auto">
 <?php if (empty($requests)): ?>
     <div class="bg-white rounded-lg mt-16 mx-auto shadow w-full max-w-[1080px] p-8 sm:p-10">
         <div class="flex flex-col items-center text-center gap-4">
@@ -112,7 +112,7 @@
 
                         <td class="px-4 py-3 flex flex-col md:table-cell gap-2">
                             <span class="font-bold text-gray-700 md:hidden mb-1">Mensaje:</span>
-                            <span class="text-sm text-slate-700 whitespace-pre-line break-words">
+                            <span class="text-sm text-slate-700 break-words">
                                 <?= htmlspecialchars($request['message'] ?? '') ?>
                             </span>
                         </td>
