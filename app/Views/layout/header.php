@@ -94,6 +94,7 @@
             width: max-content;
             animation: company-ticker-loop 28s linear infinite;
         }
+        .company-ticker-track:hover { animation-play-state: paused; }
         @media (prefers-reduced-motion: reduce) {
             .company-ticker-track {
                 animation: none;
