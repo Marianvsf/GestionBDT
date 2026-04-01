@@ -134,67 +134,27 @@
                     <?php if(!isset($_SESSION['user_id'])): ?>
                         <a href="?route=help" class="text-sm font-semibold <?= $isLoginRoute ? 'text-slate-600 hover:text-[#010b50]' : 'text-gray-500 hover:text-[#010b50]' ?>">Centro de Ayuda</a>
                         <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
-                            <div class="hidden md:flex items-center gap-3">
-                                <a href="?route=create_ticket" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-emerald-600/40">
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">                               <path d="M12 5v14"/>
-                                        <path d="M5 12h14"/>
-                                    </svg>
-                                    Incidencia
-                                </a>
-                                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                <a href="?route=users" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-slate-400/40">
+                            <div class="hidden md:block relative">
+                                <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
+                                    Menú
                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                        <circle cx="9" cy="7" r="4"/>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                        <polyline points="6 9 12 15 18 9"/>
                                     </svg>
-                                    Usuarios
-                                </a>
-                                <a href="?route=create_user" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-indigo-600/40">
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                        <circle cx="8.5" cy="7" r="4"/>
-                                        <line x1="20" y1="8" x2="20" y2="14"/>
-                                        <line x1="17" y1="11" x2="23" y2="11"/>
-                                    </svg>
-                                    Crear usuario
-                                </a>
-                            <?php endif; ?>
-                            <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                                <a href="?route=help_requests" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-slate-400/40">
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
-                                        <path d="M8 9h8"/>
-                                        <path d="M8 13h6"/>
-                                    </svg>
-                                    Solicitudes
-                                </a>
-                                <a href="?route=ticket_stats" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-slate-400/40">
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M3 3h18v4H3z" />
-                                        <path d="M3 11h6v10H3z" />
-                                        <path d="M13 11h8v10h-8z" />
-                                    </svg>
-                                    Estadísticas
-                                </a>
-                                <a href="?route=ticket_report" class="inline-flex items-center gap-2 rounded-full py-2 text-sm font-semibold text-slate-700 transition hover:text-blue-500 focus:outline-none focus:ring-slate-400/40">
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M3 3h18v4H3z" />
-                                        <path d="M3 11h18v10H3z" />
-                                    </svg>
-                                    Reportes
-                                </a>
-                            <?php endif; ?>
-                            <a href="?route=logout" class="inline-flex items-center gap-2 rounded-full bg-[#010b50] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b1f7a] focus:outline-none focus:ring-[#010b50]/40">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                                    <polyline points="16 17 21 12 16 7"/>
-                                    <line x1="21" y1="12" x2="9" y2="12"/>
-                                </svg>
-                                Salir
-                            </a>
-                        </div>
+                                </button>
+                                <div id="desktop-menu" class="hidden absolute right-0 mt-2 w-60 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+                                    <a href="?route=create_ticket" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Incidencia</a>
+                                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
+                                        <a href="?route=users" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Usuarios</a>
+                                        <a href="?route=create_user" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Crear usuario</a>
+                                    <?php endif; ?>
+                                    <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
+                                        <a href="?route=help_requests" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Solicitudes</a>
+                                        <a href="?route=ticket_stats" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Estadísticas</a>
+                                        <a href="?route=ticket_report" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Reportes</a>
+                                    <?php endif; ?>
+                                    <a href="?route=logout" class="mt-1 block rounded-xl bg-[#010b50] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#0b1f7a]">Salir</a>
+                                </div>
+                            </div>
                         <button id="nav-toggle" class="md:hidden inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm hover:bg-slate-50" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <line x1="3" y1="12" x2="21" y2="12"/>
@@ -278,12 +238,37 @@
         // Lógica para el menú móvil
         const navToggle = document.getElementById('nav-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        const desktopMenuToggle = document.getElementById('desktop-menu-toggle');
+        const desktopMenu = document.getElementById('desktop-menu');
         
         if (navToggle && mobileMenu) {
             navToggle.addEventListener('click', () => {
                 const isOpen = mobileMenu.classList.contains('hidden') === false;
                 mobileMenu.classList.toggle('hidden');
                 navToggle.setAttribute('aria-expanded', String(!isOpen));
+            });
+        }
+
+        if (desktopMenuToggle && desktopMenu) {
+            desktopMenuToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isOpen = desktopMenu.classList.contains('hidden') === false;
+                desktopMenu.classList.toggle('hidden');
+                desktopMenuToggle.setAttribute('aria-expanded', String(!isOpen));
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!desktopMenu.contains(event.target) && !desktopMenuToggle.contains(event.target)) {
+                    desktopMenu.classList.add('hidden');
+                    desktopMenuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    desktopMenu.classList.add('hidden');
+                    desktopMenuToggle.setAttribute('aria-expanded', 'false');
+                }
             });
         }
 
