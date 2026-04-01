@@ -144,31 +144,31 @@
     <div class="app-grid" aria-hidden="true"></div>
 
     <?php if($showCompanyTicker): ?>
-        <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-200 bg-blue-50 transition-transform duration-300" aria-label="Avisos de la empresa">
+        <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-cyan-300/60 bg-gradient-to-r from-slate-900 via-indigo-900 to-cyan-900 transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
                 <div class="flex items-center shrink-0">
-                    <span class="px-5 text-sm text-[#010b50]">Avisos de la empresa:</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-fuchsia-300">|</span>
                 </div>
                 <div class="flex items-center shrink-0" aria-hidden="true">
-                    <span class="px-5 text-sm text-[#010b50]">Avisos de la empresa:</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-blue-300">|</span>
-                    <span class="px-5 text-sm text-[#010b50]">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-blue-300">|</span>
+                    <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-fuchsia-300">|</span>
+                    <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-fuchsia-300">|</span>
                 </div>
             </div>
         </section>
