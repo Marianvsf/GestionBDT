@@ -135,11 +135,12 @@
                         <a href="?route=help" class="text-sm font-semibold <?= $isLoginRoute ? 'text-slate-600 hover:text-[#010b50]' : 'text-gray-500 hover:text-[#010b50]' ?>">Centro de Ayuda</a>
                         <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                             <div class="hidden md:block relative">
-                                <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
-                                    Menú
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polyline points="6 9 12 15 18 9"/>
-                                    </svg>
+                                <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 rounded-3xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="3" y1="12" x2="21" y2="12"/>
+                                    <line x1="3" y1="6" x2="21" y2="6"/>
+                                    <line x1="3" y1="18" x2="21" y2="18"/>
+                                </svg>  
                                 </button>
                                 <div id="desktop-menu" class="hidden absolute right-0 mt-2 w-60 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
                                     <a href="?route=create_ticket" class="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Incidencia</a>
