@@ -189,6 +189,91 @@
             </article>
         </div>
     </section>
+    <section class="relative z-10 mx-auto mt-20 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+            <div>
+                <h3 class="text-2xl font-black text-slate-900">Estado de Servicios BDT</h3>
+                <p class="text-sm text-slate-500 mt-1">Actualizado en tiempo real por el Centro de Operaciones</p>
+            </div>
+            <a href="?route=status" class="mt-4 sm:mt-0 inline-flex items-center text-sm font-semibold text-[#010b50] hover:text-blue-700">
+                Ver historial de eventos
+                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+                <div>
+                    <p class="text-sm font-bold text-slate-800">Core Bancario</p>
+                    <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
+                </div>
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+                <div>
+                    <p class="text-sm font-bold text-slate-800">Banca Digital</p>
+                    <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
+                </div>
+                <span class="flex h-3 w-3 relative">
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+            </div>
+
+            <div class="rounded-2xl border border-amber-200 bg-amber-50/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+                <div>
+                    <p class="text-sm font-bold text-amber-900">VPN Corporativa</p>
+                    <p class="text-xs text-amber-700 font-semibold mt-1">Intermitencia</p>
+                </div>
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-pulse absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                </span>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+                <div>
+                    <p class="text-sm font-bold text-slate-800">Correo Institucional</p>
+                    <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
+                </div>
+                <span class="flex h-3 w-3 relative">
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative z-10 mx-auto mt-20 mb-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-b from-indigo-50/80 to-white p-8 sm:p-10 shadow-sm relative">
+            <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-blue-200/40 blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+                <div class="max-w-xl">
+                    <h3 class="text-2xl font-bold text-[#010b50]">¿Problemas para ingresar al sistema?</h3>
+                    <p class="mt-2 text-sm text-slate-600">Si tu cuenta está bloqueada o presentas fallas de autenticación con el Active Directory, contacta a la Mesa de Ayuda IT de inmediato.</p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 shrink-0">
+                    <a href="?route=help_docs" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-[#010b50]">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        Manual de Usuario
+                    </a>
+                    <a href="tel:4040" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#010b50] px-5 py-3 text-sm font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-blue-900">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        Extensión 4040
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </div>
 
 <script>
