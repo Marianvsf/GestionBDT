@@ -197,7 +197,7 @@
                         <a href="?route=help" class="text-sm font-semibold <?= $isLoginRoute ? 'text-slate-600 hover:text-[#010b50]' : 'text-gray-500 hover:text-[#010b50]' ?>">Centro de Ayuda</a>
                         <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                             <div class="hidden md:block relative">
-                                <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
+                                <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:cursor-pointer focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <line x1="3" y1="12" x2="21" y2="12"/>
                                     <line x1="3" y1="6" x2="21" y2="6"/>
@@ -217,7 +217,7 @@
                                     <a href="?route=logout" class="mt-1 block rounded-xl bg-[#010b50] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#0b1f7a]">Salir</a>
                                 </div>
                             </div>
-                        <button id="nav-toggle" class="md:hidden inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm hover:bg-slate-50" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
+                        <button id="nav-toggle" class="md:hidden inline-flex items-center justify-center p-2 text-slate-600 hover:cursor-pointer" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <line x1="3" y1="12" x2="21" y2="12"/>
                                 <line x1="3" y1="6" x2="21" y2="6"/>

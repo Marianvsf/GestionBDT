@@ -13,7 +13,7 @@
         }
     }
 </style>
-<div class="container mx-auto px-12 py-8">
+<div class="container mx-auto md:px-12 px-2 py-8">
     <div class="feature-card md:p-12 rounded-3xl max-w-3xl mx-auto">
     <h2 class="text-2xl text-center font-bold pb-6">Crear Usuario</h2>
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">

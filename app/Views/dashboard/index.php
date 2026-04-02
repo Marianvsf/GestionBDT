@@ -69,7 +69,7 @@
         ?>
         <div class="feature-card md:p-12 mt-8 rounded-3xl mx-auto w-full">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 w-full text-center md:text-left">Tablero de Control</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 w-full text-center">Tablero de Control</h2>
             </div>
 
             <div class="mx-auto w-full sm:rounded-lg mb-6">
