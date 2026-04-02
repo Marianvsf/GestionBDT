@@ -12,9 +12,13 @@
         border: none;
         margin: 10px;
         }
+    h2 {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
     }
 </style>
-<div class="feature-card md:p-12 mt-16 max-w-5xl rounded-3xl">
+<div class="feature-card md:p-12 mt-16 max-w-5xl rounded-3xl m-auto">
 <h2 class="text-2xl text-center font-bold">Usuarios</h2>
     <?php
         $roles = [];
