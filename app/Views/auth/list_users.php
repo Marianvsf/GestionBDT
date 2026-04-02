@@ -10,11 +10,22 @@
         background: none;
         box-shadow: none;
         border: none;
+        margin: 10px;
         }
     }
 </style>
-<div class="feature-card md:p-12 mt-16 max-w-5xl rounded-3xl mx-auto">
+<div class="feature-card md:p-12 mt-16 max-w-5xl rounded-3xl">
 <h2 class="text-2xl text-center font-bold">Usuarios</h2>
+    <?php
+        $roles = [];
+        foreach ($users as $userItem) {
+            $roleValue = trim((string)($userItem['role'] ?? ''));
+            if ($roleValue !== '' && !in_array($roleValue, $roles, true)) {
+                $roles[] = $roleValue;
+            }
+        }
+        sort($roles, SORT_NATURAL | SORT_FLAG_CASE);
+    ?>
     <div class="max-w-5xl mx-auto border-none rounded-lg mb-4">
         <div class="flex items-center justify-between mb-4">
                 <a href="?route=create_user" class="text-sm text-right justify-end text-indigo-700 hover:underline">Crear usuario</a>
@@ -67,17 +78,6 @@
             </div>
 
         <div class="max-w-5xl mx-auto">
-            <?php
-                $roles = [];
-                foreach ($users as $userItem) {
-                    $roleValue = trim((string)($userItem['role'] ?? ''));
-                    if ($roleValue !== '' && !in_array($roleValue, $roles, true)) {
-                        $roles[] = $roleValue;
-                    }
-                }
-                sort($roles, SORT_NATURAL | SORT_FLAG_CASE);
-            ?>
-
             <?php if(isset($flashError)): ?>
                 <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md text-red-700 mb-4 text-sm">
                     <?= htmlspecialchars($flashError) ?>
@@ -107,7 +107,62 @@
 
             
 
-            <div class="overflow-x-auto border border-gray-300 rounded-lg">
+            <div id="usersCards" class="md:hidden space-y-3">
+                <?php foreach ($users as $user): ?>
+                    <?php $isCurrentUser = intval($user['id']) === intval($_SESSION['user_id']); ?>
+                    <?php $normalizedUsername = function_exists('mb_strtolower') ? mb_strtolower((string)$user['username'], 'UTF-8') : strtolower((string)$user['username']); ?>
+                    <article
+                        class="border border-gray-200 rounded-lg bg-white p-4 shadow-sm"
+                        data-user-id="<?= intval($user['id']) ?>"
+                        data-username="<?= htmlspecialchars($normalizedUsername) ?>"
+                        data-role="<?= htmlspecialchars((string)$user['role']) ?>"
+                        data-is-self="<?= $isCurrentUser ? '1' : '0' ?>"
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <p class="text-xs text-gray-500">ID <?= intval($user['id']) ?></p>
+                                <p class="text-base font-semibold text-gray-800"><?= htmlspecialchars($user['username']) ?></p>
+                            </div>
+                            <span class="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700">
+                                <?= htmlspecialchars($user['role']) ?>
+                            </span>
+                        </div>
+
+                        <dl class="mt-3 space-y-1 text-sm">
+                            <div class="flex justify-between gap-4">
+                                <dt class="text-gray-500">Departamento</dt>
+                                <dd class="text-gray-700 text-right"><?= htmlspecialchars($user['department'] ?? 'No especificado') ?></dd>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <dt class="text-gray-500">Creado</dt>
+                                <dd class="text-gray-700 text-right"><?= htmlspecialchars($formatUserDate($user['created_at'] ?? null)) ?></dd>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <dt class="text-gray-500">Actualizado</dt>
+                                <dd class="text-gray-700 text-right"><?= htmlspecialchars($formatUserDate($user['updated_at'] ?? null)) ?></dd>
+                            </div>
+                        </dl>
+
+                        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-end gap-3">
+                            <?php if ($isCurrentUser): ?>
+                                <span class="text-xs text-gray-400">Tu usuario</span>
+                            <?php else: ?>
+                                <a href="?route=edit_user&id=<?= $user['id'] ?>" class="text-sm text-indigo-700 font-semibold hover:underline">
+                                    Editar
+                                </a>
+                                <form method="POST" action="?route=delete_user" onsubmit="return confirm('¿Eliminar este usuario?')">
+                                    <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                                    <button type="submit" class="text-sm text-red-600 font-semibold hover:underline">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="hidden md:block overflow-x-auto border border-gray-300 rounded-lg">
                 <table class="w-full text-left bg-white border-collapse overflow-hidden text-sm">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
@@ -193,13 +248,22 @@ document.addEventListener('DOMContentLoaded', function () {
     var clearButton = document.getElementById('clearUserFilters');
     var usersCount = document.getElementById('usersCount');
     var emptyState = document.getElementById('emptyUsersState');
-    var rows = Array.prototype.slice.call(document.querySelectorAll('#usersTableBody tr[data-user-id]'));
+    var desktopRows = Array.prototype.slice.call(document.querySelectorAll('#usersTableBody tr[data-user-id]'));
+    var mobileCards = Array.prototype.slice.call(document.querySelectorAll('#usersCards [data-user-id]'));
+    var mobileCardsById = {};
 
     if (!searchInput || !roleFilter || !ownerFilter || !clearButton || !usersCount || !emptyState) {
         return;
     }
 
-    var totalUsers = rows.length;
+    mobileCards.forEach(function (card) {
+        var cardId = card.getAttribute('data-user-id') || '';
+        if (cardId !== '') {
+            mobileCardsById[cardId] = card;
+        }
+    });
+
+    var totalUsers = desktopRows.length;
 
     function applyFilters() {
         var keyword = searchInput.value.trim().toLowerCase();
@@ -207,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var selectedOwner = ownerFilter.value;
         var visibleCount = 0;
 
-        rows.forEach(function (row) {
+        desktopRows.forEach(function (row) {
             var rowId = row.getAttribute('data-user-id') || '';
             var rowUsername = (row.getAttribute('data-username') || '').toLowerCase();
             var rowRole = row.getAttribute('data-role') || '';
@@ -217,8 +281,12 @@ document.addEventListener('DOMContentLoaded', function () {
             var matchesRole = selectedRole === 'all' || rowRole === selectedRole;
             var matchesOwner = selectedOwner === 'all' || (selectedOwner === 'self' && rowIsSelf) || (selectedOwner === 'others' && !rowIsSelf);
             var isVisible = matchesKeyword && matchesRole && matchesOwner;
+            var linkedCard = mobileCardsById[rowId] || null;
 
             row.classList.toggle('hidden', !isVisible);
+            if (linkedCard) {
+                linkedCard.classList.toggle('hidden', !isVisible);
+            }
             if (isVisible) {
                 visibleCount += 1;
             }
