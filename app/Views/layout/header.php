@@ -230,16 +230,14 @@
             <?php if(isset($_SESSION['user_id']) && $currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                 <div id="mobile-menu" class="md:hidden hidden w-full pt-3 pb-2">
                     <div class="flex flex-col gap-2">
+                        <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-emerald-600/40">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 5v14"/>
+                                <path d="M5 12h14"/>
+                            </svg>
+                            Crear Incidencia
+                        </a>
                         <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                            <a href="?route=users" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-slate-400/40">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                                Usuarios
-                            </a>
                             <a href="?route=create_user" class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-indigo-600/40">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -249,6 +247,15 @@
                                 </svg>
                                 Crear usuario
                             </a>
+                            <a href="?route=users" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-slate-400/40">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                                Listar Usuarios
+                            </a>
                         <?php endif; ?>
                         <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
                             <a href="?route=help_requests" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900 focus:outline-none focus:ring-slate-400/40">
@@ -257,31 +264,24 @@
                                     <path d="M8 9h8"/>
                                     <path d="M8 13h6"/>
                                 </svg>
-                                Solicitudes
+                                Centro de ayuda
                             </a>
+                        <a href="?route=ticket_stats" class="inline-flex items-center justify-center gap-2 rounded-full bg-yellow-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-yellow-500 focus:outline-none focus:ring-slate-400/40">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M3 3h18v4H3z" />
+                                <path d="M3 11h6v10H3z" />
+                                <path d="M13 11h8v10h-8z" />
+                            </svg>
+                            Estadísticas
+                        </a>
                         <a href="?route=ticket_report" class="inline-flex items-center justify-center gap-2 rounded-full bg-orange-300 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-orange-600 focus:outline-none focus:ring-slate-400/40">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M3 3h18v4H3z" />
                                 <path d="M3 11h18v10H3z" />
                             </svg>
-                            Reportes
+                            Generar Reportes
                         </a>
-                        <a href="?route=ticket_stats" class="inline-flex items-center justify-center gap-2 rounded-full bg-yellow-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-yellow-500 focus:outline-none focus:ring-slate-400/40">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M3 3h18v4H3z" />
-                                    <path d="M3 11h6v10H3z" />
-                                    <path d="M13 11h8v10h-8z" />
-                                </svg>
-                                Estadísticas
-                            </a>
                         <?php endif; ?>
-                        <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-emerald-600/40">
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M12 5v14"/>
-                                <path d="M5 12h14"/>
-                            </svg>
-                            Incidencia
-                        </a>
                         <a href="?route=logout" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#010b50] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b1f7a] focus:outline-none focus:ring-[#010b50]/40">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
