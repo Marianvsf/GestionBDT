@@ -48,7 +48,7 @@
 
             <div class="mt-5 flex lg:hidden justify-center border-t border-indigo-100/60 pt-4">
                 <p class="text-[10px] text-slate-500 text-center tracking-wide uppercase font-medium">
-                    Dev: <span class="font-bold text-[#010b50]">Marian Suárez</span> | <span class="text-indigo-500 font-bold">v1.0.4-rc</span>
+                    Dev: <span class="font-bold text-[#010b50]"><a href="https://github.com/Marianvsf" target="_blank" rel="noopener noreferrer">Marian Suárez</a></span> | <span class="text-indigo-500 font-bold">v1.0.4-rc</span>
                 </p>
             </div>
         </div>
