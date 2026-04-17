@@ -24,8 +24,7 @@
         }
         .app-stage--soft {
             background:
-                radial-gradient(1000px circle at 12% 10%, rgba(14, 165, 233, 0.14), transparent 58%),
-                radial-gradient(880px circle at 86% 12%, rgba(217, 70, 239, 0.12), transparent 58%),
+                radial-gradient(1000px circle at 12% 10%, rgba(14, 165, 233, 0.14), transparent 58%),        
                 linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
             background-size: 180% 180%;
             animation: app-gradient-shift 18s ease-in-out infinite;
@@ -47,14 +46,6 @@
                 radial-gradient(32% 36% at 56% 76%, rgba(16, 185, 129, 0.2), transparent 76%);
             mix-blend-mode: screen;
             animation: app-blob-drift 16s ease-in-out infinite;
-        }
-        .app-stage::after {
-            background:
-                radial-gradient(48% 52% at 74% 68%, rgba(236, 72, 153, 0.26), transparent 72%),
-                radial-gradient(36% 42% at 24% 80%, rgba(245, 158, 11, 0.24), transparent 74%),
-                radial-gradient(30% 34% at 50% 40%, rgba(168, 85, 247, 0.19), transparent 72%);
-            mix-blend-mode: hard-light;
-            animation: app-blob-drift 20s ease-in-out infinite reverse;
         }
         .app-grid {
             position: fixed;
