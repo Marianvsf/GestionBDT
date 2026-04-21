@@ -7,76 +7,7 @@
     <link rel="icon" type="image/png" href="assets/images/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .app-stage {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            overflow: hidden;
-            isolation: isolate;
-        }
-        .app-stage--colorful {
-            background:
-                radial-gradient(1200px circle at 8% 12%, rgba(56, 189, 248, 0.3), transparent 60%),
-                radial-gradient(950px circle at 88% 14%, rgba(99, 102, 241, 0.3), transparent 56%),
-                linear-gradient(140deg, #dbeafe 0%, #e0e7ff 28%, #fae8ff 58%, #fde68a 100%);
-            background-size: 180% 180%;
-            animation: app-gradient-shift 14s ease-in-out infinite;
-        }
-        .app-stage--soft {
-            background:
-                radial-gradient(1000px circle at 12% 10%, rgba(14, 165, 233, 0.14), transparent 58%),
-                radial-gradient(880px circle at 86% 12%, rgba(217, 70, 239, 0.12), transparent 58%),
-                linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-            background-size: 180% 180%;
-            animation: app-gradient-shift 18s ease-in-out infinite;
-        }
-        .app-stage::before,
-        .app-stage::after {
-            content: "";
-            position: absolute;
-            inset: -18%;
-            pointer-events: none;
-            opacity: 0.9;
-            filter: blur(20px) saturate(1.2);
-            will-change: transform;
-        }
-        .app-stage::before {
-            background:
-                radial-gradient(44% 48% at 20% 24%, rgba(37, 99, 235, 0.3), transparent 72%),
-                radial-gradient(40% 44% at 72% 18%, rgba(14, 165, 233, 0.27), transparent 74%),
-                radial-gradient(32% 36% at 56% 76%, rgba(16, 185, 129, 0.2), transparent 76%);
-            mix-blend-mode: screen;
-            animation: app-blob-drift 16s ease-in-out infinite;
-        }
-        .app-stage::after {
-            background:
-                radial-gradient(48% 52% at 74% 68%, rgba(236, 72, 153, 0.26), transparent 72%),
-                radial-gradient(36% 42% at 24% 80%, rgba(245, 158, 11, 0.24), transparent 74%),
-                radial-gradient(30% 34% at 50% 40%, rgba(168, 85, 247, 0.19), transparent 72%);
-            mix-blend-mode: hard-light;
-            animation: app-blob-drift 20s ease-in-out infinite reverse;
-        }
-        .app-grid {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image:
-                linear-gradient(to right, rgba(59, 130, 246, 0.14) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(56, 189, 248, 0.14) 1px, transparent 1px);
-            background-size: 64px 64px;
-            animation: app-grid-drift 16s linear infinite;
-            pointer-events: none;
-        }
-        .app-grid::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 1px, transparent 1.5px);
-            background-size: 110px 110px;
-            opacity: 0.38;
-            animation: app-stars-pulse 8s ease-in-out infinite;
-            pointer-events: none;
-        }
+        
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
         .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.46); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
@@ -149,27 +80,27 @@
             <div class="company-ticker-track py-2">
                 <div class="flex items-center shrink-0">
                     <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                 </div>
                 <div class="flex items-center shrink-0" aria-hidden="true">
                     <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                     <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-fuchsia-300">|</span>
+                    <span class="text-cyan-400">|</span>
                 </div>
             </div>
         </section>
