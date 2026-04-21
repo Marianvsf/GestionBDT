@@ -7,12 +7,79 @@
     <link rel="icon" type="image/png" href="assets/images/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .app-stage {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        /* Fondos base mucho más limpios y blancos/grises */
+        .app-stage--colorful {
+            background:
+                radial-gradient(1200px circle at 8% 12%, rgba(241, 245, 249, 0.8), transparent 60%),
+                linear-gradient(140deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            background-size: 100% 100%;
+        }
+        .app-stage--soft {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        /* Neblina difuminada al extremo (blur 80px) y opacidad mínima (0.15) */
+        .app-stage::before,
+        .app-stage::after {
+            content: "";
+            position: absolute;
+            inset: -18%;
+            pointer-events: none;
+            opacity: 0.15; /* Súper sutil */
+            filter: blur(80px); /* Difuminado extremo para evitar manchas duras */
+            will-change: transform;
+        }
+        
+        .app-stage::before {
+            background:
+                radial-gradient(44% 48% at 20% 24%, rgba(37, 99, 235, 0.15), transparent 72%),
+                radial-gradient(40% 44% at 72% 18%, rgba(14, 165, 233, 0.1), transparent 74%);
+            animation: app-blob-drift 30s ease-in-out infinite; /* Movimiento muy lento */
+        }
+        
+        .app-stage::after {
+            background:
+                radial-gradient(48% 52% at 74% 68%, rgba(30, 64, 175, 0.12), transparent 72%),
+                radial-gradient(36% 42% at 24% 80%, rgba(2, 132, 199, 0.1), transparent 74%);
+            animation: app-blob-drift 35s ease-in-out infinite reverse; /* Movimiento muy lento */
+        }
+        
+        /* Cuadrícula corporativa casi invisible */
+        .app-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px), /* Color slate muy tenue */
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+            background-size: 64px 64px;
+            animation: app-grid-drift 40s linear infinite; /* Movimiento imperceptible */
+            pointer-events: none;
+        }
+        
+        /* Puntos decorativos en lugar de "estrellas" brillantes */
+        .app-grid::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(100, 116, 139, 0.3) 1px, transparent 1.5px);
+            background-size: 110px 110px;
+            opacity: 0.1; /* Apenas visible */
+            pointer-events: none;
+        }
         
         #main-nav { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); left: 50%; transform: translateX(-50%); }
         .nav-top { width: 100%; top: 0; background-color: rgba(255, 255, 255, 1); border-bottom: 1px solid #f3f4f6; padding: 0.75rem 0; }
-        .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.46); backdrop-filter: blur(12px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0.5rem 0; }
-        .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.74); border-bottom: 1px solid rgba(203, 213, 225, 0.8); backdrop-filter: blur(14px); }
-        .login-nav.nav-scrolled { background-color: rgba(255, 255, 255, 0.78); border: 1px solid rgba(203, 213, 225, 0.78); box-shadow: 0 18px 35px -20px rgba(30, 41, 59, 0.5); }
+        .nav-scrolled { width: 90%; max-width: 1200px; top: 1.5rem; border-radius: 9999px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); padding: 0.5rem 0; border: 1px solid rgba(226, 232, 240, 0.8); }
+        .login-nav.nav-top { background-color: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(226, 232, 240, 0.8); backdrop-filter: blur(14px); }
+        .login-nav.nav-scrolled { background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 10px 25px -10px rgba(30, 41, 59, 0.1); }
         .with-ticker.nav-top { top: 2.5rem; }
         .with-ticker.nav-scrolled { top: 4rem; }
         
@@ -26,42 +93,22 @@
             animation: company-ticker-loop 28s linear infinite;
         }
         .company-ticker-track:hover { animation-play-state: paused; }
+        
         @media (prefers-reduced-motion: reduce) {
-            .company-ticker-track {
-                animation: none;
-            }
-            .app-stage--colorful,
-            .app-stage--soft,
-            .app-stage::before,
-            .app-stage::after {
-                animation: none;
-            }
-            .app-grid {
-                animation: none;
-            }
-            .app-grid::after {
+            .company-ticker-track, .app-stage--colorful, .app-stage--soft, .app-stage::before, .app-stage::after, .app-grid, .app-grid::after {
                 animation: none;
             }
         }
-        @keyframes app-gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        
+        /* Animación reducida para evitar mareos */
         @keyframes app-blob-drift {
-            0% { transform: translate3d(-3%, 0, 0) scale(1); }
-            25% { transform: translate3d(4%, -6%, 0) scale(1.1); }
-            55% { transform: translate3d(-2%, 5%, 0) scale(0.95); }
-            80% { transform: translate3d(3%, -2%, 0) scale(1.06); }
-            100% { transform: translate3d(-3%, 0, 0) scale(1); }
+            0% { transform: translate3d(-1%, 0, 0) scale(1); }
+            50% { transform: translate3d(1%, -1%, 0) scale(1.02); }
+            100% { transform: translate3d(-1%, 0, 0) scale(1); }
         }
         @keyframes app-grid-drift {
             from { background-position: 0 0, 0 0; }
             to { background-position: 64px 0, 0 64px; }
-        }
-        @keyframes app-stars-pulse {
-            0%, 100% { opacity: 0.22; transform: scale(1); }
-            50% { opacity: 0.48; transform: scale(1.04); }
         }
     </style>
 </head>
@@ -76,31 +123,31 @@
     <div class="app-grid" aria-hidden="true"></div>
 
     <?php if($showCompanyTicker): ?>
-        <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-cyan-300/60 bg-gradient-to-r from-slate-900 via-indigo-900 to-cyan-900 transition-transform duration-300" aria-label="Avisos de la empresa">
+        <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] border-b border-blue-900/20 bg-[#0f172a] transition-transform duration-300" aria-label="Avisos de la empresa">
             <div class="company-ticker-track py-2">
                 <div class="flex items-center shrink-0">
-                    <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-cyan-400">|</span>
+                    <span class="px-5 text-sm font-semibold text-sky-200">Avisos de la empresa:</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-sky-600">|</span>
                 </div>
                 <div class="flex items-center shrink-0" aria-hidden="true">
-                    <span class="px-5 text-sm font-semibold text-cyan-100">Avisos de la empresa:</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Actualiza tu clave corporativa antes del 30 de marzo.</span>
-                    <span class="text-cyan-400">|</span>
-                    <span class="px-5 text-sm text-slate-100">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
-                    <span class="text-cyan-400">|</span>
+                    <span class="px-5 text-sm font-semibold text-sky-200">Avisos de la empresa:</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Mantenimiento preventivo de la VPN: viernes 22:00 a 23:30.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Mesa de ayuda prioriza incidencias de banca digital en cierre de mes.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Actualiza tu clave corporativa antes del 30 de marzo.</span>
+                    <span class="text-sky-600">|</span>
+                    <span class="px-5 text-sm text-slate-200">Nueva guía rápida de reportes disponible en la sección de Ayuda.</span>
+                    <span class="text-sky-600">|</span>
                 </div>
             </div>
         </section>
@@ -117,15 +164,14 @@
                         </svg>
                     </a>
                 <?php endif; ?>
-                <svg class="h-6 w-6 <?= $isLoginRoute ? 'text-[#1e3a8a] hover:text-[#312e81]' : 'text-[#4F46E5] hover:text-blue-800' ?> transition-colors" 
-                    fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                <svg class="h-6 w-6 text-[#1e3a8a] transition-colors" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                     <path d="M320 288C377.4 288 424 241.4 424 184C424 126.6 377.4 80 320 80C262.6 80 216 126.6 216 184C216 241.4 262.6 288 320 288zM96 296C135.8 296 168 263.8 168 224C168 184.2 135.8 152 96 152C56.2 152 24 184.2 24 224C24 263.8 56.2 296 96 296zM0 480L0 512C0 529.7 14.3 544 32 544L118.7 544C114.4 534.2 112 523.4 112 512L112 496C112 442.8 132 394.2 164.9 357.4C153.2 353.9 140.8 352 128 352C57.3 352 0 409.3 0 480zM616 224C616 184.2 583.8 152 544 152C504.2 152 472 184.2 472 224C472 263.8 504.2 296 544 296C583.8 296 616 263.8 616 224zM160 496L160 512C160 529.7 174.3 544 192 544L348.8 544C341.7 522.4 342.5 499.6 359.5 480C345.5 463.8 339 440.3 348.1 416.7C354.7 399.6 364 383.6 375.5 369.4C380.9 362.8 387.1 357.7 393.8 354C371.7 342.5 346.6 336 320 336C231.6 336 160 407.6 160 496zM624.6 451.9C630.9 448.3 634.1 440.8 631.4 433.9C626.6 421.5 619.9 409.8 611.5 399.5C606.9 393.8 598.8 392.8 592.5 396.5C570.7 409.1 543.9 393.7 543.9 368.4C543.9 361.1 539 354.6 531.8 353.5C518.9 351.5 505 351.5 492.1 353.5C484.9 354.6 480 361.1 480 368.4C480 393.6 453.2 409.1 431.4 396.5C425.1 392.9 417 393.9 412.4 399.5C404 409.8 397.3 421.5 392.5 433.9C389.9 440.7 393 448.2 399.3 451.8C421.2 464.4 421.2 495.3 399.3 508C393 511.6 389.8 519.1 392.5 525.9C397.3 538.3 404 550 412.4 560.3C417 566 425.1 567 431.4 563.3C453.2 550.7 480 566.2 480 591.4C480 598.7 484.9 605.2 492.1 606.3C505 608.3 518.9 608.3 531.8 606.3C539 605.2 543.9 598.7 543.9 591.4C543.9 566.2 570.7 550.7 592.5 563.3C598.8 566.9 606.9 565.9 611.5 560.3C619.9 550 626.6 538.3 631.4 525.9C634 519.1 630.9 511.6 624.6 508C602.7 495.4 602.7 464.5 624.6 451.8zM472 480C472 457.9 489.9 440 512 440C534.1 440 552 457.9 552 480C552 502.1 534.1 520 512 520C489.9 520 472 502.1 472 480z"/>
                 </svg>
-                <span class="text-xl font-italic <?= $isLoginRoute ? 'text-slate-900' : 'text-gray-900' ?> tracking-tight">BDT<span class="<?= $isLoginRoute ? 'text-[#4F46E5]' : 'text-[#4F46E5]' ?>">.sistema</span></span>
+                <span class="text-xl font-italic text-slate-900 tracking-tight">BDT<span class="text-[#1e3a8a]">.sistema</span></span>
                 </div>
                 <div class="flex items-center gap-3">
                     <?php if(!isset($_SESSION['user_id'])): ?>
-                        <a href="?route=help" class="text-sm font-semibold <?= $isLoginRoute ? 'text-slate-600 hover:text-[#010b50]' : 'text-gray-500 hover:text-[#010b50]' ?>">Centro de Ayuda</a>
+                        <a href="?route=help" class="text-sm font-semibold text-slate-600 hover:text-[#010b50]">Centro de Ayuda</a>
                         <?php elseif($currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                             <div class="hidden md:block relative">
                                 <button id="desktop-menu-toggle" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:cursor-pointer focus:outline-none focus:ring-slate-300/60" aria-expanded="false" aria-controls="desktop-menu" aria-label="Abrir menú">
@@ -137,15 +183,15 @@
                                 </button>
                                 <div id="desktop-menu" class="hidden absolute right-0 mt-2 w-60 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
                                     <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                                        <a href="?route=create_user" class="border-b border-slate-700 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Crear Usuario</a>
-                                        <a href="?route=users" class="border-b border-slate-700 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Listar Usuarios</a>
+                                        <a href="?route=create_user" class="border-b border-slate-100 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Crear Usuario</a>
+                                        <a href="?route=users" class="border-b border-slate-100 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Listar Usuarios</a>
                                     <?php endif; ?>
                                     <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                                        <a href="?route=help_requests" class="border-b border-slate-700 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Centro de ayuda</a>
-                                        <a href="?route=ticket_stats" class="border-b border-slate-700 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Estadísticas</a>
-                                        <a href="?route=ticket_report" class="border-b border-slate-700 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Generar Reportes</a>
+                                        <a href="?route=help_requests" class="border-b border-slate-100 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Centro de ayuda</a>
+                                        <a href="?route=ticket_stats" class="border-b border-slate-100 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Estadísticas</a>
+                                        <a href="?route=ticket_report" class="border-b border-slate-100 block px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Generar Reportes</a>
                                     <?php endif; ?>
-                                    <a href="?route=logout" class="mt-1 block rounded-xl bg-[#010b50] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#0b1f7a]">Salir</a>
+                                    <a href="?route=logout" class="mt-1 block rounded-xl bg-[#1e3a8a] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#1e40af]">Salir</a>
                                 </div>
                             </div>
                         <button id="nav-toggle" class="md:hidden inline-flex items-center justify-center p-2 text-slate-600 hover:cursor-pointer" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
@@ -161,7 +207,7 @@
             <?php if(isset($_SESSION['user_id']) && $currentRoute !== 'home' && $currentRoute !== 'login'): ?>
                 <div id="mobile-menu" class="md:hidden hidden w-full pt-3 pb-2">
                     <div class="flex flex-col gap-2">
-                        <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-emerald-600/40">
+                        <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M12 5v14"/>
                                 <path d="M5 12h14"/>
@@ -169,7 +215,7 @@
                             Crear Incidencia
                         </a>
                         <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'Gerente'): ?>
-                            <a href="?route=create_user" class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-indigo-600/40">
+                            <a href="?route=create_user" class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                     <circle cx="8.5" cy="7" r="4"/>
@@ -178,7 +224,7 @@
                                 </svg>
                                 Crear usuario
                             </a>
-                            <a href="?route=users" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200 focus:outline-none focus:ring-slate-400/40">
+                            <a href="?route=users" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-200">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                     <circle cx="9" cy="7" r="4"/>
@@ -189,7 +235,7 @@
                             </a>
                         <?php endif; ?>
                         <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'Gerente' || $_SESSION['role'] === 'Soporte')): ?>
-                            <a href="?route=help_requests" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900 focus:outline-none focus:ring-slate-400/40">
+                            <a href="?route=help_requests" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
                                     <path d="M8 9h8"/>
@@ -197,7 +243,7 @@
                                 </svg>
                                 Centro de ayuda
                             </a>
-                        <a href="?route=ticket_stats" class="inline-flex items-center justify-center gap-2 rounded-full bg-yellow-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-yellow-500 focus:outline-none focus:ring-slate-400/40">
+                        <a href="?route=ticket_stats" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M3 3h18v4H3z" />
                                 <path d="M3 11h6v10H3z" />
@@ -205,7 +251,7 @@
                             </svg>
                             Estadísticas
                         </a>
-                        <a href="?route=ticket_report" class="inline-flex items-center justify-center gap-2 rounded-full bg-orange-300 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-orange-600 focus:outline-none focus:ring-slate-400/40">
+                        <a href="?route=ticket_report" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-300">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M3 3h18v4H3z" />
                                 <path d="M3 11h18v10H3z" />
@@ -213,7 +259,7 @@
                             Generar Reportes
                         </a>
                         <?php endif; ?>
-                        <a href="?route=logout" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#010b50] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b1f7a] focus:outline-none focus:ring-[#010b50]/40">
+                        <a href="?route=logout" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1e40af]">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                                 <polyline points="16 17 21 12 16 7"/>
