@@ -273,6 +273,148 @@
             </div>
         </div>
     </section>
+    <div class="container mx-auto px-6 py-8 flex flex-col gap-12 pb-24">
+
+    <section aria-labelledby="service-health-title">
+        <div class="rounded-3xl border border-slate-200/80 bg-white/60 backdrop-blur-xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:bg-white/80">
+            <h3 id="service-health-title" class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-3">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+                Estado de los Sistemas BDT
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="flex items-center justify-between p-4 bg-white/80 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-sm font-semibold text-slate-600">Core Bancario</span>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full tracking-wide">OPERATIVO</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/80 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-sm font-semibold text-slate-600">Banca Digital</span>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full tracking-wide">OPERATIVO</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/80 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-sm font-semibold text-slate-600">Conexión VPN</span>
+                    <span class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full tracking-wide">INTERMITENTE</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/80 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-sm font-semibold text-slate-600">Módulo Nómina</span>
+                    <span class="text-[10px] font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full tracking-wide">MANTENIMIENTO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="stats-title">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex flex-col p-6 rounded-3xl border border-slate-200/80 bg-white/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                <span class="text-sm font-medium text-slate-500 mb-1">Usuarios Activos (VPN)</span>
+                <span class="text-4xl font-bold text-[#1e3a8a] tracking-tight">1,248</span>
+                <span class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    +12% vs ayer
+                </span>
+            </div>
+            <div class="flex flex-col p-6 rounded-3xl border border-slate-200/80 bg-white/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                <span class="text-sm font-medium text-slate-500 mb-1">Tickets Resueltos Hoy</span>
+                <span class="text-4xl font-bold text-[#1e3a8a] tracking-tight">84</span>
+                <span class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Eficiencia óptima
+                </span>
+            </div>
+            <div class="flex flex-col p-6 rounded-3xl border border-slate-200/80 bg-white/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                <span class="text-sm font-medium text-slate-500 mb-1">Tiempo de Respuesta</span>
+                <span class="text-4xl font-bold text-[#1e3a8a] tracking-tight">12<span class="text-2xl text-slate-400 font-medium tracking-normal">min</span></span>
+                <span class="text-xs text-amber-600 font-medium mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Promedio general
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="quick-links-title">
+        <h3 id="quick-links-title" class="text-xl font-bold text-slate-800 mb-6 px-2">Accesos Frecuentes</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <a href="?route=manuals" class="group flex flex-col p-6 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-[#1e3a8a]/30 hover:-translate-y-1">
+                <div class="h-10 w-10 rounded-full bg-blue-50 text-[#1e3a8a] flex items-center justify-center mb-4 group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <h4 class="font-semibold text-slate-800 mb-1">Manuales de Usuario</h4>
+                <p class="text-xs text-slate-500">Guías operativas y normativas vigentes.</p>
+            </a>
+
+            <a href="?route=password_reset" class="group flex flex-col p-6 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-[#1e3a8a]/30 hover:-translate-y-1">
+                <div class="h-10 w-10 rounded-full bg-blue-50 text-[#1e3a8a] flex items-center justify-center mb-4 group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                </div>
+                <h4 class="font-semibold text-slate-800 mb-1">Gestión de Claves</h4>
+                <p class="text-xs text-slate-500">Desbloqueo y cambio de contraseña.</p>
+            </a>
+
+            <a href="?route=directory" class="group flex flex-col p-6 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-[#1e3a8a]/30 hover:-translate-y-1">
+                <div class="h-10 w-10 rounded-full bg-blue-50 text-[#1e3a8a] flex items-center justify-center mb-4 group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
+                <h4 class="font-semibold text-slate-800 mb-1">Directorio Corporativo</h4>
+                <p class="text-xs text-slate-500">Contactos de agencias y áreas centrales.</p>
+            </a>
+
+            <a href="?route=create_ticket" class="group flex flex-col p-6 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-[#1e3a8a]/30 hover:-translate-y-1">
+                <div class="h-10 w-10 rounded-full bg-blue-50 text-[#1e3a8a] flex items-center justify-center mb-4 group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+                <h4 class="font-semibold text-slate-800 mb-1">Soporte Técnico</h4>
+                <p class="text-xs text-slate-500">Reporte de fallas en equipos o sistemas.</p>
+            </a>
+        </div>
+    </section>
+
+    <section aria-labelledby="faq-title" class="max-w-3xl">
+        <h3 id="faq-title" class="text-xl font-bold text-slate-800 mb-6 px-2">Preguntas Frecuentes</h3>
+        <div class="space-y-4">
+            
+            <details class="group rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex cursor-pointer items-center justify-between gap-1.5 text-slate-800 font-semibold focus:outline-none">
+                    <h2 class="text-sm md:text-base">¿Cómo solicito acceso a un nuevo módulo del sistema?</h2>
+                    <span class="relative h-5 w-5 shrink-0">
+                        <svg class="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <svg class="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
+                </summary>
+                <p class="mt-4 leading-relaxed text-slate-600 text-sm">
+                    Debes generar un ticket en la opción "Soporte Técnico" seleccionando la categoría "Accesos y Permisología". Asegúrate de adjuntar la autorización formal de tu Gerente de Área en formato PDF.
+                </p>
+            </details>
+
+            <details class="group rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex cursor-pointer items-center justify-between gap-1.5 text-slate-800 font-semibold focus:outline-none">
+                    <h2 class="text-sm md:text-base">¿Qué hago si mi usuario ha sido bloqueado por intentos fallidos?</h2>
+                    <span class="relative h-5 w-5 shrink-0">
+                        <svg class="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <svg class="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
+                </summary>
+                <p class="mt-4 leading-relaxed text-slate-600 text-sm">
+                    El sistema desbloquea automáticamente los usuarios tras 15 minutos de espera. Si necesitas acceso inmediato, puedes utilizar la herramienta de "Gestión de Claves" o contactar directamente a la mesa de ayuda a la extensión 1000.
+                </p>
+            </details>
+
+        </div>
+    </section>
+
+</div>
+    
 
 </div>
 
