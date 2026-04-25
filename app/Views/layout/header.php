@@ -272,31 +272,7 @@
             <?php endif; ?>
         </div>
     </nav>
-    <section class="container mx-auto px-6 py-12">
-    <div class="rounded-3xl border border-slate-200 bg-white/50 backdrop-blur-md p-8 shadow-sm">
-        <h3 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <span class="relative flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            Estado del Sistema
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                <span class="text-sm font-medium text-slate-600">Banca Digital</span>
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">OPERATIVO</span>
-            </div>
-            <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                <span class="text-sm font-medium text-slate-600">Conexión VPN</span>
-                <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">LENTO</span>
-            </div>
-            <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                <span class="text-sm font-medium text-slate-600">Mesa de Ayuda</span>
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">OPERATIVO</span>
-            </div>
-        </div>
-    </div>
-</section>
+    
 
     <script>
         // Lógica para el menú móvil
