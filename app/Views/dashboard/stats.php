@@ -1,49 +1,108 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
-<div id="dashboard-root" class="container mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
-    <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-        <h1 class="text-2xl font-bold">Dashboard de Datos</h1>
-        <div>
-            <a href="?route=dashboard" class="inline-block px-3 py-2 bg-slate-100 rounded hover:bg-slate-200 transition">Volver</a>
-                <button id="printBtn" class="inline-block px-3 py-2 bg-indigo-600 text-white rounded ml-2 hover:bg-indigo-700 transition">Imprimir</button>
+
+<style>
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.05);
+    }
+    
+    .metric-icon-box {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+</style>
+
+<div id="dashboard-root" class="container mx-auto px-4 lg:px-8 py-8 w-full max-w-7xl relative overflow-hidden min-h-[calc(100vh-100px)]">
+
+    <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 pointer-events-none"></div>
+
+    <div class="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 mt-4 md:mt-0">
+        <div class="flex items-center gap-3">
+            <div class="h-12 w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-sm border border-indigo-100 shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard Analítico</h1>
+                <p class="text-sm text-slate-500 mt-1">Resumen en tiempo real del rendimiento operativo.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <a href="?route=dashboard" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:-translate-y-0.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Volver
+            </a>
+            <button id="printBtn" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#010b50] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-900 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-blue-900/10">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                Imprimir Reporte
+            </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-sm text-gray-500">Total tickets</div>
-            <div id="stat-total" class="text-2xl font-bold">...</div>
+    <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <div class="glass-panel p-6 rounded-2xl flex items-center gap-4">
+            <div class="h-12 w-12 rounded-xl metric-icon-box text-indigo-600 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+            </div>
+            <div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Tickets</div>
+                <div id="stat-total" class="text-3xl font-black text-slate-800 leading-none">...</div>
+            </div>
         </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-sm text-gray-500">Categorías</div>
-            <div id="stat-cats" class="text-2xl font-bold">...</div>
+
+        <div class="glass-panel p-6 rounded-2xl flex items-center gap-4">
+            <div class="h-12 w-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+            </div>
+            <div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Categorías</div>
+                <div id="stat-cats" class="text-3xl font-black text-slate-800 leading-none">...</div>
+            </div>
         </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-sm text-gray-500">Estados</div>
-            <div id="stat-status" class="text-2xl font-bold">...</div>
+
+        <div class="glass-panel p-6 rounded-2xl flex items-center gap-4">
+            <div class="h-12 w-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </div>
+            <div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Estados</div>
+                <div id="stat-status" class="text-3xl font-black text-slate-800 leading-none">...</div>
+            </div>
         </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-sm text-gray-500">Prioridades</div>
-            <div id="stat-prio" class="text-2xl font-bold">...</div>
+
+        <div class="glass-panel p-6 rounded-2xl flex items-center gap-4">
+            <div class="h-12 w-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div>
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Prioridades</div>
+                <div id="stat-prio" class="text-3xl font-black text-slate-800 leading-none">...</div>
+            </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="col-span-1 lg:col-span-2 bg-white p-4 rounded shadow">
-            <h3 class="font-semibold mb-2 text-gray-700">Tickets en últimos 30 días</h3>
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div class="col-span-1 lg:col-span-2 glass-panel p-6 sm:p-8 rounded-3xl">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-slate-800">Volumen de Tickets</h3>
+                <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">Últimos 30 días</span>
+            </div>
             <div class="relative w-full h-64 sm:h-72">
                 <canvas id="tsChart"></canvas>
             </div>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-            <h3 class="font-semibold mb-2 text-gray-700">Distribución por categoría</h3>
+        
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl">
+            <h3 class="text-lg font-bold text-slate-800 mb-6 text-center">Distribución por Categoría</h3>
             <div class="relative w-full h-64 sm:h-72 flex justify-center">
                 <canvas id="catChart"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="mt-6 bg-white p-4 rounded shadow">
-        <h3 class="font-semibold mb-2 text-gray-700">Resumen por estado</h3>
+    <div class="relative z-10 glass-panel p-6 sm:p-8 rounded-3xl mb-8">
+        <h3 class="text-lg font-bold text-slate-800 mb-6">Resumen por Estado Operativo</h3>
         <div class="relative w-full h-56 sm:h-64">
             <canvas id="statusChart"></canvas>
         </div>
@@ -52,24 +111,37 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+Chart.defaults.font.family = '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+Chart.defaults.color = '#64748b';
+
 async function loadStats() {
     try {
         const res = await fetch('?route=ticket_stats_data');
         if (!res.ok) throw new Error('Error fetching stats');
         const data = await res.json();
         
+        // Actualizar KPIs con animación simple
         document.getElementById('stat-total').textContent = data.total || 0;
         document.getElementById('stat-cats').textContent = data.byCategory?.length || 0;
         document.getElementById('stat-status').textContent = data.byStatus?.reduce((s,i) => s + i.cnt, 0) || 0;
         document.getElementById('stat-prio').textContent = data.byPriority?.length || 0;
 
-        // Opciones base para que no se distorsionen
         const commonOptions = {
             responsive: true,
-            maintainAspectRatio: false, // ¡Clave para evitar la distorsión!
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { size: 13, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 10,
+                    cornerRadius: 8,
+                    displayColors: true
+                }
+            }
         };
 
-        // Timeseries chart (Líneas)
+        // 1. Timeseries chart (Líneas)
         const labels = [];
         const points = [];
         const dmap = {};
@@ -79,81 +151,118 @@ async function loadStats() {
         for (let i = 29; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
             const key = d.toISOString().slice(0, 10);
-            labels.push(key);
+            // Formatear fecha para el label (ej: "15 Mar")
+            const labelStr = d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+            labels.push(labelStr);
             points.push(dmap[key] || 0);
         }
+
         const tsCtx = document.getElementById('tsChart').getContext('2d');
+        
+        // Crear gradiente para la línea
+        let gradient = tsCtx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
+        gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
+
         new Chart(tsCtx, { 
             type: 'line', 
             data: { 
                 labels, 
                 datasets: [{ 
-                    label: 'Tickets', 
+                    label: 'Tickets Creados', 
                     data: points, 
-                    borderColor: '#4F46E5', 
-                    backgroundColor: 'rgba(79,70,229,0.08)', 
+                    borderColor: '#4f46e5', 
+                    backgroundColor: gradient, 
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#4f46e5',
+                    pointBorderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 5,
                     fill: true,
-                    tension: 0.3 // Opcional: suaviza la línea
-                }] 
-            }, 
-            options: commonOptions 
-        });
-
-        // Category pie (Pastel)
-        const catLabels = (data.byCategory || []).map(x => x.category);
-        const catValues = (data.byCategory || []).map(x => x.cnt);
-        const catCtx = document.getElementById('catChart').getContext('2d');
-        new Chart(catCtx, { 
-            type: 'pie', 
-            data: { 
-                labels: catLabels, 
-                datasets: [{ 
-                    data: catValues, 
-                    backgroundColor: ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b'] 
+                    tension: 0.4
                 }] 
             }, 
             options: {
                 ...commonOptions,
-                plugins: { legend: { position: 'bottom' } } // Opcional: mejora el espacio
+                scales: {
+                    x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
+                    y: { border: { display: false }, grid: { color: 'rgba(226, 232, 240, 0.6)' }, beginAtZero: true }
+                },
+                plugins: { legend: { display: false }, ...commonOptions.plugins }
+            } 
+        });
+
+        // 2. Category pie (Pastel/Doughnut)
+        const catLabels = (data.byCategory || []).map(x => x.category);
+        const catValues = (data.byCategory || []).map(x => x.cnt);
+        const catCtx = document.getElementById('catChart').getContext('2d');
+        
+        // Paleta de colores moderna
+        const modernColors = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#8b5cf6', '#06b6d4'];
+        
+        new Chart(catCtx, { 
+            type: 'doughnut', 
+            data: { 
+                labels: catLabels, 
+                datasets: [{ 
+                    data: catValues, 
+                    backgroundColor: modernColors,
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }] 
+            }, 
+            options: {
+                ...commonOptions,
+                cutout: '65%',
+                plugins: { 
+                    legend: { 
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 15, font: { size: 12 } }
+                    },
+                    ...commonOptions.plugins
+                }
             }
         });
 
-        // Status bar (Barras)
-        // Status bar (Barras)
-    const stLabels = (data.byStatus || []).map(x => x.status);
-    const stValues = (data.byStatus || []).map(x => x.cnt);
+        // 3. Status bar (Barras)
+        const stLabels = (data.byStatus || []).map(x => x.status);
+        const stValues = (data.byStatus || []).map(x => x.cnt);
 
-    // Generar colores dinámicos según el nombre del estado
-    const stColors = stLabels.map(status => {
-      const s = status.toLowerCase();
-      if (s.includes('Ejecutado')) return '#9ca3af'; 
-      if (s.includes('pendiente')) return '#f59e0b'; 
-      if (s.includes('proceso')) return '#3b82f6';   
-      return '#10b981'; 
-    });
+        const stColors = stLabels.map(status => {
+            const s = status.toLowerCase();
+            if (s.includes('ejecutad')) return '#10b981'; // Emerald
+            if (s.includes('pendiente')) return '#f59e0b'; // Amber
+            if (s.includes('proceso')) return '#3b82f6'; // Blue 
+            return '#64748b'; // Slate
+        });
 
-    const stCtx = document.getElementById('statusChart').getContext('2d');
-    new Chart(stCtx, { 
-      type: 'bar', 
-      data: { 
-        labels: stLabels, 
-        datasets: [{ 
-          label: 'Tickets', 
-          data: stValues, 
-          backgroundColor: stColors, 
-          borderRadius: 4 
-        }] 
-      }, 
-      options: { 
-        ...commonOptions,
-        scales: { 
-          y: { beginAtZero: true } 
-        },
-        plugins: {
-          legend: { display: false } 
-        }
-      } 
-    });
+        const stCtx = document.getElementById('statusChart').getContext('2d');
+        new Chart(stCtx, { 
+            type: 'bar', 
+            data: { 
+                labels: stLabels, 
+                datasets: [{ 
+                    label: 'Volumen', 
+                    data: stValues, 
+                    backgroundColor: stColors, 
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    barThickness: 40
+                }] 
+            }, 
+            options: { 
+                ...commonOptions,
+                scales: { 
+                    x: { grid: { display: false } },
+                    y: { border: { display: false }, grid: { color: 'rgba(226, 232, 240, 0.6)' }, beginAtZero: true } 
+                },
+                plugins: {
+                    legend: { display: false },
+                    ...commonOptions.plugins
+                }
+            } 
+        });
 
     } catch (e) {
         console.error('Error cargando estadísticas:', e);
@@ -162,9 +271,8 @@ async function loadStats() {
 }
 
 loadStats();
-</script>
 
-<script>
+// Lógica de Impresión (Mantenida intacta)
 function printDashboard() {
     const getText = (id) => document.getElementById(id)?.textContent?.trim() || '0';
     const getCanvasImage = (id) => {
@@ -210,7 +318,7 @@ function printDashboard() {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Imprimir - Dashboard</title>
+    <title>Imprimir - Dashboard Analítico</title>
     <style>
         @page { size: A4 landscape; margin: 8mm; }
         * { box-sizing: border-box; }
@@ -232,14 +340,14 @@ function printDashboard() {
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            border-bottom: 1px solid #cbd5e1;
-            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
         .header h1 {
             margin: 0;
-            font-size: 20px;
-            line-height: 1.1;
-            color: #1e293b;
+            font-size: 22px;
+            color: #0f172a;
         }
         .header .date {
             font-size: 11px;
@@ -248,41 +356,44 @@ function printDashboard() {
         .stats {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 8px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
         .stat {
-            border: 1px solid #cbd5e1;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
             border-radius: 8px;
-            padding: 7px;
+            padding: 10px;
             text-align: center;
         }
         .stat .label {
             font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
             color: #64748b;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         .stat .value {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 22px;
+            font-weight: 800;
             color: #0f172a;
-            line-height: 1.1;
         }
         .row-main {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 8px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
         .panel {
-            border: 1px solid #cbd5e1;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 8px;
+            padding: 12px;
             break-inside: avoid;
         }
         .panel h2 {
-            margin: 0 0 5px 0;
-            font-size: 13px;
+            margin: 0 0 10px 0;
+            font-size: 14px;
             color: #334155;
-            font-weight: 600;
         }
         .chart {
             width: 100%;
@@ -291,9 +402,9 @@ function printDashboard() {
             justify-content: center;
             overflow: hidden;
         }
-        .chart-lg { height: 190px; }
-        .chart-md { height: 190px; }
-        .chart-sm { height: 150px; }
+        .chart-lg { height: 220px; }
+        .chart-md { height: 220px; }
+        .chart-sm { height: 180px; }
         .chart img {
             max-width: 100%;
             max-height: 100%;
@@ -311,7 +422,7 @@ function printDashboard() {
 <body>
     <div class="sheet">
         <header class="header">
-            <h1>Dashboard de Datos</h1>
+            <h1>Reporte Analítico - BDT</h1>
             <div class="date">Generado: ${printDate}</div>
         </header>
 
