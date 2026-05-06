@@ -120,7 +120,7 @@ async function loadStats() {
         if (!res.ok) throw new Error('Error fetching stats');
         const data = await res.json();
         
-        // Actualizar KPIs con animación simple
+        // Actualizar KPIs
         document.getElementById('stat-total').textContent = data.total || 0;
         document.getElementById('stat-cats').textContent = data.byCategory?.length || 0;
         document.getElementById('stat-status').textContent = data.byStatus?.reduce((s,i) => s + i.cnt, 0) || 0;
@@ -129,6 +129,8 @@ async function loadStats() {
         const commonOptions = {
             responsive: true,
             maintainAspectRatio: false,
+            // Importante para impresión: desactivar animaciones si se imprime muy rápido, 
+            // aunque al ser por botón, ya deberían estar cargadas.
             plugins: {
                 tooltip: {
                     backgroundColor: 'rgba(15, 23, 42, 0.9)',
@@ -141,7 +143,7 @@ async function loadStats() {
             }
         };
 
-        // 1. Timeseries chart (Líneas)
+        // 1. Timeseries chart
         const labels = [];
         const points = [];
         const dmap = {};
@@ -151,15 +153,12 @@ async function loadStats() {
         for (let i = 29; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
             const key = d.toISOString().slice(0, 10);
-            // Formatear fecha para el label (ej: "15 Mar")
             const labelStr = d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
             labels.push(labelStr);
             points.push(dmap[key] || 0);
         }
 
         const tsCtx = document.getElementById('tsChart').getContext('2d');
-        
-        // Crear gradiente para la línea
         let gradient = tsCtx.createLinearGradient(0, 0, 0, 300);
         gradient.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
         gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
@@ -193,12 +192,10 @@ async function loadStats() {
             } 
         });
 
-        // 2. Category pie (Pastel/Doughnut)
+        // 2. Category pie
         const catLabels = (data.byCategory || []).map(x => x.category);
         const catValues = (data.byCategory || []).map(x => x.cnt);
         const catCtx = document.getElementById('catChart').getContext('2d');
-        
-        // Paleta de colores moderna
         const modernColors = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#8b5cf6', '#06b6d4'];
         
         new Chart(catCtx, { 
@@ -225,16 +222,15 @@ async function loadStats() {
             }
         });
 
-        // 3. Status bar (Barras)
+        // 3. Status bar
         const stLabels = (data.byStatus || []).map(x => x.status);
         const stValues = (data.byStatus || []).map(x => x.cnt);
-
         const stColors = stLabels.map(status => {
             const s = status.toLowerCase();
-            if (s.includes('ejecutad')) return '#10b981'; // Emerald
-            if (s.includes('pendiente')) return '#f59e0b'; // Amber
-            if (s.includes('proceso')) return '#3b82f6'; // Blue 
-            return '#64748b'; // Slate
+            if (s.includes('ejecutad')) return '#10b981'; 
+            if (s.includes('pendiente')) return '#f59e0b'; 
+            if (s.includes('proceso')) return '#3b82f6'; 
+            return '#64748b'; 
         });
 
         const stCtx = document.getElementById('statusChart').getContext('2d');
@@ -272,14 +268,26 @@ async function loadStats() {
 
 loadStats();
 
-// Lógica de Impresión (Mantenida intacta)
+// Lógica de Impresión Mejorada
 function printDashboard() {
     const getText = (id) => document.getElementById(id)?.textContent?.trim() || '0';
+    
+    // Función para obtener la imagen forzando un fondo blanco puro
     const getCanvasImage = (id) => {
         const canvas = document.getElementById(id);
         if (!canvas) return '';
         try {
-            return canvas.toDataURL('image/png');
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const ctx = tempCanvas.getContext('2d');
+            
+            // Fondo blanco para evitar transparencias negras en la impresión
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            ctx.drawImage(canvas, 0, 0);
+            
+            return tempCanvas.toDataURL('image/jpeg', 1.0);
         } catch (e) {
             console.warn('No se pudo renderizar el gráfico para imprimir:', id, e);
             return '';
@@ -298,177 +306,178 @@ function printDashboard() {
     const statusChart = getCanvasImage('statusChart');
 
     if (!tsChart && !catChart && !statusChart) {
-        alert('No hay gráficos listos para imprimir. Espere unos segundos e inténtelo de nuevo.');
+        alert('Los gráficos aún se están generando. Espere un momento e intente de nuevo.');
         return;
     }
 
-    const printDate = new Date().toLocaleString('es-DO');
-    const chartTemplate = (title, image, heightClass) => `
-        <section class="panel">
-            <h2>${title}</h2>
-            <div class="chart ${heightClass}">
-                ${image ? `<img src="${image}" alt="${title}">` : '<div class="empty">Sin datos</div>'}
-            </div>
-        </section>
-    `;
+    const printDate = new Date().toLocaleString('es-DO', { 
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute:'2-digit' 
+    });
 
     const html = `
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Imprimir - Dashboard Analítico</title>
+    <title>Reporte Analítico</title>
     <style>
-        @page { size: A4 landscape; margin: 8mm; }
-        * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; }
+        @page { size: A4 landscape; margin: 10mm; }
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         body {
-            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-            color: #0f172a;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1e293b;
             background: #ffffff;
+            margin: 0;
+            padding: 0;
         }
-        .sheet {
-            width: 100%;
-            max-width: 1120px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .container { width: 100%; max-width: 100%; margin: 0 auto; }
+        
+        /* Encabezado Profesional */
         .header {
             display: flex;
-            align-items: flex-end;
             justify-content: space-between;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
+            align-items: center;
+            border-bottom: 3px solid #4f46e5;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-        .header h1 {
-            margin: 0;
-            font-size: 22px;
-            color: #0f172a;
+        .header-title h1 {
+            margin: 0; font-size: 24px; color: #0f172a; letter-spacing: -0.5px;
         }
-        .header .date {
-            font-size: 11px;
-            color: #475569;
+        .header-title p {
+            margin: 5px 0 0 0; font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px;
         }
-        .stats {
+        .header-meta { text-align: right; font-size: 13px; color: #475569; }
+        .header-meta strong { color: #0f172a; }
+
+        /* KPIs Estilo Tarjeta */
+        .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-            margin-bottom: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        .stat {
-            border: 1px solid #e2e8f0;
+        .kpi-card {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
+            border-left: 4px solid #4f46e5;
+            border-radius: 6px;
+            padding: 15px 20px;
         }
-        .stat .label {
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: #64748b;
-            margin-bottom: 4px;
-        }
-        .stat .value {
-            font-size: 22px;
-            font-weight: 800;
-            color: #0f172a;
-        }
-        .row-main {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-        .panel {
+        .kpi-card:nth-child(2) { border-left-color: #10b981; }
+        .kpi-card:nth-child(3) { border-left-color: #3b82f6; }
+        .kpi-card:nth-child(4) { border-left-color: #f59e0b; }
+        
+        .kpi-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 5px;}
+        .kpi-value { font-size: 28px; font-weight: 900; color: #0f172a; line-height: 1; }
+
+        /* Contenedores de Gráficos */
+        .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .chart-box {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 12px;
+            padding: 15px;
+            background: #ffffff;
             break-inside: avoid;
         }
-        .panel h2 {
-            margin: 0 0 10px 0;
+        .chart-box h2 {
+            margin: 0 0 15px 0;
             font-size: 14px;
             color: #334155;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
         }
-        .chart {
+        .chart-img {
             width: 100%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            overflow: hidden;
+            align-items: center;
         }
-        .chart-lg { height: 220px; }
-        .chart-md { height: 220px; }
-        .chart-sm { height: 180px; }
-        .chart img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        .empty {
-            font-size: 12px;
+        .chart-img img { max-width: 100%; max-height: 240px; object-fit: contain; }
+        .chart-img.sm img { max-height: 190px; }
+        
+        /* Pie de página */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 10px;
             color: #94a3b8;
-        }
-        @media print {
-            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="sheet">
+    <div class="container">
         <header class="header">
-            <h1>Reporte Analítico - BDT</h1>
-            <div class="date">Generado: ${printDate}</div>
+            <div class="header-title">
+                <h1>Dashboard Analítico</h1>
+                <p>Resumen de Rendimiento Operativo</p>
+            </div>
+            <div class="header-meta">
+                Generado el:<br>
+                <strong>${printDate}</strong>
+            </div>
         </header>
 
-        <section class="stats">
-            <article class="stat">
-                <div class="label">Total tickets</div>
-                <div class="value">${stats.total}</div>
-            </article>
-            <article class="stat">
-                <div class="label">Categorías</div>
-                <div class="value">${stats.cats}</div>
-            </article>
-            <article class="stat">
-                <div class="label">Estados</div>
-                <div class="value">${stats.status}</div>
-            </article>
-            <article class="stat">
-                <div class="label">Prioridades</div>
-                <div class="value">${stats.prio}</div>
-            </article>
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Tickets</div>
+                <div class="kpi-value">${stats.total}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Categorías Activas</div>
+                <div class="kpi-value">${stats.cats}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Estados En Uso</div>
+                <div class="kpi-value">${stats.status}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Prioridades Asignadas</div>
+                <div class="kpi-value">${stats.prio}</div>
+            </div>
         </section>
 
-        <section class="row-main">
-            ${chartTemplate('Tickets en últimos 30 días', tsChart, 'chart-lg')}
-            ${chartTemplate('Distribución por categoría', catChart, 'chart-md')}
+        <section class="charts-row">
+            <div class="chart-box">
+                <h2>Volumen de Tickets (Últimos 30 días)</h2>
+                <div class="chart-img">${tsChart ? `<img src="${tsChart}">` : ''}</div>
+            </div>
+            <div class="chart-box">
+                <h2>Distribución por Categoría</h2>
+                <div class="chart-img">${catChart ? `<img src="${catChart}">` : ''}</div>
+            </div>
         </section>
 
-        ${chartTemplate('Resumen por estado', statusChart, 'chart-sm')}
+        <section class="chart-box">
+            <h2>Resumen por Estado Operativo</h2>
+            <div class="chart-img sm">${statusChart ? `<img src="${statusChart}">` : ''}</div>
+        </section>
+        
+        <div class="footer">
+            Documento generado automáticamente por el sistema de gestión.
+        </div>
     </div>
 </body>
 </html>`;
 
-    const w = window.open('', '_blank', 'width=1200,height=900');
+    const w = window.open('', '_blank', 'width=1000,height=800');
     if (!w) {
-        alert('El navegador bloqueó la ventana de impresión. Permita ventanas emergentes e intente nuevamente.');
+        alert('El navegador bloqueó la ventana. Por favor permite las ventanas emergentes.');
         return;
     }
 
     w.document.open();
     w.document.write(html);
     w.document.close();
-    w.focus();
-
+    
+    // Aumentamos ligeramente el timeout para garantizar que las imágenes Base64 se pinten en el DOM
     setTimeout(() => {
+        w.focus();
         w.print();
-    }, 450);
+        // Opcional: cerrar la ventana después de imprimir
+        // w.close(); 
+    }, 800);
 }
 
 document.getElementById('printBtn').addEventListener('click', printDashboard);
