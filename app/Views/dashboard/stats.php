@@ -1,3 +1,25 @@
+<?php
+$today = new DateTimeImmutable('today');
+$defaultToDate = $today->format('Y-m-d');
+$defaultFromDate = $today->modify('-29 days')->format('Y-m-d');
+
+$fromDate = trim((string)($_GET['from_date'] ?? $defaultFromDate));
+$toDate = trim((string)($_GET['to_date'] ?? $defaultToDate));
+
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fromDate)) {
+    $fromDate = $defaultFromDate;
+}
+
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $toDate)) {
+    $toDate = $defaultToDate;
+}
+
+if ($fromDate > $toDate) {
+    $tmp = $fromDate;
+    $fromDate = $toDate;
+    $toDate = $tmp;
+}
+?>
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
 <style>
@@ -38,6 +60,26 @@
                 Imprimir Reporte
             </button>
         </div>
+    </div>
+
+    <div class="relative z-10 mb-6 glass-panel p-4 sm:p-5 rounded-2xl">
+        <form method="get" action="" class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_1fr_auto_auto] md:items-end">
+            <input type="hidden" name="route" value="ticket_stats">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Desde</label>
+                <input id="fromDate" type="date" name="from_date" value="<?= htmlspecialchars($fromDate) ?>" class="input-modern block w-full rounded-xl py-3 px-4 text-sm text-slate-700 cursor-pointer">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Hasta</label>
+                <input id="toDate" type="date" name="to_date" value="<?= htmlspecialchars($toDate) ?>" class="input-modern block w-full rounded-xl py-3 px-4 text-sm text-slate-700 cursor-pointer">
+            </div>
+            <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-[#010b50] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-900 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#010b50]/20">
+                Aplicar rango
+            </button>
+            <a href="?route=ticket_stats" class="inline-flex items-center justify-center rounded-xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">
+                Restablecer
+            </a>
+        </form>
     </div>
 
     <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
@@ -86,7 +128,7 @@
         <div class="col-span-1 lg:col-span-2 glass-panel p-6 sm:p-8 rounded-3xl">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-lg font-bold text-slate-800">Volumen de Tickets</h3>
-                <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">Últimos 30 días</span>
+                <span id="rangeBadge" class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full"></span>
             </div>
             <div class="relative w-full h-64 sm:h-72">
                 <canvas id="tsChart"></canvas>
@@ -114,16 +156,50 @@
 Chart.defaults.font.family = '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 Chart.defaults.color = '#64748b';
 
+const fromDateInput = document.getElementById('fromDate');
+const toDateInput = document.getElementById('toDate');
+const rangeBadge = document.getElementById('rangeBadge');
+
+function formatDateRangeLabel(value) {
+    const date = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(date.getTime())) {
+        return value;
+    }
+
+    return date.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
+}
+
+function updateRangeBadge() {
+    if (!rangeBadge) {
+        return;
+    }
+
+    const fromLabel = formatDateRangeLabel(fromDateInput.value);
+    const toLabel = formatDateRangeLabel(toDateInput.value);
+    rangeBadge.textContent = `Del ${fromLabel} al ${toLabel}`;
+}
+
 async function loadStats() {
     try {
-        const res = await fetch('?route=ticket_stats_data');
+        updateRangeBadge();
+
+        const params = new URLSearchParams({
+            from_date: fromDateInput.value,
+            to_date: toDateInput.value
+        });
+
+        const res = await fetch(`?route=ticket_stats_data&${params.toString()}`);
         if (!res.ok) throw new Error('Error fetching stats');
         const data = await res.json();
         
         // Actualizar KPIs con animación simple
         document.getElementById('stat-total').textContent = data.total || 0;
         document.getElementById('stat-cats').textContent = data.byCategory?.length || 0;
-        document.getElementById('stat-status').textContent = data.byStatus?.reduce((s,i) => s + i.cnt, 0) || 0;
+        document.getElementById('stat-status').textContent = data.byStatus?.reduce((s, i) => s + Number(i.cnt || 0), 0) || 0;
         document.getElementById('stat-prio').textContent = data.byPriority?.length || 0;
 
         const commonOptions = {
@@ -293,6 +369,8 @@ function printDashboard() {
         prio: getText('stat-prio')
     };
 
+    const rangeLabel = rangeBadge?.textContent?.trim() || 'Rango seleccionado';
+
     const tsChart = getCanvasImage('tsChart');
     const catChart = getCanvasImage('catChart');
     const statusChart = getCanvasImage('statusChart');
@@ -352,6 +430,12 @@ function printDashboard() {
         .header .date {
             font-size: 11px;
             color: #475569;
+        }
+        .header .range {
+            margin-top: 2px;
+            font-size: 11px;
+            color: #64748b;
+            text-align: right;
         }
         .stats {
             display: grid;
@@ -422,7 +506,10 @@ function printDashboard() {
 <body>
     <div class="sheet">
         <header class="header">
-            <h1>Reporte Analítico - BDT</h1>
+            <div>
+                <h1>Reporte Analítico - BDT</h1>
+                <div class="range">${rangeLabel}</div>
+            </div>
             <div class="date">Generado: ${printDate}</div>
         </header>
 
