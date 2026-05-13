@@ -173,6 +173,26 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
 Chart.defaults.font.family = '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 Chart.defaults.color = '#64748b';
 
+// Animación de conteo para KPIs
+function animateCount(el, endValue, duration = 800) {
+    if (!el) return;
+    const startText = (el.textContent || '').replace(/[^0-9\-]/g, '');
+    const start = Number(startText) || 0;
+    const change = Number(endValue) - start;
+    const startTime = performance.now();
+    const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+    function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const val = Math.round(start + change * easeOutCubic(progress));
+        el.textContent = val.toLocaleString('es-ES');
+        if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+}
+
 const fromDateInput = document.getElementById('fromDate');
 const toDateInput = document.getElementById('toDate');
 const rangeBadge = document.getElementById('rangeBadge');
@@ -213,11 +233,16 @@ async function loadStats() {
         if (!res.ok) throw new Error('Error fetching stats');
         const data = await res.json();
         
-        // Actualizar KPIs con animación simple
-        document.getElementById('stat-total').textContent = data.total || 0;
-        document.getElementById('stat-cats').textContent = data.byCategory?.length || 0;
-        document.getElementById('stat-status').textContent = data.byStatus?.reduce((s, i) => s + Number(i.cnt || 0), 0) || 0;
-        document.getElementById('stat-prio').textContent = data.byPriority?.length || 0;
+        // Actualizar KPIs con conteo animado
+        const totalVal = Number(data.total || 0);
+        const catsVal = Number((data.byCategory || []).length || 0);
+        const statusVal = Number((data.byStatus || []).reduce((s, i) => s + Number(i.cnt || 0), 0) || 0);
+        const prioVal = Number((data.byPriority || []).length || 0);
+
+        animateCount(document.getElementById('stat-total'), totalVal);
+        animateCount(document.getElementById('stat-cats'), catsVal);
+        animateCount(document.getElementById('stat-status'), statusVal);
+        animateCount(document.getElementById('stat-prio'), prioVal);
 
         const commonOptions = {
             responsive: true,
