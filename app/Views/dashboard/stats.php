@@ -107,6 +107,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
             <div>
                 <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Tickets</div>
                 <div id="stat-total" class="text-3xl font-black text-slate-800 leading-none">...</div>
+                <div id="growth-total" class="text-sm mt-1 text-slate-500">—</div>
             </div>
         </div>
 
@@ -117,6 +118,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
             <div>
                 <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Categorías</div>
                 <div id="stat-cats" class="text-3xl font-black text-slate-800 leading-none">...</div>
+                <div id="growth-cats" class="text-sm mt-1 text-slate-500">—</div>
             </div>
         </div>
 
@@ -127,6 +129,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
             <div>
                 <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Estados</div>
                 <div id="stat-status" class="text-3xl font-black text-slate-800 leading-none">...</div>
+                <div id="growth-status" class="text-sm mt-1 text-slate-500">—</div>
             </div>
         </div>
 
@@ -137,6 +140,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
             <div>
                 <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Prioridades</div>
                 <div id="stat-prio" class="text-3xl font-black text-slate-800 leading-none">...</div>
+                <div id="growth-prio" class="text-sm mt-1 text-slate-500">—</div>
             </div>
         </div>
     </div>
@@ -243,6 +247,30 @@ async function loadStats() {
         animateCount(document.getElementById('stat-cats'), catsVal);
         animateCount(document.getElementById('stat-status'), statusVal);
         animateCount(document.getElementById('stat-prio'), prioVal);
+
+        // Mostrar indicadores de crecimiento porcentual por mes
+        function renderGrowthBadge(elId, pct) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            if (pct === null || pct === undefined || Number.isNaN(Number(pct))) {
+                el.textContent = '—';
+                el.className = 'text-sm mt-1 text-slate-500';
+                return;
+            }
+
+            const n = Number(pct);
+            const sign = n > 0 ? '+' : (n < 0 ? '' : '');
+            const arrow = n > 0 ? '▲' : (n < 0 ? '▼' : '–');
+            el.textContent = `${sign}${n.toFixed(1)}% ${arrow}`;
+            el.className = n > 0 ? 'text-sm mt-1 text-emerald-600' : (n < 0 ? 'text-sm mt-1 text-rose-600' : 'text-sm mt-1 text-slate-500');
+        }
+
+        const mg = data.monthlyGrowth || {};
+        renderGrowthBadge('growth-total', mg.total?.pct);
+        // For categories/priorities/status we may not have detailed pct in payload; use total fallback
+        renderGrowthBadge('growth-cats', mg.byCategory && mg.byCategory.length ? mg.byCategory.reduce((s,i)=>s+Number(i.pct||0),0)/mg.byCategory.length : null);
+        renderGrowthBadge('growth-status', mg.total?.pct);
+        renderGrowthBadge('growth-prio', mg.total?.pct);
 
         const commonOptions = {
             responsive: true,
