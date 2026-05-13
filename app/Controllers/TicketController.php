@@ -291,31 +291,71 @@ class TicketController {
         $role = $_SESSION['role'] ?? '';
         if ($role !== 'Soporte' && $role !== 'Gerente') { header('HTTP/1.1 403 Forbidden'); exit; }
 
+        $today = new \DateTimeImmutable('today');
+        $defaultToDate = $today->format('Y-m-d');
+        $defaultFromDate = $today->modify('-29 days')->format('Y-m-d');
+
+        $fromDate = trim((string)($_GET['from_date'] ?? $defaultFromDate));
+        $toDate = trim((string)($_GET['to_date'] ?? $defaultToDate));
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fromDate)) {
+            $fromDate = $defaultFromDate;
+        }
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $toDate)) {
+            $toDate = $defaultToDate;
+        }
+
+        if ($fromDate > $toDate) {
+            $tmp = $fromDate;
+            $fromDate = $toDate;
+            $toDate = $tmp;
+        }
+
         $pdo = \App\Config\Database::connect();
+        $driver = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+        if ($driver === 'sqlite') {
+            $rangeWhere = ' WHERE DATE(created_at) >= :from AND DATE(created_at) <= :to';
+            $timeseriesWhere = ' WHERE DATE(created_at) >= :from AND DATE(created_at) <= :to';
+        } else {
+            $rangeWhere = ' WHERE created_at::date >= :from AND created_at::date <= :to';
+            $timeseriesWhere = ' WHERE created_at::date >= :from AND created_at::date <= :to';
+        }
+
+        $rangeParams = [
+            ':from' => $fromDate,
+            ':to' => $toDate,
+        ];
+
         // Total
-        $total = intval($pdo->query('SELECT COUNT(*) FROM tickets')->fetchColumn());
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM tickets' . $rangeWhere);
+        $stmt->execute($rangeParams);
+        $total = intval($stmt->fetchColumn());
 
         // By category
-        $stmt = $pdo->query("SELECT COALESCE(category,'(Sin categoría)') AS category, COUNT(*) AS cnt FROM tickets GROUP BY category ORDER BY cnt DESC");
+        $stmt = $pdo->prepare("SELECT COALESCE(category,'(Sin categoría)') AS category, COUNT(*) AS cnt FROM tickets" . $rangeWhere . ' GROUP BY category ORDER BY cnt DESC');
+        $stmt->execute($rangeParams);
         $byCategory = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         // By status
-        $stmt = $pdo->query("SELECT COALESCE(status,'Pendiente') AS status, COUNT(*) AS cnt FROM tickets GROUP BY status");
+        $stmt = $pdo->prepare("SELECT COALESCE(status,'Pendiente') AS status, COUNT(*) AS cnt FROM tickets" . $rangeWhere . ' GROUP BY status');
+        $stmt->execute($rangeParams);
         $byStatus = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         // By priority
-        $stmt = $pdo->query("SELECT COALESCE(priority,'Baja') AS priority, COUNT(*) AS cnt FROM tickets GROUP BY priority");
+        $stmt = $pdo->prepare("SELECT COALESCE(priority,'Baja') AS priority, COUNT(*) AS cnt FROM tickets" . $rangeWhere . ' GROUP BY priority');
+        $stmt->execute($rangeParams);
         $byPriority = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Timeseries last 30 days (DB-driver aware: SQLite vs PostgreSQL)
-        $driver = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        // Timeseries within the selected range (DB-driver aware: SQLite vs PostgreSQL)
         if ($driver === 'sqlite') {
-            $stmt = $pdo->prepare("SELECT DATE(created_at) AS d, COUNT(*) AS cnt FROM tickets WHERE DATE(created_at) >= DATE('now', '-29 days') GROUP BY DATE(created_at) ORDER BY d ASC");
+            $stmt = $pdo->prepare("SELECT DATE(created_at) AS d, COUNT(*) AS cnt FROM tickets" . $timeseriesWhere . ' GROUP BY DATE(created_at) ORDER BY d ASC');
         } else {
-            // PostgreSQL: use date cast and interval arithmetic
-            $stmt = $pdo->prepare("SELECT (created_at::date) AS d, COUNT(*) AS cnt FROM tickets WHERE created_at::date >= CURRENT_DATE - INTERVAL '29 days' GROUP BY (created_at::date) ORDER BY d ASC");
+            // PostgreSQL: use date cast for date-only filtering.
+            $stmt = $pdo->prepare("SELECT (created_at::date) AS d, COUNT(*) AS cnt FROM tickets" . $timeseriesWhere . ' GROUP BY (created_at::date) ORDER BY d ASC');
         }
-        $stmt->execute();
+        $stmt->execute($rangeParams);
         $timeseries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         header('Content-Type: application/json; charset=utf-8');
