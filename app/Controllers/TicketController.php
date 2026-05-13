@@ -357,6 +357,76 @@ class TicketController {
         }
         $stmt->execute($rangeParams);
         $timeseries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        // Comparativa mensual (mes corriente vs mes anterior) basada en la fecha "to"
+        try {
+            $ref = new \DateTimeImmutable($toDate);
+        } catch (Exception $e) {
+            $ref = new \DateTimeImmutable('today');
+        }
+
+        $currStart = $ref->modify('first day of this month')->format('Y-m-d');
+        $currEnd = $ref->modify('last day of this month')->format('Y-m-d');
+        $prevRef = $ref->modify('-1 month');
+        $prevStart = $prevRef->modify('first day of this month')->format('Y-m-d');
+        $prevEnd = $prevRef->modify('last day of this month')->format('Y-m-d');
+
+        // Helper to build driver-aware between clause
+        if ($driver === 'sqlite') {
+            $cmWhere = ' WHERE DATE(created_at) BETWEEN :cm_from AND :cm_to';
+            $pmWhere = ' WHERE DATE(created_at) BETWEEN :pm_from AND :pm_to';
+        } else {
+            $cmWhere = ' WHERE created_at::date BETWEEN :cm_from AND :cm_to';
+            $pmWhere = ' WHERE created_at::date BETWEEN :pm_from AND :pm_to';
+        }
+
+        // Totals for current and previous month
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM tickets' . $cmWhere);
+        $stmt->execute([':cm_from' => $currStart, ':cm_to' => $currEnd]);
+        $currTotal = intval($stmt->fetchColumn());
+
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM tickets' . $pmWhere);
+        $stmt->execute([':pm_from' => $prevStart, ':pm_to' => $prevEnd]);
+        $prevTotal = intval($stmt->fetchColumn());
+
+        $computePct = function($curr, $prev) {
+            if ($prev == 0) return ($curr > 0) ? 100.0 : 0.0;
+            return round((($curr - $prev) / max(1, $prev)) * 100.0, 1);
+        };
+
+        $monthlyGrowth = [
+            'total' => [
+                'current' => $currTotal,
+                'previous' => $prevTotal,
+                'pct' => $computePct($currTotal, $prevTotal)
+            ],
+            'byCategory' => []
+        ];
+
+        // By category for current and previous month
+        $stmt = $pdo->prepare("SELECT COALESCE(category,'(Sin categoría)') AS category, COUNT(*) AS cnt FROM tickets" . $cmWhere . ' GROUP BY category');
+        $stmt->execute([':cm_from' => $currStart, ':cm_to' => $currEnd]);
+        $currCats = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $stmt = $pdo->prepare("SELECT COALESCE(category,'(Sin categoría)') AS category, COUNT(*) AS cnt FROM tickets" . $pmWhere . ' GROUP BY category');
+        $stmt->execute([':pm_from' => $prevStart, ':pm_to' => $prevEnd]);
+        $prevCats = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $prevMap = [];
+        foreach ($prevCats as $pc) {
+            $prevMap[$pc['category']] = intval($pc['cnt']);
+        }
+
+        foreach ($currCats as $cc) {
+            $cat = $cc['category'];
+            $cval = intval($cc['cnt']);
+            $pval = $prevMap[$cat] ?? 0;
+            $monthlyGrowth['byCategory'][] = [
+                'category' => $cat,
+                'current' => $cval,
+                'previous' => $pval,
+                'pct' => $computePct($cval, $pval)
+            ];
+        }
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
@@ -364,7 +434,8 @@ class TicketController {
             'byCategory' => $byCategory,
             'byStatus' => $byStatus,
             'byPriority' => $byPriority,
-            'timeseries' => $timeseries
+            'timeseries' => $timeseries,
+            'monthlyGrowth' => $monthlyGrowth
         ]);
         exit;
     }
