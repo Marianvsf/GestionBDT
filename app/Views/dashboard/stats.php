@@ -19,6 +19,22 @@ if ($fromDate > $toDate) {
     $fromDate = $toDate;
     $toDate = $tmp;
 }
+
+// Formatear etiquetas de fecha en español para mostrar en el título
+function formatSpanDate(string $d): string {
+    $months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    try {
+        $dt = new DateTimeImmutable($d);
+        $day = $dt->format('j');
+        $month = $months[(int)$dt->format('n') - 1];
+        $year = $dt->format('Y');
+        return "$day $month $year";
+    } catch (Exception $e) {
+        return $d;
+    }
+}
+
+$rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDate);
 ?>
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
@@ -47,7 +63,8 @@ if ($fromDate > $toDate) {
             </div>
             <div>
                 <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard Analítico</h1>
-                <p class="text-sm text-slate-500 mt-1">Resumen en tiempo real del rendimiento operativo.</p>
+                <div class="text-sm text-slate-500 mt-1">Resumen en tiempo real del rendimiento operativo.</div>
+                <div class="text-sm font-medium text-slate-600 mt-2"><?= htmlspecialchars($rangeTitle) ?></div>
             </div>
         </div>
         <div class="flex items-center gap-3 w-full sm:w-auto">
