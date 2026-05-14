@@ -433,6 +433,16 @@
             capsWarning.classList.add('hidden');
         }
     });
+    // Lógica para el botón de carga
+    const loginForm = document.querySelector('form[action="?route=login"]');
+    if(loginForm) {
+        loginForm.addEventListener('submit', function() {
+            const btn = document.getElementById('login-btn');
+            document.getElementById('btn-text').textContent = 'Verificando...';
+            document.getElementById('btn-spinner').classList.remove('hidden');
+            btn.disabled = true;
+        });
+    }
     const usernameInput = document.getElementById('username');
 
     if (usernameInput) {
