@@ -422,6 +422,17 @@
     </div>
 
 <script>
+    // Lógica para Bloq Mayús
+    const passwordField = document.getElementById('password');
+    const capsWarning = document.getElementById('caps-lock-warning');
+
+    passwordField.addEventListener('keyup', function(e) {
+        if (e.getModifierState('CapsLock')) {
+            capsWarning.classList.remove('hidden');
+        } else {
+            capsWarning.classList.add('hidden');
+        }
+    });
     const usernameInput = document.getElementById('username');
 
     if (usernameInput) {
