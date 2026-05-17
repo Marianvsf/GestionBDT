@@ -303,6 +303,16 @@
             <?php endif; ?>
         </div>
     </nav>
+    <!-- Overlay de carga para acciones como Cerrar Sesión -->
+    <div id="loading-overlay" class="hidden fixed inset-0 z-[90] flex items-center justify-center bg-white/80 backdrop-blur" role="status" aria-hidden="true">
+        <div class="flex flex-col items-center gap-3">
+            <svg class="h-10 w-10 text-indigo-600 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            <span class="text-sm font-medium text-slate-700">Cerrando sesión…</span>
+        </div>
+    </div>
     
     <script>
         // Lógica para el menú móvil
@@ -367,6 +377,32 @@
                 if (hasTicker) nav.classList.add('with-ticker');
             }
         });
+
+        // Mostrar overlay de carga al cerrar sesión
+        (function() {
+            const overlay = document.getElementById('loading-overlay');
+            if (!overlay) return;
+
+            function showLoading() {
+                overlay.classList.remove('hidden');
+                overlay.setAttribute('aria-hidden', 'false');
+            }
+
+            // Interceptar clicks en enlaces que contienen ?route=logout
+            const logoutLinks = Array.from(document.querySelectorAll('a[href*="?route=logout"]'));
+            logoutLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Evitar navegación inmediata para permitir render del overlay
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    showLoading();
+                    // Esperar un cuadro para asegurar repaint, luego navegar
+                    requestAnimationFrame(() => {
+                        setTimeout(() => { window.location.href = href; }, 60);
+                    });
+                });
+            });
+        })();
     </script>
 
     <main class="flex-grow w-full <?= $showCompanyTicker ? 'pt-[6rem] md:pt-[7rem]' : 'pt-[4rem] md:pt-[5rem]' ?>">
