@@ -44,6 +44,23 @@ class AuthController {
         header('Location: index.php');
     }
 
+    public function forgotPassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = trim($_POST['email'] ?? '');
+            if ($email === '') {
+                $error = "Introduce tu correo electrónico";
+                require __DIR__ . '/../Views/auth/forgot_password.php';
+                return;
+            }
+
+            // Simulación: no se envía correo real, solo mostrar mensaje de éxito
+            $success = "Si existe una cuenta asociada a ese correo, se ha enviado un enlace de recuperación.";
+            require __DIR__ . '/../Views/auth/forgot_password.php';
+        } else {
+            require __DIR__ . '/../Views/auth/forgot_password.php';
+        }
+    }
+
     public function createUser() {
         if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Gerente') { header('Location: index.php?route=dashboard'); exit; }
