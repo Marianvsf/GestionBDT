@@ -37,6 +37,9 @@ switch ($route) {
     case 'login':
         $auth->login();
         break;
+    case 'forgot_password':
+        $auth->forgotPassword();
+        break;
     case 'logout':
         $auth->logout();
         break;
