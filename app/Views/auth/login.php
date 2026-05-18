@@ -123,7 +123,7 @@
                                     <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-[#010b50] focus:ring-[#010b50]">
                                     Recordar sesión
                                 </label>
-                                <a href="#" class="font-semibold text-[#010b50] hover:text-blue-800">Recuperar clave</a>
+                                <a href="?route=forgot_password" class="font-semibold text-[#010b50] hover:text-blue-800">Recuperar clave</a>
                             </div>
                             <button type="submit" id="login-btn" class="group relative flex w-full justify-center rounded-xl border border-transparent bg-[#010b50] px-4 py-3 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-[#010b50] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed">
                                 <span id="btn-text">Acceder al Sistema</span>
