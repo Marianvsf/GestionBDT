@@ -52,6 +52,9 @@ switch ($route) {
     case 'help':
         $help->create();
         break;
+    case 'help_docs':
+        $help->docs();
+        break;
     case 'help_requests':
         $help->index();
         break;
