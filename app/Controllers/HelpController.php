@@ -62,4 +62,9 @@ class HelpController {
 
 		require __DIR__ . '/../Views/home/help.php';
 	}
+
+	public function docs() {
+		if (!isset($_SESSION['user_id'])) { header('Location: index.php'); exit; }
+		require __DIR__ . '/../Views/dashboard/help_docs.php';
+	}
 }
