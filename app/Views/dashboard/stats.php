@@ -288,19 +288,52 @@ async function loadStats() {
         };
 
         // 1. Timeseries chart (Líneas)
-        const labels = [];
-        const points = [];
         const dmap = {};
         (data.timeseries || []).forEach(r => { dmap[r.d] = parseInt(r.cnt); });
-        
-        const now = new Date();
-        for (let i = 29; i >= 0; i--) {
-            const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
-            const key = d.toISOString().slice(0, 10);
-            // Formatear fecha para el label (ej: "15 Mar")
-            const labelStr = d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-            labels.push(labelStr);
-            points.push(dmap[key] || 0);
+
+        // Construir labels/points respetando el rango seleccionado
+        let labels = [];
+        let points = [];
+
+        let startDate = new Date(`${fromDateInput.value}T00:00:00`);
+        let endDate = new Date(`${toDateInput.value}T00:00:00`);
+        if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime()) || startDate > endDate) {
+            endDate = new Date();
+            startDate = new Date();
+            startDate.setDate(endDate.getDate() - 29);
+        }
+
+        const dayCount = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        // Si el rango es muy grande, agregar por mes para no saturar el gráfico
+        if (dayCount > 90) {
+            const m = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+            while (m <= endDate) {
+                const year = m.getFullYear();
+                const month = m.getMonth() + 1;
+                const label = m.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                labels.push(label);
+
+                // sumar valores del mes
+                let sum = 0;
+                const daysInMonth = new Date(year, month, 0).getDate();
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const dayStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                    const dt = new Date(`${dayStr}T00:00:00`);
+                    if (dt < startDate || dt > endDate) continue;
+                    sum += dmap[dayStr] || 0;
+                }
+                points.push(sum);
+                m.setMonth(m.getMonth() + 1);
+            }
+        } else {
+            const cur = new Date(startDate);
+            while (cur <= endDate) {
+                const key = cur.toISOString().slice(0, 10);
+                labels.push(cur.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }));
+                points.push(dmap[key] || 0);
+                cur.setDate(cur.getDate() + 1);
+            }
         }
 
         const tsCtx = document.getElementById('tsChart').getContext('2d');
