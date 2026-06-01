@@ -143,7 +143,7 @@
     <?php $currentRoute = $_GET['route'] ?? 'home'; ?>
     <?php $isLoginRoute = ($currentRoute === 'login'); ?>
     <?php $showCompanyTicker = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
-    <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home'); ?>
+    <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home' || $currentRoute === 'help'); ?>
 
     <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : 'app-stage--soft' ?>" aria-hidden="true"></div>
     <div class="app-grid" aria-hidden="true"></div>
