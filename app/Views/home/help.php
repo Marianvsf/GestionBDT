@@ -1,49 +1,36 @@
 <?php require __DIR__ . '/../layout/header.php'; ?>
 
 <style>
-    html, body {
-        height: 100%;
-        margin: 0;
-    }
     .help-stage {
-        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 55%, #f8fafc 100%);
-        min-height: 85vh;
+        position: relative;
+        background: transparent;
     }
-    .help-sweep {
+    .help-gradient {
         position: absolute;
-        top: -10rem;
-        right: -16rem;
-        width: 58rem;
-        height: 58rem;
+        top: 2rem;
+        right: -12rem;
+        width: 52rem;
+        height: 52rem;
         border-radius: 9999px;
-        background: conic-gradient(from 235deg, rgba(56, 189, 248, 0.32), rgba(79, 70, 229, 0.54), rgba(244, 114, 182, 0.54), rgba(251, 146, 60, 0.48), rgba(56, 189, 248, 0.32));
-        filter: blur(2px);
-        opacity: 0.9;
-        transform: rotate(-14deg);
-        animation: help-sweep-rotate 24s linear infinite;
+        background: radial-gradient(circle at 35% 30%, rgba(147, 197, 253, 0.75), rgba(191, 219, 254, 0.42) 35%, rgba(244, 114, 182, 0.45) 58%, rgba(251, 191, 36, 0.4) 74%, rgba(255, 255, 255, 0) 100%);
+        filter: blur(3px);
+        pointer-events: none;
     }
-    .help-grid {
-        position: absolute;
-        inset: 0;
-        background-image:
-            linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
-        background-size: 72px 72px;
-        mask-image: radial-gradient(circle at 20% 35%, rgba(0, 0, 0, 0.65), transparent 72%);
-    }
-    @keyframes help-sweep-rotate {
-        0% { transform: rotate(-14deg) translateX(0); }
-        50% { transform: rotate(-9deg) translateX(-2.5rem); }
-        100% { transform: rotate(-14deg) translateX(0); }
+    @media (max-width: 1024px) {
+        .help-gradient {
+            right: -20rem;
+            top: 5rem;
+            width: 48rem;
+            height: 48rem;
+        }
     }
     @media (prefers-reduced-motion: reduce) {
-        .help-sweep { animation: none; }
+        .help-gradient { filter: blur(0); }
     }
 </style>
 
-<div class="help-stage relative w-full overflow-hidden">
-    <div class="help-sweep pointer-events-none" aria-hidden="true"></div>
-    <div class="help-grid pointer-events-none" aria-hidden="true"></div>
+<div class="help-stage min-h-screen overflow-hidden pb-16">
+    <div class="help-gradient" aria-hidden="true"></div>
     
     <div class="relative z-10 pt-10">
         <div class="max-w-6xl mx-auto px-6 py-10 lg:py-16">
