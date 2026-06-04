@@ -12,11 +12,11 @@
                 
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 flex items-center justify-center bg-white rounded-xl shadow-sm border border-indigo-100">
-                        <img src="/assets/images/unexca-logo.png" alt="UNEXCA Logo" class="w-6 h-6 object-contain"/>
+                        <img src="/assets/images/uah-logo.jpeg" alt="UAH Logo" class="w-6 h-6 object-contain"/>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-[12px] font-extrabold text-[#010b50] tracking-wider uppercase leading-none">UNEXCA</span>
-                        <span class="text-[10px] text-slate-500 font-medium tracking-wide mt-0.5">PNF Informática - 2026</span>
+                        <span class="text-[12px] font-extrabold text-[#010b50] tracking-wider uppercase leading-none">UAH</span>
+                        <span class="text-[10px] text-slate-500 font-medium tracking-wide mt-0.5">Ingeniería Informática - 2026</span>
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@
         <div class="relative z-10 w-full py-4 font-sans">
             <div class="max-w-[1440px] mx-auto px-6 flex justify-center">
                 <p class="text-slate-400 text-[10px] font-medium leading-relaxed tracking-wide text-center">
-                    © 2026 Banco Digital de los Trabajadores. Proyecto de grado UNEXCA. Todos los derechos académicos reservados.
+                    © 2026 Banco Digital de los Trabajadores. Proyecto de grado UAH. Todos los derechos académicos reservados.
                 </p>
             </div>
         </div>
