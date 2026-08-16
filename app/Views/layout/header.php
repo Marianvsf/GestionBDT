@@ -74,16 +74,16 @@
             pointer-events: none;
         }
 
-        /* Cuadrícula del home: líneas notoriamente más oscuras */
+        /* Cuadrícula del home: líneas algo más marcadas, en tono suave */
         .app-grid--strong {
             background-image:
-                linear-gradient(to right, rgba(71, 85, 105, 0.22) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(71, 85, 105, 0.22) 1px, transparent 1px);
+                linear-gradient(to right, rgba(100, 116, 139, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(100, 116, 139, 0.12) 1px, transparent 1px);
         }
 
         .app-grid--strong::after {
-            background-image: radial-gradient(circle, rgba(51, 65, 85, 0.6) 1px, transparent 1.5px);
-            opacity: 0.35;
+            background-image: radial-gradient(circle, rgba(100, 116, 139, 0.4) 1px, transparent 1.5px);
+            opacity: 0.18;
         }
 
         /* Navbar Dynamics */
