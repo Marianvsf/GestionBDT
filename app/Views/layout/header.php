@@ -73,7 +73,19 @@
             opacity: 0.1;
             pointer-events: none;
         }
-        
+
+        /* Cuadrícula del home: líneas notoriamente más oscuras */
+        .app-grid--strong {
+            background-image:
+                linear-gradient(to right, rgba(71, 85, 105, 0.22) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(71, 85, 105, 0.22) 1px, transparent 1px);
+        }
+
+        .app-grid--strong::after {
+            background-image: radial-gradient(circle, rgba(51, 65, 85, 0.6) 1px, transparent 1.5px);
+            opacity: 0.35;
+        }
+
         /* Navbar Dynamics */
         #main-nav { 
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
@@ -146,7 +158,7 @@
     <?php $showColorfulBackground = ($currentRoute === 'login' || $currentRoute === 'home' || $currentRoute === 'help'); ?>
 
     <div class="app-stage <?= $showColorfulBackground ? 'app-stage--colorful' : 'app-stage--soft' ?>" aria-hidden="true"></div>
-    <div class="app-grid" aria-hidden="true"></div>
+    <div class="app-grid <?= $currentRoute === 'home' ? 'app-grid--strong' : '' ?>" aria-hidden="true"></div>
 
     <?php if($showCompanyTicker): ?>
         <section id="company-ticker" class="fixed top-0 left-0 right-0 z-[60] bg-slate-900 text-slate-300 transition-transform duration-300 shadow-md" aria-label="Avisos de la empresa">
