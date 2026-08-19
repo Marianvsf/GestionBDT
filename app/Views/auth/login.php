@@ -56,11 +56,11 @@
                     <div class="mt-8 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
                         <div class="hero-glass rounded-2xl p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Priorización automática</p>
-                            <p class="mt-1 text-sm text-slate-700">Clasifica la severidad según impacto y área afectada.</p>
+                            <p class="mt-1 text-base text-slate-700">Clasifica la severidad según impacto y área afectada.</p>
                         </div>
                         <div class="hero-glass rounded-2xl p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Trazabilidad completa</p>
-                            <p class="mt-1 text-sm text-slate-700">Sigue cada cambio con historial consolidado y seguro.</p>
+                            <p class="mt-1 text-base text-slate-700">Sigue cada cambio con historial consolidado y seguro.</p>
                         </div>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
                                 </svg>
                             </div>
                             <h2 class="text-3xl font-extrabold text-gray-900">Acceso Seguro</h2>
-                            <p class="mt-2 text-sm text-gray-500">Usa tus credenciales corporativas para ingresar.</p>
+                            <p class="mt-2 text-base text-gray-500">Usa tus credenciales corporativas para ingresar.</p>
                         </div>
 
                         <?php if(isset($error)): ?>
                             <div class="mt-5 flex items-center rounded-lg border border-red-200 bg-red-50 p-3" role="alert">
                                 <svg class="mr-2 h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                                <p class="text-sm font-medium text-red-700"><?= htmlspecialchars($error) ?></p>
+                                <p class="text-base font-medium text-red-700"><?= htmlspecialchars($error) ?></p>
                             </div>
                         <?php endif; ?>
 
@@ -147,21 +147,21 @@
                     <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/></svg>
                 </div>
                 <h4 class="text-xl font-extrabold text-slate-900">1. Reporta</h4>
-                <p class="mt-2 text-sm text-slate-600">Registra incidencias y alertas en segundos para activar el flujo de soporte.</p>
+                <p class="mt-2 text-base text-slate-600">Registra incidencias y alertas en segundos para activar el flujo de soporte.</p>
             </article>
             <article class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-center shadow-sm">
                 <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700">
                     <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="6" height="6" rx="1"/><rect x="11" y="14" width="10" height="6" rx="1"/></svg>
                 </div>
                 <h4 class="text-xl font-extrabold text-slate-900">2. Prioriza</h4>
-                <p class="mt-2 text-sm text-slate-600">Organiza casos por impacto, área y urgencia con trazabilidad de cambios.</p>
+                <p class="mt-2 text-base text-slate-600">Organiza casos por impacto, área y urgencia con trazabilidad de cambios.</p>
             </article>
             <article class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-center shadow-sm">
                 <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-100 to-fuchsia-100 text-cyan-700">
                     <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
                 </div>
                 <h4 class="text-xl font-extrabold text-slate-900">3. Resuelve</h4>
-                <p class="mt-2 text-sm text-slate-600">Monitorea el progreso de principio a fin y reduce tiempos de resolución.</p>
+                <p class="mt-2 text-base text-slate-600">Monitorea el progreso de principio a fin y reduce tiempos de resolución.</p>
             </article>
         </div>
     </section>
@@ -174,21 +174,21 @@
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 </div>
                 <h4 class="text-2xl font-extrabold text-slate-900">Monitoreo en Tiempo Real</h4>
-                <p class="mt-3 text-sm leading-relaxed text-slate-600">Supervisa incidencias, reasignaciones y avances operativos con paneles dinámicos.</p>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">Supervisa incidencias, reasignaciones y avances operativos con paneles dinámicos.</p>
             </article>
             <article class="feature-card rounded-3xl p-6">
                 <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-500 to-indigo-700 text-white">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                 </div>
                 <h4 class="text-2xl font-extrabold text-slate-900">Alertas Automatizadas</h4>
-                <p class="mt-3 text-sm leading-relaxed text-slate-600">Recibe notificaciones por umbrales de riesgo, SLA comprometido y escalamiento.</p>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">Recibe notificaciones por umbrales de riesgo, SLA comprometido y escalamiento.</p>
             </article>
             <article class="feature-card rounded-3xl p-6">
                 <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-slate-700 text-white">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 </div>
                 <h4 class="text-2xl font-extrabold text-slate-900">Reportes Detallados</h4>
-                <p class="mt-3 text-sm leading-relaxed text-slate-600">Genera vistas gerenciales para seguimiento de productividad y calidad de atención.</p>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">Genera vistas gerenciales para seguimiento de productividad y calidad de atención.</p>
             </article>
         </div>
     </section>
@@ -197,7 +197,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
             <div>
                 <h3 class="text-2xl font-black text-slate-900">Estado de Servicios BDT</h3>
-                <p class="text-sm text-slate-500 mt-1">Actualizado en tiempo real por el Centro de Operaciones</p>
+                <p class="text-base text-slate-500 mt-1">Actualizado en tiempo real por el Centro de Operaciones</p>
             </div>
             <a href="?route=status" class="mt-4 sm:mt-0 inline-flex items-center text-sm font-semibold text-[#010b50] hover:text-blue-700">
                 Ver historial de eventos
@@ -208,7 +208,7 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
                 <div>
-                    <p class="text-sm font-bold text-slate-800">Core Bancario</p>
+                    <p class="text-base font-bold text-slate-800">Core Bancario</p>
                     <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
                 </div>
                 <span class="flex h-3 w-3 relative">
@@ -219,7 +219,7 @@
 
             <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
                 <div>
-                    <p class="text-sm font-bold text-slate-800">Banca Digital</p>
+                    <p class="text-base font-bold text-slate-800">Banca Digital</p>
                     <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
                 </div>
                 <span class="flex h-3 w-3 relative">
@@ -229,7 +229,7 @@
 
             <div class="rounded-2xl border border-amber-200 bg-amber-50/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
                 <div>
-                    <p class="text-sm font-bold text-amber-900">VPN Corporativa</p>
+                    <p class="text-base font-bold text-amber-900">VPN Corporativa</p>
                     <p class="text-xs text-amber-700 font-semibold mt-1">Intermitencia</p>
                 </div>
                 <span class="flex h-3 w-3 relative">
@@ -240,7 +240,7 @@
 
             <div class="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
                 <div>
-                    <p class="text-sm font-bold text-slate-800">Correo Institucional</p>
+                    <p class="text-base font-bold text-slate-800">Correo Institucional</p>
                     <p class="text-xs text-emerald-600 font-semibold mt-1">Operativo</p>
                 </div>
                 <span class="flex h-3 w-3 relative">
@@ -257,7 +257,7 @@
             <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div class="max-w-xl">
                     <h3 class="text-2xl font-bold text-[#010b50]">¿Problemas para ingresar al sistema?</h3>
-                    <p class="mt-2 text-sm text-slate-600">Si tu cuenta está bloqueada o presentas fallas de autenticación con el Active Directory, contacta a la Mesa de Ayuda IT de inmediato.</p>
+                    <p class="mt-2 text-base text-slate-600">Si tu cuenta está bloqueada o presentas fallas de autenticación con el Active Directory, contacta a la Mesa de Ayuda IT de inmediato.</p>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-4 shrink-0">
@@ -340,7 +340,7 @@
         </section>
 
         <section aria-labelledby="quick-links-title">
-            <h3 id="quick-links-title" class="text-center text-3xl font-black text-slate-900 mb-8">Accesos Frecuentes</h3>
+            <h3 id="quick-links-title" class="text-center text-4xl font-black text-slate-900 mb-8">Accesos Frecuentes</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 
                 <a href="?route=manuals" class="group flex flex-col p-6 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-[#1e3a8a]/30 hover:-translate-y-1">
@@ -378,7 +378,7 @@
         </section>
 
         <section aria-labelledby="faq-title" class="mx-auto w-full max-w-3xl">
-            <h3 id="faq-title" class="text-center text-3xl font-black text-slate-900 mb-8">Preguntas Frecuentes</h3>
+            <h3 id="faq-title" class="text-center text-4xl font-black text-slate-900 mb-8">Preguntas Frecuentes</h3>
             <div class="space-y-4">
                 
                 <details class="group rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 [&_summary::-webkit-details-marker]:hidden">
@@ -393,7 +393,7 @@
                             </svg>
                         </span>
                     </summary>
-                    <p class="mt-4 leading-relaxed text-slate-600 text-sm">
+                    <p class="mt-4 leading-relaxed text-slate-600 text-base">
                         Debes generar un ticket en la opción "Soporte Técnico" seleccionando la categoría "Accesos y Permisología". Asegúrate de adjuntar la autorización formal de tu Gerente de Área en formato PDF.
                     </p>
                 </details>
@@ -410,7 +410,7 @@
                             </svg>
                         </span>
                     </summary>
-                    <p class="mt-4 leading-relaxed text-slate-600 text-sm">
+                    <p class="mt-4 leading-relaxed text-slate-600 text-base">
                         El sistema desbloquea automáticamente los usuarios tras 15 minutos de espera. Si necesitas acceso inmediato, puedes utilizar la herramienta de "Gestión de Claves" o contactar directamente a la mesa de ayuda a la extensión 1000.
                     </p>
                 </details>
