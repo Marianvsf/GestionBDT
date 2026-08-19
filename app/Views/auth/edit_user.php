@@ -35,7 +35,7 @@
                 </svg>
             </div>
             <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Editar Usuario</h2>
-            <p class="text-slate-500 mt-2 text-sm md:text-base max-w-sm mx-auto">
+            <p class="text-slate-500 mt-2 text-base max-w-sm mx-auto">
                 Modifica los datos y permisos de acceso para este miembro del equipo.
             </p>
         </div>
@@ -47,7 +47,7 @@
                     <svg class="h-5 w-5 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p class="text-sm font-medium text-rose-800"><?= htmlspecialchars($error) ?></p>
+                    <p class="text-base font-medium text-rose-800"><?= htmlspecialchars($error) ?></p>
                 </div>
             <?php endif; ?>
 
