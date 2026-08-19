@@ -12,21 +12,21 @@
                 </svg>
             </div>
             <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Recuperar contraseña</h2>
-            <p class="mt-2 text-sm text-slate-600">Ingresa tu correo corporativo y te enviaremos las instrucciones para restablecer tu acceso.</p>
+            <p class="mt-2 text-base text-slate-600">Ingresa tu correo corporativo y te enviaremos las instrucciones para restablecer tu acceso.</p>
         </div>
 
         <!-- Mensajes de Alerta -->
         <?php if(isset($error)): ?>
             <div class="mb-6 flex items-center rounded-xl border border-red-200 bg-red-50 p-4" role="alert">
                 <svg class="mr-3 h-5 w-5 shrink-0 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                <p class="text-sm font-medium text-red-700"><?= htmlspecialchars($error) ?></p>
+                <p class="text-base font-medium text-red-700"><?= htmlspecialchars($error) ?></p>
             </div>
         <?php endif; ?>
 
         <?php if(isset($success)): ?>
             <div class="mb-6 flex items-center rounded-xl border border-emerald-200 bg-emerald-50 p-4" role="alert">
                 <svg class="mr-3 h-5 w-5 shrink-0 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                <p class="text-sm font-medium text-emerald-700"><?= htmlspecialchars($success) ?></p>
+                <p class="text-base font-medium text-emerald-700"><?= htmlspecialchars($success) ?></p>
             </div>
         <?php endif; ?>
 
