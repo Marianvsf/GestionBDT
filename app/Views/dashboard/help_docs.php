@@ -13,7 +13,7 @@
                 </div>
                 <div>
                     <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Manual de Escalamiento</h1>
-                    <p class="mt-2 text-sm md:text-base text-slate-500 font-medium">Guía rápida y procedimiento operativo estandarizado para la gestión de incidentes.</p>
+                    <p class="mt-2 text-base text-slate-500 font-medium">Guía rápida y procedimiento operativo estandarizado para la gestión de incidentes.</p>
                 </div>
             </div>
             
@@ -39,7 +39,7 @@
                     <span class="w-3 h-3 bg-[#010b50] rounded-full"></span>
                 </div>
                 <div class="ml-10 md:ml-12">
-                    <h2 class="text-xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
                         <span class="text-indigo-600 font-black">1.</span> Clasificación inicial
                     </h2>
                     <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 shadow-sm">
@@ -67,7 +67,7 @@
                     <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
                 </div>
                 <div class="ml-10 md:ml-12">
-                    <h2 class="text-xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
                         <span class="text-blue-600 font-black">2.</span> Resolución en Primer Nivel (N1)
                     </h2>
                     <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 shadow-sm">
@@ -95,7 +95,7 @@
                     <span class="w-3 h-3 bg-fuchsia-500 rounded-full"></span>
                 </div>
                 <div class="ml-10 md:ml-12">
-                    <h2 class="text-xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
                         <span class="text-fuchsia-600 font-black">3.</span> Escalamiento a Nivel 2 (N2)
                     </h2>
                     <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 shadow-sm">
@@ -123,7 +123,7 @@
                     <span class="w-3 h-3 bg-rose-500 rounded-full"></span>
                 </div>
                 <div class="ml-10 md:ml-12">
-                    <h2 class="text-xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-3 flex items-center gap-2">
                         <span class="text-rose-600 font-black">4.</span> Escalamiento a Nivel 3 / Proveedor Externo
                     </h2>
                     <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 shadow-sm">
@@ -148,7 +148,7 @@
 
         <!-- Sección de Contactos -->
         <div class="mt-16 pt-10 border-t border-slate-200">
-            <h2 class="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
+            <h2 class="text-2xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 Directorio Rápido de Apoyo
             </h2>
