@@ -110,8 +110,8 @@
         
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Tablero Operativo</h2>
-                <p class="text-sm text-slate-500 mt-1">Monitorea y gestiona el flujo de incidencias técnicas.</p>
+                <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">Tablero Operativo</h2>
+                <p class="text-base text-slate-500 mt-1">Monitorea y gestiona el flujo de incidencias técnicas.</p>
             </div>
             <a href="?route=create_ticket" class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800 hover:-translate-y-0.5 whitespace-nowrap">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
