@@ -35,7 +35,7 @@
                 </svg>
             </div>
             <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Reportar Incidencia</h2>
-            <p class="text-slate-500 mt-3 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
+            <p class="text-slate-500 mt-3 text-base max-w-lg mx-auto leading-relaxed">
                 Detalla el problema que estás experimentando. Nuestro sistema analizará tu solicitud automáticamente para acelerar la resolución.
             </p>
         </div>
