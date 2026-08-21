@@ -5,8 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Corporativo - BDT</title>
     <link rel="icon" type="image/png" href="assets/images/icon.png">
+
+    <!-- Tipografía corporativa: Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Roboto como fuente por defecto de todas las utilidades de Tailwind (font-sans)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
     <style>
+        /* ===== Escala tipográfica base =====
+           Párrafos: 16px | Títulos principales: 36px–48px | Subtítulos: 24px–32px */
+        :root {
+            --font-corporativa: 'Roboto', ui-sans-serif, system-ui, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: var(--font-corporativa);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6,
+        p, span, a, li, td, th, label,
+        button, input, select, textarea, optgroup {
+            font-family: var(--font-corporativa);
+        }
+
+        /* Tamaños por defecto (las utilidades text-* de Tailwind los sobrescriben cuando se declaran) */
+        p { font-size: 16px; }
+        h1 { font-size: clamp(36px, 4vw, 48px); line-height: 1.15; }
+        h2 { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; }
+        h3 { font-size: 24px; line-height: 1.3; }
+        h4 { font-size: 20px; line-height: 1.35; }
+        h5, h6 { font-size: 16px; line-height: 1.4; }
+
         .app-stage {
             position: fixed;
             inset: 0;
