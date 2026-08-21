@@ -62,7 +62,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
             </div>
             <div>
-                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard Analítico</h1>
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Dashboard Analítico</h1>
                 <div class="text-sm text-slate-500 mt-1">Resumen en tiempo real del rendimiento operativo.</div>
                 <div class="text-sm font-medium text-slate-600 mt-2"><?= htmlspecialchars($rangeTitle) ?></div>
             </div>
@@ -174,7 +174,7 @@ $rangeTitle = 'Del ' . formatSpanDate($fromDate) . ' al ' . formatSpanDate($toDa
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-Chart.defaults.font.family = '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+Chart.defaults.font.family = "'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
 Chart.defaults.color = '#64748b';
 
 // Animación de conteo para KPIs
@@ -500,12 +500,15 @@ function printDashboard() {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Imprimir - Dashboard Analítico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         @page { size: A4 landscape; margin: 8mm; }
         * { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
         body {
-            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Arial, sans-serif;
             color: #0f172a;
             background: #ffffff;
         }
