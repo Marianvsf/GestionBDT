@@ -35,7 +35,7 @@
                 </svg>
             </div>
             <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Generar Reporte</h2>
-            <p class="text-slate-500 mt-2 text-sm md:text-base max-w-md mx-auto">
+            <p class="text-slate-500 mt-2 text-base max-w-md mx-auto">
                 Filtra los tickets operativos por fecha, estado o asignación y exporta los resultados en formato CSV.
             </p>
         </div>
