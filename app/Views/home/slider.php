@@ -8,7 +8,7 @@
             <div class="absolute inset-0 bg-gradient-to-r from-[#010b50]/90 via-[#010b50]/50 to-transparent flex items-center">
                 <div class="container mx-auto px-6 md:px-12">
                     <div class="max-w-lg text-white animate-fade-in-up">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Tu Futuro Financiero <br><span class="text-blue-300">Comienza Aquí</span></h1>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Tu Futuro Financiero <br><span class="text-blue-300">Comienza Aquí</span></h1>
                         <p class="text-lg text-gray-200 mb-8">Gestión inteligente, segura y rápida de tus activos. La banca del futuro diseñada para los trabajadores de hoy.</p>
                         <a href="?route=login" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition transform hover:-translate-y-1 shadow-lg border border-blue-400">
                             Ingresar Ahora
@@ -23,7 +23,7 @@
             <div class="absolute inset-0 bg-gradient-to-r from-[#010b50]/90 via-[#010b50]/60 to-transparent flex items-center">
                 <div class="container mx-auto px-6 md:px-12">
                     <div class="max-w-lg text-white">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Seguridad de <br><span class="text-green-400">Última Generación</span></h1>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Seguridad de <br><span class="text-green-400">Última Generación</span></h1>
                         <p class="text-lg text-gray-200 mb-8">Tus datos protegidos con encriptación de grado militar. Confianza absoluta en cada transacción.</p>
                         <button class="bg-transparent hover:bg-white/10 text-white font-bold py-3 px-8 rounded-full border-2 border-white transition">
                             Conocer Más
@@ -38,7 +38,7 @@
             <div class="absolute inset-0 bg-gradient-to-r from-[#010b50]/90 via-[#010b50]/60 to-transparent flex items-center">
                 <div class="container mx-auto px-6 md:px-12">
                     <div class="max-w-lg text-white">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Innovación <br><span class="text-yellow-300">Sin Límites</span></h1>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Innovación <br><span class="text-yellow-300">Sin Límites</span></h1>
                         <p class="text-lg text-gray-200 mb-8">Accede a tus cuentas desde cualquier lugar, en cualquier dispositivo. Tecnología al servicio de tu comodidad.</p>
                     </div>
                 </div>
