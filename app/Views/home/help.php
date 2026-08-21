@@ -45,8 +45,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold text-slate-900">Centro de Ayuda</h1>
-                            <p class="text-sm text-slate-600">Cuéntanos tu inconveniente y te contactaremos.</p>
+                            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Centro de Ayuda</h1>
+                            <p class="text-base text-slate-600">Cuéntanos tu inconveniente y te contactaremos.</p>
                         </div>
                     </div>
 
@@ -109,7 +109,7 @@
                 <div class="space-y-6">
                     <div class="rounded-3xl bg-gradient-to-br from-indigo-700 via-sky-600 to-pink-500 p-8 text-white shadow-xl shadow-indigo-900/20">
                         <h2 class="text-2xl font-semibold mb-3">Canales de soporte</h2>
-                        <p class="text-sm text-indigo-50/90">Nuestro equipo atiende solicitudes en horario laboral. Si es urgente, usa los canales destacados.</p>
+                        <p class="text-base text-indigo-50/90">Nuestro equipo atiende solicitudes en horario laboral. Si es urgente, usa los canales destacados.</p>
                         
                         <div class="mt-6 space-y-4">
                             <div class="flex items-center gap-3">
@@ -120,7 +120,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold">Mesa de ayuda</p>
+                                    <p class="text-base font-semibold">Mesa de ayuda</p>
                                     <p class="text-xs text-indigo-100/90">Respuestas en menos de 24h</p>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold">Correo interno</p>
+                                    <p class="text-base font-semibold">Correo interno</p>
                                     <p class="text-xs text-indigo-100/90">soporte@bdt.com</p>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold">Línea directa</p>
+                                    <p class="text-base font-semibold">Línea directa</p>
                                     <p class="text-xs text-indigo-100/90">(0212) 555-0101</p>
                                 </div>
                             </div>
