@@ -22,7 +22,7 @@
 
                 <div class="hidden lg:flex items-center bg-white/60 backdrop-blur-md shadow-sm px-4 py-2 rounded-full border border-indigo-100/50">
                     <p class="text-[11px] text-slate-500 tracking-wide font-normal">
-                        <span class="text-indigo-500 font-semibold mr-2">Dev Squad:</span> 
+                        <span class="text-indigo-500 font-semibold mr-2">Desarrollado por:</span> 
                         <span class="hover:text-[#010b50] transition-colors font-bold text-slate-700">
                             <a href="https://github.com/Marianvsf" target="_blank" rel="noopener noreferrer">Marian Suárez</a>
                         </span>
