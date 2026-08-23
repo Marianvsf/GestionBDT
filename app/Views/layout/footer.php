@@ -61,7 +61,9 @@
             </div>
         </div>
     </footer>
-        
+
+    <?php require __DIR__ . '/bot.php'; ?>
+
     <script>
         const nav = document.getElementById('main-nav');
         if(nav) {
