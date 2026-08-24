@@ -31,6 +31,7 @@ Utiliza una arquitectura **MVC (Modelo-Vista-Controlador)** construida desde cer
 - **💾 Base de Datos Autocurable:** Reconstrucción automática de la base de datos si se elimina accidentalmente.
 - **🎨 UI Moderna:** Interfaz limpias y responsiva con **Tailwind CSS**.
 - **📝 Generación automática de usuario administrador:** Usuario y contraseña inicial para fácil acceso.
+- **💬 Asistente de Preguntas Frecuentes:** Bot flotante disponible en todo el sistema que responde dudas de uso según el rol del usuario, sin dependencias externas.
 
 ---
 
