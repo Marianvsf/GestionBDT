@@ -14,13 +14,16 @@ require_once __DIR__ . '/../app/Config/Database.php';
 require_once __DIR__ . '/../app/Models/User.php';
 require_once __DIR__ . '/../app/Models/Ticket.php';
 require_once __DIR__ . '/../app/Models/HelpRequest.php';
+require_once __DIR__ . '/../app/Models/Faq.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Controllers/TicketController.php';
 require_once __DIR__ . '/../app/Controllers/HelpController.php';
+require_once __DIR__ . '/../app/Controllers/BotController.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\TicketController;
 use App\Controllers\HelpController;
+use App\Controllers\BotController;
 use App\Controllers\Controller;
 
 // Enrutamiento simple
@@ -29,6 +32,7 @@ $route = $_GET['route'] ?? 'home';
 $auth = new AuthController();
 $ticket = new TicketController();
 $help = new HelpController();
+$bot = new BotController();
 
 switch ($route) {
     case 'home':
@@ -57,6 +61,9 @@ switch ($route) {
         break;
     case 'help_requests':
         $help->index();
+        break;
+    case 'bot_ask':
+        $bot->ask();
         break;
     case 'dashboard':
         $ticket->index();
