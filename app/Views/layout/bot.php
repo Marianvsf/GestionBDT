@@ -264,6 +264,13 @@ $botSugerencias = array_slice(\App\Models\Faq::disponibles($botLogueado, $botRol
         }
     });
 
+    // Cierra el panel al hacer clic fuera del widget.
+    document.addEventListener('click', function (e) {
+        if (panel.classList.contains('hidden')) return;
+        if (bot.contains(e.target)) return;
+        abrirPanel(false);
+    });
+
     // Oculta las sugerencias iniciales tras la primera consulta.
     form.addEventListener('submit', function () { chips.classList.add('hidden'); });
     chips.addEventListener('click', function () { chips.classList.add('hidden'); });
